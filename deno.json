@@ -1,0 +1,26 @@
+{
+  "tasks": {
+    "gen": "deno run --config=deno.json --allow-net --allow-read=./routes,./routes.ts --allow-write=./routes.ts https://deno.land/x/ahx_fns@v0.0.10/scripts/gen.ts",
+    "start": "deno run --unstable --allow-net --allow-read --allow-env --allow-sys --watch dev.ts",
+    "start:prod": "deno run --unstable --allow-net --allow-env main.ts",
+    "mkcert": "mkcert -install -key-file localhost-key.pem -cert-file localhost-cert.pem localhost",
+    "deploy": "deno run --allow-net --allow-read --allow-write --allow-env https://deno.land/x/deploy@1.6.0/deployctl.ts deploy --import-map=deno.json --project=loud-fox-12 --exclude=.env,localhost-cert.pem,localhost-key.pem main.ts",
+    "check": "deno fmt && deno lint && deno --unstable check **/*.ts"
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "$jsx"
+  },
+  "imports": {
+    "@/": "./",
+    "$std/": "https://deno.land/std@0.189.0/",
+    "$http_fns/": "https://deno.land/x/http_fns@v0.0.14/",
+    "$http_render_fns/": "https://deno.land/x/http_render_fns@v0.0.1/",
+    "$ahx_fns/": "https://deno.land/x/ahx_fns@v0.0.10/",
+    "$jsx/": "https://deno.land/x/http_render_fns@v0.0.1/jsx_preact/",
+    "$jsx/jsx-runtime": "https://deno.land/x/http_render_fns@v0.0.1/jsx_preact/jsx-runtime.ts",
+    "preact": "https://esm.sh/preact@10.15.0?pin=v124",
+    "preact/": "https://esm.sh/*preact@10.15.0&pin=v124/",
+    "preact-render-to-string": "https://esm.sh/*preact-render-to-string@6.0.3?pin=v124"
+  }
+}
