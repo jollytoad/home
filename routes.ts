@@ -2,8 +2,10 @@
 
 import { byPattern } from "$http_fns/pattern.ts";
 import { cascade } from "$http_fns/cascade.ts";
-import route_1 from "./routes/index.tsx";
+import route_1 from "./routes/blog/:path*.tsx";
+import route_2 from "./routes/index.tsx";
 
 export default cascade(
-  byPattern("/", route_1),
+  byPattern("/blog/:path*", route_1),
+  byPattern("/", route_2),
 );

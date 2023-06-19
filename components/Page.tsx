@@ -12,7 +12,7 @@ export function Page({ children, reqURL, ...props }: Props) {
       <html hx-ext="css-rules" data-host-app="authenticate">
         <head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <title>Authentication Hub</title>
+          <title>Jollytoad</title>
           <link
             rel="stylesheet"
             href="https://unpkg.com/missing.css@1.0.9/dist/missing.min.css"

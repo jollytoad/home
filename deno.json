@@ -13,14 +13,16 @@
   },
   "imports": {
     "@/": "./",
-    "$std/": "https://deno.land/std@0.189.0/",
+    "$std/": "https://deno.land/std@0.192.0/",
+    "https://deno.land/std@0.189.0/": "https://deno.land/std@0.192.0/",
+    "https://deno.land/std@0.191.0/": "https://deno.land/std@0.192.0/",
     "$http_fns/": "https://deno.land/x/http_fns@v0.0.14/",
-    "$http_render_fns/": "https://deno.land/x/http_render_fns@v0.0.1/",
+    "$http_render_fns/": "https://deno.land/x/http_render_fns@v0.0.2/",
     "$ahx_fns/": "https://deno.land/x/ahx_fns@v0.0.10/",
-    "$jsx/": "https://deno.land/x/http_render_fns@v0.0.1/jsx_preact/",
-    "$jsx/jsx-runtime": "https://deno.land/x/http_render_fns@v0.0.1/jsx_preact/jsx-runtime.ts",
-    "preact": "https://esm.sh/preact@10.15.0?pin=v124",
-    "preact/": "https://esm.sh/*preact@10.15.0&pin=v124/",
+    "$jsx/": "https://deno.land/x/http_render_fns@v0.0.2/jsx_stream/",
+    "$jsx/jsx-runtime": "https://deno.land/x/http_render_fns@v0.0.2/jsx_stream/jsx-runtime.ts",
+    "preact": "https://esm.sh/preact@10.15.1?pin=v124",
+    "preact/": "https://esm.sh/*preact@10.15.1&pin=v124/",
     "preact-render-to-string": "https://esm.sh/*preact-render-to-string@6.0.3?pin=v124"
   }
 }

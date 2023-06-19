@@ -14,6 +14,14 @@ export function HomePage() {
       <div>
         TODO: Add stuff here
       </div>
+
+      <h2>Blog</h2>
+
+      <ol>
+        <li>
+          <a href="/blog/hello">Hello</a>
+        </li>
+      </ol>
     </Page>
   );
 }
