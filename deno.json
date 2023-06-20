@@ -19,7 +19,7 @@
     "$http_fns/": "https://deno.land/x/http_fns@v0.0.14/",
     "$http_render_fns/": "https://deno.land/x/http_render_fns@v0.0.3/",
     "$ahx_fns/": "https://deno.land/x/ahx_fns@v0.0.10/",
-    "$jsx/": "https://deno.land/x/jsx_stream@v0.0.3/",
-    "$jsx/jsx-runtime": "https://deno.land/x/jsx_stream@v0.0.3/jsx-runtime.ts"
+    "$jsx/": "https://deno.land/x/jsx_stream@v0.0.4/",
+    "$jsx/jsx-runtime": "https://deno.land/x/jsx_stream@v0.0.4/jsx-runtime.ts"
   }
 }

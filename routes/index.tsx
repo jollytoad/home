@@ -14,9 +14,9 @@ export default byMethod({
 export function HomePage() {
   return (
     <Page>
-      <Delayed delay={3000}>
-        <div>
-          This renders after 3 seconds
+      <Delayed delay={2000}>
+        <div class="red">
+          This renders after 2 seconds
         </div>
       </Delayed>
 
@@ -38,8 +38,14 @@ export function HomePage() {
       <Markdown url="@/blog/index.md" />
 
       <Delayed delay={1000}>
-        <div>
+        <div class="red">
           This renders after 1 second
+        </div>
+      </Delayed>
+
+      <Delayed delay={3000}>
+        <div class="red">
+          This renders after 3 seconds
         </div>
       </Delayed>
     </Page>
