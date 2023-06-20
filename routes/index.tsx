@@ -4,6 +4,7 @@ import { Page } from "@/components/Page.tsx";
 import { Markdown } from "@/components/Markdown.tsx";
 import { Delayed } from "@/components/Delayed.tsx";
 import { Trickled } from "@/components/Trickled.tsx";
+import { Quiz } from "../components/Quiz.tsx";
 
 export default byMethod({
   GET: renderHTML(HomePage, {
@@ -14,15 +15,11 @@ export default byMethod({
 export function HomePage() {
   return (
     <Page>
-      <Delayed delay={2000}>
-        <div class="red">
-          This renders after 2 seconds
-        </div>
-      </Delayed>
-
       <div>
         TODO: Add stuff here
       </div>
+
+      <hr />
 
       {
         /* <ol>
@@ -37,15 +34,27 @@ export function HomePage() {
 
       <Markdown url="@/blog/index.md" />
 
-      <Delayed delay={1000}>
+      <hr />
+
+      <Quiz />
+
+      <hr />
+
+      <Delayed delay={2000}>
         <div class="red">
-          This renders after 1 second
+          This renders after 2 seconds
         </div>
       </Delayed>
 
       <Delayed delay={3000}>
         <div class="red">
           This renders after 3 seconds
+        </div>
+      </Delayed>
+
+      <Delayed delay={1000}>
+        <div class="red">
+          This renders after 1 second
         </div>
       </Delayed>
     </Page>

@@ -7,6 +7,6 @@ import { setDeferredTimeout, setStreamDelay } from "$jsx/config.ts";
 await load({ export: true });
 
 setStreamDelay(1);
-setDeferredTimeout(100);
+setDeferredTimeout(10);
 
 await serve(handler, init);
