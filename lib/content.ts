@@ -1,37 +1,39 @@
-import { notFound, ok } from "$http_fns/response.ts";
+import { notFound } from "$http_fns/response.ts";
 
-export async function readContent(
+export async function fetchContent(
   name: string,
-  ext = "md",
 ): Promise<Response> {
-  console.log(`%cLoading content: ${name}.${ext}`, "color: yellow");
-
   try {
-    const url = new URL(import.meta.resolve(`${name}.${ext}`));
+    const url = new URL(import.meta.resolve(name));
 
-    const file = await Deno.open(url);
+    console.log(`%cLoading content: ${url}`, "color: yellow");
 
-    return ok(file.readable);
+    return await fetch(url);
   } catch {
-    console.log("%cContent not found", "color: red");
     return notFound();
   }
 }
 
-export interface ContentStreamProps {
+export interface ContentProps {
   content: Response;
 }
 
-export function getContentStreamForPath(prefix: string) {
+export function fetchContentForPath(prefix: string, ext = "md") {
   return async function (
     _req: Request,
     info: URLPatternResult,
-  ): Promise<ContentStreamProps> {
-    const content = await readContent(`${prefix}/${info.pathname.groups.path}`);
+  ): Promise<ContentProps> {
+    const content = await fetchContent(
+      `${prefix}/${info.pathname.groups.path || "index"}.${ext}`,
+    );
     if (content.ok) {
       return { content };
     } else {
       throw content;
     }
   };
+}
+
+export function rawContent(_req: Request, { content }: ContentProps) {
+  return content;
 }

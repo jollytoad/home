@@ -8,9 +8,11 @@ import {
 } from "https://esm.sh/hast-util-to-jsx-runtime@1.2.0";
 import { raw } from "https://esm.sh/hast-util-raw@8.0.0";
 import { Fragment, jsx, jsxDEV, jsxs } from "$jsx/jsx-runtime";
+import { fetchContent } from "@/lib/content.ts";
 import type { Promisable, StreamableNode } from "$jsx/types.ts";
 
 interface Props {
+  url?: string;
   children?: Promisable<string>;
 }
 
@@ -22,14 +24,28 @@ const options = {
 } as Options;
 
 export async function Markdown(props: Props): Promise<StreamableNode> {
-  const markdown = await props.children;
+  let markdown: string | undefined;
+
+  if (props.url) {
+    const response = await fetchContent(props.url);
+    if (response.ok) {
+      markdown = await response.text();
+    }
+  }
+
+  if (!markdown) {
+    markdown = await props.children;
+  }
+
   const mdast = markdown
     ? fromMarkdown(markdown, {
       extensions: [gfm()],
       mdastExtensions: [gfmFromMarkdown()],
     })
     : undefined;
+
   let hast = mdast ? toHast(mdast, { allowDangerousHtml: true }) : undefined;
   hast = hast ? raw(hast) : undefined;
+
   return hast ? toJsxRuntime(hast, options) : null;
 }
