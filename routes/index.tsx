@@ -24,14 +24,16 @@ export function HomePage() {
         TODO: Add stuff here
       </div>
 
-      {/* <ol>
+      {
+        /* <ol>
         <Trickled delay={1000}>
           <li>one</li>
           <li>two</li>
           <li>three</li>
           <li>four</li>
         </Trickled>
-      </ol> */}
+      </ol> */
+      }
 
       <Markdown url="@/blog/index.md" />
 
