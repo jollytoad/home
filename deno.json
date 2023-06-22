@@ -14,12 +14,10 @@
   "imports": {
     "@/": "./",
     "$std/": "https://deno.land/std@0.192.0/",
-    "https://deno.land/std@0.189.0/": "https://deno.land/std@0.192.0/",
-    "https://deno.land/std@0.191.0/": "https://deno.land/std@0.192.0/",
-    "$http_fns/": "https://deno.land/x/http_fns@v0.0.14/",
-    "$http_render_fns/": "https://deno.land/x/http_render_fns@v0.0.3/",
+    "$http_fns/": "https://deno.land/x/http_fns@v0.0.15/",
+    "$http_render_fns/": "https://deno.land/x/http_render_fns@v0.0.4/",
     "$ahx_fns/": "https://deno.land/x/ahx_fns@v0.0.10/",
-    "$jsx/": "https://deno.land/x/jsx_stream@v0.0.5/",
-    "$jsx/jsx-runtime": "https://deno.land/x/jsx_stream@v0.0.5/jsx-runtime.ts"
+    "$jsx/": "https://deno.land/x/jsx_stream@v0.0.6/",
+    "$jsx/jsx-runtime": "https://deno.land/x/jsx_stream@v0.0.6/jsx-runtime.ts"
   }
 }

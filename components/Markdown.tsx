@@ -9,7 +9,7 @@ import {
 import { raw } from "https://esm.sh/hast-util-raw@8.0.0";
 import { Fragment, jsx, jsxDEV, jsxs } from "$jsx/jsx-runtime";
 import { fetchContent } from "@/lib/content.ts";
-import type { Promisable, StreamableNode } from "$jsx/types.ts";
+import type { Promisable } from "$jsx/types.ts";
 
 interface Props {
   url?: string;
@@ -23,7 +23,7 @@ const options = {
   jsxDEV,
 } as Options;
 
-export async function Markdown(props: Props): Promise<StreamableNode> {
+export async function Markdown(props: Props) {
   let markdown: string | undefined;
 
   if (props.url) {

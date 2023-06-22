@@ -1,4 +1,5 @@
 import { Delayed } from "./Delayed.tsx";
+import { QuizAnswer } from "./QuizAnswer.tsx";
 
 export function Quiz() {
   return (
@@ -19,7 +20,7 @@ async function Question() {
     if (response.ok) {
       const questions = await response.json();
 
-      const { question: { text }, correctAnswer, incorrectAnswers } =
+      const { id, question: { text }, correctAnswer, incorrectAnswers } =
         questions[0];
 
       const answers = [correctAnswer, ...incorrectAnswers];
@@ -31,7 +32,9 @@ async function Question() {
           <ol class="answers">
             {answers.map((answer, i) => (
               <Delayed delay={(i + 1) * 300}>
-                <li class="answer">{answer}</li>
+                <li class="answer">
+                  <QuizAnswer id={id} answer={answer} />
+                </li>
               </Delayed>
             ))}
           </ol>
