@@ -18,10 +18,10 @@ export default cascade(
 
 type OAuth2Client = Parameters<typeof signIn>[1];
 
-function getOAuth2Client(
+async function getOAuth2Client(
   req: Request,
   provider: string | undefined,
-): OAuth2Client {
+): Promise<OAuth2Client> {
   if (!provider) {
     throw badRequest();
   }
@@ -37,16 +37,19 @@ function getOAuth2Client(
   return createOAuth2Client({
     redirectUri: `${url.origin}/callback/${provider}`,
     defaults: {
-      scope: getOAuth2ClientScope(provider),
+      scope: await getOAuth2ClientScope(provider),
     },
   });
 }
 
-export function handleSignIn(
+export async function handleSignIn(
   req: Request,
   match: URLPatternResult,
 ): Promise<Response> {
-  return signIn(req, getOAuth2Client(req, match.pathname.groups.provider));
+  return signIn(
+    req,
+    await getOAuth2Client(req, match.pathname.groups.provider),
+  );
 }
 
 export async function handleCallback(
@@ -55,7 +58,7 @@ export async function handleCallback(
 ): Promise<Response> {
   const { response } = await handleCallback_(
     req,
-    getOAuth2Client(req, match.pathname.groups.provider),
+    await getOAuth2Client(req, match.pathname.groups.provider),
   );
   return response;
 }

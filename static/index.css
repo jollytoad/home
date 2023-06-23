@@ -3,6 +3,10 @@ header {
   justify-content: space-between;
 }
 
+.signin-menu a {
+  margin-left: 0.5em;
+}
+
 .red {
   color: red;
 }

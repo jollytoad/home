@@ -11,7 +11,8 @@ export async function UserWidget({ req }: RequestProps) {
   if (sessionId) {
     return <SignedIn sessionId={sessionId} />;
   } else {
-    return <SignedOut />;
+    const providers = await getProviders();
+    return <SignedOut providers={providers} />;
   }
 }
 
@@ -23,8 +24,7 @@ function SignedIn({ sessionId }: { sessionId: string }) {
   );
 }
 
-function SignedOut() {
-  const providers = getProviders();
+function SignedOut({ providers }: { providers: Provider[] }) {
   switch (providers.length) {
     case 0:
       return null;
@@ -42,15 +42,17 @@ function SignedOut() {
     default:
       return (
         <div class="user-widget signed-out">
-          <span>Sign In with...</span>
-          {providers.map((provider) => (
-            <a
-              href={`/signin/${provider.id}`}
-              title={`Sign in with ${provider.name}`}
-            >
-              {provider.name}
-            </a>
-          ))}
+          <span class="signin-header">Sign In with...</span>
+          <span class="signin-menu">
+            {providers.map((provider) => (
+              <a
+                href={`/signin/${provider.id}`}
+                title={`Sign in with ${provider.name}`}
+              >
+                {provider.name}
+              </a>
+            ))}
+          </span>
         </div>
       );
   }
@@ -61,9 +63,15 @@ interface Provider {
   name: string;
 }
 
-function getProviders(): Provider[] {
-  return getOAuth2ClientNames().filter(hasOAuth2ClientEnvVars).map((name) => ({
-    id: name.toLowerCase(),
-    name,
-  }));
+async function getProviders(): Promise<Provider[]> {
+  return (await Promise.all(
+    getOAuth2ClientNames().map(async (name) => {
+      if (await hasOAuth2ClientEnvVars(name)) {
+        return {
+          id: name.toLowerCase(),
+          name,
+        };
+      }
+    }),
+  )).filter((v): v is Provider => !!v);
 }

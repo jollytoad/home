@@ -35,13 +35,13 @@ export function getOAuth2ClientNames(): string[] {
   return names;
 }
 
-export function hasOAuth2ClientEnvVars(name: string): boolean {
+export async function hasOAuth2ClientEnvVars(name: string): Promise<boolean> {
   const upper = name.toUpperCase();
   const clientIdVar = `${upper}_CLIENT_ID`;
   const clientSecretVar = `${upper}_CLIENT_SECRET`;
   if (
-    Deno.permissions.querySync({ name: "env", variable: clientIdVar }) &&
-    Deno.permissions.querySync({ name: "env", variable: clientSecretVar })
+    await Deno.permissions.query({ name: "env", variable: clientIdVar }) &&
+    await Deno.permissions.query({ name: "env", variable: clientSecretVar })
   ) {
     return Deno.env.has(clientIdVar) && Deno.env.has(clientSecretVar);
   } else {
@@ -49,10 +49,12 @@ export function hasOAuth2ClientEnvVars(name: string): boolean {
   }
 }
 
-export function getOAuth2ClientScope(provider: string): undefined | string {
+export async function getOAuth2ClientScope(
+  provider: string,
+): Promise<undefined | string> {
   const clientScopeVar = `${provider.toUpperCase()}_CLIENT_SCOPE`;
   if (
-    Deno.permissions.querySync({ name: "env", variable: clientScopeVar })
+    await Deno.permissions.query({ name: "env", variable: clientScopeVar })
   ) {
     return Deno.env.get(clientScopeVar);
   }
