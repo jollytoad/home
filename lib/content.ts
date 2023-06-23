@@ -1,4 +1,5 @@
 import { notFound } from "$http_fns/response.ts";
+import type { RequestProps } from "./route.ts";
 
 export async function fetchContent(
   name: string,
@@ -14,20 +15,20 @@ export async function fetchContent(
   }
 }
 
-export interface ContentProps {
+export interface ContentProps extends RequestProps {
   content: Response;
 }
 
 export function fetchContentForPath(prefix: string, ext = "md") {
   return async function (
-    _req: Request,
-    info: URLPatternResult,
+    req: Request,
+    match: URLPatternResult,
   ): Promise<ContentProps> {
     const content = await fetchContent(
-      `${prefix}/${info.pathname.groups.path || "index"}.${ext}`,
+      `${prefix}/${match.pathname.groups.path || "index"}.${ext}`,
     );
     if (content.ok) {
-      return { content };
+      return { req, content };
     } else {
       throw content;
     }

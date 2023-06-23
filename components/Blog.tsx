@@ -6,10 +6,10 @@ import type { ContentProps } from "@/lib/content.ts";
 export interface BlogProps extends ContentProps {
 }
 
-export function Blog(props: BlogProps) {
+export function Blog({ req, content }: BlogProps) {
   return (
-    <Page>
-      <Markdown>{props.content.text()}</Markdown>
+    <Page req={req}>
+      <Markdown>{content.text()}</Markdown>
     </Page>
   );
 }

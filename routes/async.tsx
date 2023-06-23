@@ -3,8 +3,8 @@ import { Delayed } from "@/components/Delayed.tsx";
 import { Trickled } from "@/components/Trickled.tsx";
 import { handlePage } from "@/lib/route.ts";
 
-export default handlePage(() => (
-  <Page>
+export default handlePage(({ req }) => (
+  <Page req={req}>
     <p>This is a demo of streaming of asynchronous components.</p>
 
     <hr />

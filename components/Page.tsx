@@ -1,11 +1,13 @@
 import type { Children } from "$jsx/types.ts";
+import { UserWidget } from "./UserWidget.tsx";
 
 interface Props {
+  req: Request;
   children?: Children;
   reqURL?: string;
 }
 
-export function Page({ children, reqURL, ...props }: Props) {
+export function Page({ req, children, reqURL, ...props }: Props) {
   return reqURL
     ? <>{children}</>
     : (
@@ -33,6 +35,7 @@ export function Page({ children, reqURL, ...props }: Props) {
             <h1>
               <a href="/">The home of Jollytoad</a>
             </h1>
+            <UserWidget req={req} />
           </header>
 
           <main>

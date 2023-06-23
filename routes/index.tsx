@@ -1,12 +1,12 @@
 import { Page } from "@/components/Page.tsx";
 import { Markdown } from "@/components/Markdown.tsx";
-import { handlePage } from "@/lib/route.ts";
+import { handlePage, RouteProps } from "@/lib/route.ts";
 
 export default handlePage(HomePage);
 
-export function HomePage() {
+export function HomePage({ req }: RouteProps) {
   return (
-    <Page>
+    <Page req={req}>
       <ul>
         <li>
           <a href="/quiz">Quiz</a>

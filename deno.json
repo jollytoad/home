@@ -17,7 +17,8 @@
     "$http_fns/": "https://deno.land/x/http_fns@v0.0.15/",
     "$http_render_fns/": "https://deno.land/x/http_render_fns@v0.0.4/",
     "$ahx_fns/": "https://deno.land/x/ahx_fns@v0.0.10/",
-    "$jsx/": "https://deno.land/x/jsx_stream@v0.0.6/",
-    "$jsx/jsx-runtime": "https://deno.land/x/jsx_stream@v0.0.6/jsx-runtime.ts"
+    "$jsx/": "https://deno.land/x/jsx_stream@v0.0.7/",
+    "$jsx/jsx-runtime": "https://deno.land/x/jsx_stream@v0.0.7/jsx-runtime.ts",
+    "$deno_kv_oauth/": "https://deno.land/x/deno_kv_oauth@v0.2.5/src/"
   }
 }

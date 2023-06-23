@@ -4,8 +4,11 @@ import { mapData } from "$http_fns/map.ts";
 import { FRAGMENT_RENDER_OPTIONS, PAGE_RENDER_OPTIONS } from "@/config.ts";
 import type { ComponentType } from "$jsx/types.ts";
 
-export interface RouteProps {
+export interface RequestProps {
   req: Request;
+}
+
+export interface RouteProps extends RequestProps {
   match: URLPatternResult;
 }
 
