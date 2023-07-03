@@ -30,10 +30,13 @@ export function handlePage(
   return byMethod({
     GET: mapData(
       asRouteProps,
-      renderHTML(Component, {
-        "AHX-Full-Page": "true",
-        ...headers,
-      }, PAGE_RENDER_OPTIONS),
+      (req, match) => {
+        const isHxReq = req.headers.has("HX-Request");
+        return renderHTML(Component, {
+          "AHX-Full-Page": "true",
+          ...headers,
+        }, isHxReq ? FRAGMENT_RENDER_OPTIONS : PAGE_RENDER_OPTIONS)(req, match);
+      },
     ),
   });
 }

@@ -4,11 +4,14 @@ import {
   getOAuth2ClientNames,
   hasOAuth2ClientEnvVars,
 } from "@/lib/oauth2_clients.ts";
+import { getTokensBySession } from "$deno_kv_oauth/core.ts";
 
 export async function UserWidget({ req }: RequestProps) {
   const sessionId = await getSessionId(req);
 
   if (sessionId) {
+    const tokens = await getTokensBySession(sessionId);
+    console.log(tokens?.idToken);
     return <SignedIn sessionId={sessionId} />;
   } else {
     const providers = await getProviders();

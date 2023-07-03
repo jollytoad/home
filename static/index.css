@@ -48,3 +48,10 @@ header {
   border-color: salmon;
   background-color: lightpink;
 }
+
+#result.error {
+  color: red;
+}
+#result.result {
+  color: green;
+}

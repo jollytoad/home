@@ -1,24 +1,32 @@
 {
   "tasks": {
+    "build": "deno run --allow-all build.ts",
     "gen": "deno run --config=deno.json --allow-net --allow-read=./routes,./routes.ts --allow-write=./routes.ts https://deno.land/x/ahx_fns@v0.0.10/scripts/gen.ts",
-    "start": "deno run --unstable --allow-net --allow-read --allow-env --allow-sys --watch dev.ts",
+    "start": "deno run --unstable --allow-net --allow-read --allow-env --allow-sys --allow-run --watch dev.ts",
     "start:prod": "deno run --unstable --allow-net --allow-env main.ts",
     "mkcert": "mkcert -install -key-file localhost-key.pem -cert-file localhost-cert.pem localhost",
-    "deploy": "deno run --allow-net --allow-read --allow-write --allow-env https://deno.land/x/deploy@1.6.0/deployctl.ts deploy --import-map=deno.json --project=loud-fox-12 --exclude=.env,localhost-cert.pem,localhost-key.pem main.ts",
-    "check": "deno fmt && deno lint && deno --unstable check **/*.ts"
+    "deploy": "deno run --allow-net --allow-read --allow-write --allow-env https://deno.land/x/deploy@1.7.0/deployctl.ts deploy --import-map=deno.json --project=share-cow-47 --exclude=.env,localhost-cert.pem,localhost-key.pem main.ts",
+    "check": "deno fmt && deno lint && deno --unstable check **/*.ts",
+    "lock": "rm deno.lock && deno check main.ts"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "$jsx"
   },
+  "exclude": [
+    "static/sw.js",
+    "static/sw_compat.js"
+  ],
   "imports": {
     "@/": "./",
     "$std/": "https://deno.land/std@0.192.0/",
+    "https://deno.land/std@0.161.0/encoding/base64.ts": "https://deno.land/std@0.192.0/encoding/base64.ts",
     "$http_fns/": "https://deno.land/x/http_fns@v0.0.15/",
     "$http_render_fns/": "https://deno.land/x/http_render_fns@v0.0.4/",
     "$ahx_fns/": "https://deno.land/x/ahx_fns@v0.0.10/",
     "$jsx/": "https://deno.land/x/jsx_stream@v0.0.7/",
     "$jsx/jsx-runtime": "https://deno.land/x/jsx_stream@v0.0.7/jsx-runtime.ts",
-    "$deno_kv_oauth/": "https://deno.land/x/deno_kv_oauth@v0.2.5/src/"
+    "$deno_kv_oauth/": "https://cdn.jsdelivr.net/gh/jollytoad/deno_kv_oauth@okta-1/src/",
+    "https://deno.land/x/oauth2_client@v1.0.1/mod.ts": "https://cdn.jsdelivr.net/gh/jollytoad/deno-oauth2-client@oidc-1/mod.ts"
   }
 }

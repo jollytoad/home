@@ -14,6 +14,9 @@ export function HomePage({ req }: RouteProps) {
         <li>
           <a href="/async">Async component streaming demo</a>
         </li>
+        <li>
+          <a href="/calc">Service Worker Calculator</a>
+        </li>
       </ul>
 
       <hr />

@@ -29,6 +29,8 @@ export function Page({ req, children, reqURL, ...props }: Props) {
           />
 
           <script src="https://accounts.google.com/gsi/client" async defer />
+
+          <script src="app.js" type="module" />
         </head>
         <body>
           <header>
