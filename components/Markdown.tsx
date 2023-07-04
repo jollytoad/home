@@ -21,6 +21,8 @@ const options = {
   jsx,
   jsxs,
   jsxDEV,
+  elementAttributeNameCase: "html",
+  stylePropertyNameCase: "css",
 } as Options;
 
 export async function Markdown(props: Props) {

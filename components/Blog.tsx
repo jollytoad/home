@@ -10,6 +10,7 @@ export function Blog({ req, content }: BlogProps) {
   return (
     <Page req={req}>
       <Markdown>{content.text()}</Markdown>
+      <script src="/prism.js" async></script>
     </Page>
   );
 }

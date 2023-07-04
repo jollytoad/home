@@ -19,6 +19,7 @@ export function Page({ req, children, reqURL, ...props }: Props) {
             rel="stylesheet"
             href="https://unpkg.com/missing.css@1.0.9/dist/missing.min.css"
           />
+          <link rel="stylesheet" href="/prism.css" />
           <link rel="stylesheet" href="/index.css" />
 
           <script
@@ -30,7 +31,7 @@ export function Page({ req, children, reqURL, ...props }: Props) {
 
           <script src="https://accounts.google.com/gsi/client" async defer />
 
-          <script src="app.js" type="module" />
+          <script src="/app.js" type="module" />
         </head>
         <body>
           <header>

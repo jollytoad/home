@@ -15,7 +15,8 @@
   },
   "exclude": [
     "static/sw.js",
-    "static/sw_compat.js"
+    "static/sw_compat.js",
+    "static/prism.*"
   ],
   "imports": {
     "@/": "./",
