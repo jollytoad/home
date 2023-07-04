@@ -635,16 +635,6 @@
     });
   }
 
-  // https://deno.land/x/http_fns@v0.0.15/request.ts
-  function getSearchValues(input) {
-    const searchParams = input instanceof Request ? new URL(input.url).searchParams : input instanceof URL ? input.searchParams : input instanceof URLSearchParams ? input : input && "search" in input && "input" in input.search ? new URLSearchParams(input.search.input) : void 0;
-    return (param, separator) => {
-      return searchParams ? separator ? searchParams.getAll(param).join(separator).split(separator).filter(
-        (v) => v !== ""
-      ) : searchParams.getAll(param) : [];
-    };
-  }
-
   // lib/evaluate.js
   function tokenize(input) {
     let scanner = 0;
@@ -749,11 +739,21 @@
     return evalRPN(toRPN(tokenize(input)));
   }
 
+  // https://deno.land/x/http_fns@v0.0.15/request.ts
+  function getSearchValues(input) {
+    const searchParams = input instanceof Request ? new URL(input.url).searchParams : input instanceof URL ? input.searchParams : input instanceof URLSearchParams ? input : input && "search" in input && "input" in input.search ? new URLSearchParams(input.search.input) : void 0;
+    return (param, separator) => {
+      return searchParams ? separator ? searchParams.getAll(param).join(separator).split(separator).filter(
+        (v) => v !== ""
+      ) : searchParams.getAll(param) : [];
+    };
+  }
+
   // components/Evaluate.tsx
   async function Evaluate({ expr }) {
     if (expr) {
       console.log("Calculating...", expr);
-      await delay(10);
+      await delay(1);
       try {
         const result = evaluate(expr);
         console.log("The answer is:", result);
@@ -768,11 +768,15 @@
       return /* @__PURE__ */ jsx("output", { class: "blank", id: "result", children: "\xA0" });
     }
   }
+  function evaluatePropsFrom(req) {
+    return {
+      expr: getSearchValues(req)("expr")[0] ?? ""
+    };
+  }
 
   // routes/calc/eval.tsx
   var eval_default = handleFragment(({ req }) => {
-    const expr = getSearchValues(req)("expr")[0] ?? "";
-    return /* @__PURE__ */ jsx(Evaluate, { expr });
+    return /* @__PURE__ */ jsx(Evaluate, { ...evaluatePropsFrom(req) });
   });
 
   // service_worker/routes.ts

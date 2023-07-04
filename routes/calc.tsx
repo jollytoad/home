@@ -1,10 +1,9 @@
 import { Page } from "@/components/Page.tsx";
 import { handlePage } from "@/lib/route.ts";
-import { getSearchValues } from "$http_fns/request.ts";
-import { Evaluate } from "@/components/Evaluate.tsx";
+import { Evaluate, evaluatePropsFrom } from "@/components/Evaluate.tsx";
 
 export default handlePage(({ req }) => {
-  const expr = getSearchValues(req)("expr")[0] ?? "";
+  const evaluateProps = evaluatePropsFrom(req);
 
   return (
     <Page req={req}>
@@ -18,11 +17,11 @@ export default handlePage(({ req }) => {
         <input
           name="expr"
           type="text"
-          value={expr}
+          value={evaluateProps.expr}
           hx-get="/calc/eval"
           hx-trigger="keyup changed"
         />
-        <Evaluate expr={expr} />
+        <Evaluate {...evaluateProps} />
         <hr />
         <button type="submit">Calculate</button>
       </form>
