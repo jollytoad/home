@@ -6,9 +6,9 @@ import type { ContentProps } from "@/lib/content.ts";
 export interface BlogProps extends ContentProps {
 }
 
-export function Blog({ req, content }: BlogProps) {
+export function Blog({ content }: BlogProps) {
   return (
-    <Page req={req}>
+    <Page>
       <Markdown>{content.text()}</Markdown>
       <script src="/prism.js" async></script>
     </Page>

@@ -1,11 +1,13 @@
 {
   "tasks": {
-    "build": "deno run --allow-all build.ts",
+    "build": "deno run --allow-all scripts/build.ts",
+    "cache": "deno run --allow-all --unstable scripts/cache.ts",
+    "cache:clean": "rm -rf cache",
     "gen": "deno run --config=deno.json --allow-net --allow-read=./routes,./routes.ts --allow-write=./routes.ts https://deno.land/x/ahx_fns@v0.0.10/scripts/gen.ts",
-    "start": "deno run --unstable --allow-net --allow-read --allow-env --allow-sys --allow-run --watch dev.ts",
+    "start": "deno run --unstable --allow-net --allow-read --allow-env --allow-sys --allow-run --watch scripts/dev.ts",
     "start:prod": "deno run --unstable --allow-net --allow-env main.ts",
     "mkcert": "mkcert -install -key-file localhost-key.pem -cert-file localhost-cert.pem localhost",
-    "deploy": "deno run --allow-net --allow-read --allow-write --allow-env https://deno.land/x/deploy@1.7.0/deployctl.ts deploy --import-map=deno.json --project=jollytoad --exclude=.env,localhost-cert.pem,localhost-key.pem main.ts",
+    "deploy": "deno run --allow-net --allow-read --allow-write --allow-env https://deno.land/x/deploy@1.7.0/deployctl.ts deploy --import-map=deno.json --project=jollytoad --exclude=.env,localhost-cert.pem,localhost-key.pem,scripts main.ts",
     "check": "deno fmt && deno lint && deno --unstable check **/*.ts",
     "lock": "rm deno.lock && deno check main.ts"
   },

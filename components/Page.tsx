@@ -2,7 +2,7 @@ import type { Children } from "$jsx/types.ts";
 import { UserWidget } from "./UserWidget.tsx";
 
 interface Props {
-  req: Request;
+  req?: Request;
   children?: Children;
   reqURL?: string;
 }
@@ -29,8 +29,6 @@ export function Page({ req, children, reqURL, ...props }: Props) {
             async
           />
 
-          <script src="https://accounts.google.com/gsi/client" async defer />
-
           <script src="/app.js" type="module" />
         </head>
         <body>
@@ -46,7 +44,7 @@ export function Page({ req, children, reqURL, ...props }: Props) {
           </main>
 
           <footer>
-            <div>©️ 2023 Mark Gibson</div>
+            <div>©️ {new Date().getFullYear()} Mark Gibson</div>
           </footer>
         </body>
       </html>

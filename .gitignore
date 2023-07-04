@@ -1,3 +1,4 @@
 .store
 .env
 *.pem
+cache

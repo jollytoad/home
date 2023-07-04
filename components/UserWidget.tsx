@@ -7,6 +7,10 @@ import {
 import { getTokensBySession } from "$deno_kv_oauth/core.ts";
 
 export async function UserWidget({ req }: RequestProps) {
+  if (!req) {
+    return null;
+  }
+
   const sessionId = await getSessionId(req);
 
   if (sessionId) {

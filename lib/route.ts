@@ -5,7 +5,7 @@ import { FRAGMENT_RENDER_OPTIONS, PAGE_RENDER_OPTIONS } from "@/config.ts";
 import type { ComponentType } from "$jsx/types.ts";
 
 export interface RequestProps {
-  req: Request;
+  req?: Request;
 }
 
 export interface RouteProps extends RequestProps {
@@ -31,11 +31,16 @@ export function handlePage(
     GET: mapData(
       asRouteProps,
       (req, match) => {
-        const isHxReq = req.headers.has("HX-Request");
-        return renderHTML(Component, {
-          "AHX-Full-Page": "true",
-          ...headers,
-        }, isHxReq ? FRAGMENT_RENDER_OPTIONS : PAGE_RENDER_OPTIONS)(req, match);
+        let options = req.headers.has("HX-Request")
+          ? FRAGMENT_RENDER_OPTIONS
+          : PAGE_RENDER_OPTIONS;
+
+        const deferredTimeout = getDeferredTimeout(req);
+        if (deferredTimeout !== undefined) {
+          options = { ...options, deferredTimeout };
+        }
+
+        return renderHTML(Component, headers, options)(req, match);
       },
     ),
   });
@@ -55,4 +60,17 @@ export function handleFragment(
       renderHTML(Component, headers, FRAGMENT_RENDER_OPTIONS),
     ),
   });
+}
+
+function getDeferredTimeout(req: Request): number | false | undefined {
+  if (req.headers.has("Deferred-Timeout")) {
+    const deferredTimeoutHeader = req.headers.get("Deferred-Timeout");
+    const deferredTimeout = deferredTimeoutHeader === "false"
+      ? false
+      : Number.parseInt(deferredTimeoutHeader ?? "");
+
+    if (deferredTimeout === false || Number.isSafeInteger(deferredTimeout)) {
+      return deferredTimeout;
+    }
+  }
 }

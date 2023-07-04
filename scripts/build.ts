@@ -13,10 +13,10 @@ export async function buildServiceWorker() {
 
   await esbuild.build({
     plugins: denoPlugins({
-      configPath: fromFileUrl(import.meta.resolve("./deno.json")),
+      configPath: fromFileUrl(import.meta.resolve("@/deno.json")),
     }),
     entryPoints: ["@/service_worker/sw.js", "@/service_worker/sw_compat.js"],
-    outdir: "./static",
+    outdir: fromFileUrl(import.meta.resolve("@/static")),
     bundle: true,
     platform: "browser",
     format: "iife",
