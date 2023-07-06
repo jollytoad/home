@@ -778,7 +778,7 @@
   };
   globalThis.URLPattern || (globalThis.URLPattern = J);
 
-  // https://deno.land/x/http_fns@v0.0.17/pattern.ts
+  // https://deno.land/x/http_fns@v0.0.18/pattern.ts
   function byPattern(pattern, handler) {
     return async (req, ..._args) => {
       const patterns = Array.isArray(pattern) ? pattern : [pattern];
@@ -796,7 +796,7 @@
     };
   }
 
-  // https://deno.land/x/http_fns@v0.0.17/cascade.ts
+  // https://deno.land/x/http_fns@v0.0.18/cascade.ts
   function cascade(...handlers) {
     return async (req, ...args) => {
       for (const handler of handlers) {
@@ -1423,7 +1423,7 @@
     [506 /* VariantAlsoNegotiates */]: "Variant Also Negotiates"
   };
 
-  // https://deno.land/x/http_fns@v0.0.17/response.ts
+  // https://deno.land/x/http_fns@v0.0.18/response.ts
   function response(status, body, headers) {
     return new Response(body, {
       status,
@@ -1440,7 +1440,7 @@
     return errorResponse(null, 405 /* MethodNotAllowed */);
   }
 
-  // https://deno.land/x/http_fns@v0.0.17/method.ts
+  // https://deno.land/x/http_fns@v0.0.18/method.ts
   function byMethod(handlers, fallback = () => methodNotAllowed()) {
     const defaultHandlers = {
       OPTIONS: optionsHandler(handlers)
@@ -1479,7 +1479,7 @@
     return response2 ? new Response(null, response2) : response2;
   };
 
-  // https://deno.land/x/http_fns@v0.0.17/map.ts
+  // https://deno.land/x/http_fns@v0.0.18/map.ts
   function mapData(mapper, handler) {
     return async (req, data) => handler(req, await mapper(req, data));
   }
@@ -1608,7 +1608,7 @@
     return evalRPN(toRPN(tokenize(input)));
   }
 
-  // https://deno.land/x/http_fns@v0.0.17/request.ts
+  // https://deno.land/x/http_fns@v0.0.18/request.ts
   function getSearchValues(input) {
     const searchParams = input instanceof Request ? new URL(input.url).searchParams : input instanceof URL ? input.searchParams : input instanceof URLSearchParams ? input : input && "search" in input && "input" in input.search ? new URLSearchParams(input.search.input) : void 0;
     return (param, separator) => {
