@@ -13,9 +13,6 @@ export default cascade(
   byPattern("/calc", lazy(() => import("./routes/calc.tsx"))),
   byPattern("/blog/:path*", lazy(() => import("./routes/blog/:path*.tsx"))),
   byPattern("/async", lazy(() => import("./routes/async.tsx"))),
-  byPattern(
-    "/answer/:id/:answer",
-    lazy(() => import("./routes/answer/:id/:answer.tsx")),
-  ),
+  byPattern("/answer/:id/:answer", lazy(() => import("./routes/answer/:id/:answer.tsx"))),
   byPattern("/", lazy(() => import("./routes/index.tsx"))),
 );

@@ -20,6 +20,9 @@
     "static/sw_compat.js",
     "static/prism.*"
   ],
+  "fmt": {
+    "exclude": ["routes.ts"]
+  },
   "imports": {
     "@/": "./",
     "$std/": "https://deno.land/std@0.193.0/",

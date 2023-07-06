@@ -9,6 +9,9 @@ import init from "@/init.ts";
 import routes from "@/routes.ts";
 import cached_routes from "@/cached_routes.ts";
 
+// IMPORTANT: This doesn't currently work with dynamic routes
+// the requests seem to hang!
+
 const controller = new AbortController();
 
 const ready = deferred<{ port: number }>();
