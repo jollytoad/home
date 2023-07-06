@@ -1497,7 +1497,6 @@
   var recordStylesheet = {
     "link": {
       afterEnd: (tag, context) => {
-        console.log("LINK", tag);
         if (tag.attributes?.rel === "stylesheet" && typeof tag.attributes?.href === "string") {
           context.stylesheets.add(tag.attributes.href);
         }
@@ -1508,17 +1507,17 @@
     return {
       [place]: function* (tag, context) {
         const injections = fn(tag);
-        for (const url of asArray(injections.stylesheet)) {
+        for (const url of asArray(injections?.stylesheet)) {
           if (!context.stylesheets.has(url)) {
             yield /* @__PURE__ */ jsx("link", { rel: "stylesheet", href: url });
           }
         }
-        for (const url of asArray(injections.module)) {
+        for (const url of asArray(injections?.module)) {
           if (!context.scripts.has(url)) {
             yield /* @__PURE__ */ jsx("script", { type: "module", src: url });
           }
         }
-        for (const url of asArray(injections.script)) {
+        for (const url of asArray(injections?.script)) {
           if (!context.scripts.has(url)) {
             yield /* @__PURE__ */ jsx("script", { src: url });
           }
@@ -1535,7 +1534,7 @@
     "md-tab": "tabs/tab"
     // TODO: add more mappings as necessary
   };
-  function materialDesign() {
+  function materialDesignElements() {
     return {
       ...recordScript,
       "md-*": inject((tag) => {
@@ -1549,7 +1548,7 @@
   }
 
   // lib/tag_hooks/shoelace.ts
-  function shoelace() {
+  function shoelaceElements() {
     return {
       ...recordScript,
       ...recordStylesheet,
@@ -1560,12 +1559,69 @@
     };
   }
 
+  // lib/tag_hooks/vaadin.ts
+  var ignored = ["vaadin-tab"];
+  function vaadinElements() {
+    return {
+      ...recordScript,
+      "vaadin-*": inject((tag) => {
+        if (ignored.includes(tag.tagName)) {
+          return;
+        }
+        const component = tag.tagName.replace(/^vaadin-/, "");
+        return {
+          module: `https://cdn.jsdelivr.net/esm/@vaadin/${component}`
+        };
+      })
+    };
+  }
+
+  // lib/tag_hooks/wired_elements.ts
+  function wiredElements() {
+    return {
+      ...recordScript,
+      "wired-*": inject((tag) => {
+        return {
+          module: `https://unpkg.com/wired-elements/lib/${tag.tagName}.js?module`
+        };
+      })
+    };
+  }
+
+  // lib/tag_hooks/github_elements.ts
+  var injectGH = inject((tag) => ({
+    module: `https://esm.sh/@github/${tag.tagName}-element`
+  }));
+  function githubElements() {
+    return {
+      ...recordScript,
+      "tab-container": injectGH
+      // TODO: Add more GitHub elements as necessary
+    };
+  }
+
+  // lib/tag_hooks/patternfly_elements.ts
+  function patternFlyElements() {
+    return {
+      ...recordScript,
+      "pf-*": inject((tag) => {
+        return {
+          module: `https://jspm.dev/@patternfly/elements/${tag.tagName}/${tag.tagName}.js`
+        };
+      })
+    };
+  }
+
   // config.ts
   var PAGE_RENDER_OPTIONS = {
     deferredTimeout: 10,
     tagHandlers: {
-      ...materialDesign(),
-      ...shoelace()
+      ...materialDesignElements(),
+      ...shoelaceElements(),
+      ...wiredElements(),
+      ...vaadinElements(),
+      ...githubElements(),
+      ...patternFlyElements()
     }
   };
   var FRAGMENT_RENDER_OPTIONS = {

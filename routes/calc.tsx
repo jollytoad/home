@@ -6,7 +6,7 @@ export default handlePage(({ req }) => {
   const evaluateProps = evaluatePropsFrom(req);
 
   return (
-    <Page req={req}>
+    <Page req={req} module={import.meta.url}>
       <h1>Service Worker Calculator</h1>
       <form
         action="/calc"

@@ -6,7 +6,7 @@ const mdComponents: Record<string, string> = {
   // TODO: add more mappings as necessary
 };
 
-export function materialDesign(): TagHandlers {
+export function materialDesignElements(): TagHandlers {
   return {
     ...recordScript,
     "md-*": inject((tag) => {

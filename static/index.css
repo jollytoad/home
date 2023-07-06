@@ -3,6 +3,10 @@ header {
   justify-content: space-between;
 }
 
+footer .src {
+  float: right;
+}
+
 .signin-menu a {
   margin-left: 0.5em;
 }

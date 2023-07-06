@@ -1,0 +1,19 @@
+import type { TagHandlers } from "$jsx/types.ts";
+import { inject, recordScript } from "@/lib/tag_hooks/inject.tsx";
+
+const ignored = ["vaadin-tab"];
+
+export function vaadinElements(): TagHandlers {
+  return {
+    ...recordScript,
+    "vaadin-*": inject((tag) => {
+      if (ignored.includes(tag.tagName)) {
+        return;
+      }
+      const component = tag.tagName.replace(/^vaadin-/, "");
+      return {
+        module: `https://cdn.jsdelivr.net/esm/@vaadin/${component}`,
+      };
+    }),
+  };
+}

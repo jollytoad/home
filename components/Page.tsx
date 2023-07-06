@@ -1,13 +1,15 @@
 import type { Children } from "$jsx/types.ts";
-import { UserWidget } from "./UserWidget.tsx";
+import { Src } from "@/components/Src.tsx";
+import { UserWidget } from "@/components/UserWidget.tsx";
 
 interface Props {
   req?: Request;
   children?: Children;
   reqURL?: string;
+  module?: string;
 }
 
-export function Page({ req, children, reqURL, ...props }: Props) {
+export function Page({ req, children, reqURL, module, ...props }: Props) {
   return reqURL
     ? <>{children}</>
     : (
@@ -44,6 +46,7 @@ export function Page({ req, children, reqURL, ...props }: Props) {
           </main>
 
           <footer>
+            <Src module={module} />
             <div>©️ {new Date().getFullYear()} Mark Gibson</div>
           </footer>
         </body>

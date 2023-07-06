@@ -5,7 +5,7 @@ import {
   recordStylesheet,
 } from "@/lib/tag_hooks/inject.tsx";
 
-export function shoelace(): TagHandlers {
+export function shoelaceElements(): TagHandlers {
   return {
     ...recordScript,
     ...recordStylesheet,

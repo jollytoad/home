@@ -25,7 +25,6 @@ export const recordScript: TagHandlers = {
 export const recordStylesheet: TagHandlers = {
   "link": {
     afterEnd: (tag: Tag, context: Context) => {
-      console.log("LINK", tag);
       if (
         tag.attributes?.rel === "stylesheet" &&
         typeof tag.attributes?.href === "string"
@@ -37,26 +36,26 @@ export const recordStylesheet: TagHandlers = {
 };
 
 export function inject(
-  fn: (tag: Tag) => Injections,
+  fn: (tag: Tag) => Injections | void,
   place: Placement = "beforeStart",
 ): TagHooks {
   return {
     [place]: function* (tag: Tag, context: Context) {
       const injections = fn(tag);
 
-      for (const url of asArray(injections.stylesheet)) {
+      for (const url of asArray(injections?.stylesheet)) {
         if (!context.stylesheets.has(url)) {
           yield <link rel="stylesheet" href={url} />;
         }
       }
 
-      for (const url of asArray(injections.module)) {
+      for (const url of asArray(injections?.module)) {
         if (!context.scripts.has(url)) {
           yield <script type="module" src={url} />;
         }
       }
 
-      for (const url of asArray(injections.script)) {
+      for (const url of asArray(injections?.script)) {
         if (!context.scripts.has(url)) {
           yield <script src={url} />;
         }
