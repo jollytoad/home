@@ -6,7 +6,7 @@ import {
 } from "@/lib/oauth2_clients.ts";
 import { getTokensBySession } from "$deno_kv_oauth/core.ts";
 
-export async function UserWidget({ req }: RequestProps) {
+export async function UserWidget({ req }: Partial<RequestProps>) {
   if (!req) {
     return null;
   }

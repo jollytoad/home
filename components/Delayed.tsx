@@ -1,5 +1,5 @@
 import type { Children } from "$jsx/types.ts";
-import { delay } from "https://deno.land/std@0.192.0/async/delay.ts";
+import { delay } from "$std/async/delay.ts";
 
 export interface DelayedProps {
   delay: number;

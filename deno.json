@@ -22,13 +22,14 @@
   ],
   "imports": {
     "@/": "./",
-    "$std/": "https://deno.land/std@0.192.0/",
-    "https://deno.land/std@0.161.0/encoding/base64.ts": "https://deno.land/std@0.192.0/encoding/base64.ts",
+    "$std/": "https://deno.land/std@0.193.0/",
+    "https://deno.land/std@0.192.0/": "https://deno.land/std@0.193.0/",
+    "https://deno.land/std@0.161.0/encoding/base64.ts": "https://deno.land/std@0.193.0/encoding/base64.ts",
     "$http_fns/": "https://deno.land/x/http_fns@v0.0.15/",
     "$http_render_fns/": "https://deno.land/x/http_render_fns@v0.0.4/",
     "$ahx_fns/": "https://deno.land/x/ahx_fns@v0.0.10/",
-    "$jsx/": "https://deno.land/x/jsx_stream@v0.0.7/",
-    "$jsx/jsx-runtime": "https://deno.land/x/jsx_stream@v0.0.7/jsx-runtime.ts",
+    "$jsx/": "https://deno.land/x/jsx_stream@v0.0.10/",
+    "$jsx/jsx-runtime": "https://deno.land/x/jsx_stream@v0.0.10/jsx-runtime.ts",
     "$deno_kv_oauth/": "https://deno.land/x/deno_kv_oauth@v0.2.6/src/",
     "https://deno.land/x/oauth2_client@v1.0.2/mod.ts": "https://cdn.jsdelivr.net/gh/jollytoad/deno-oauth2-client@oidc-2/mod.ts"
   }

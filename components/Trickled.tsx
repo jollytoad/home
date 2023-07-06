@@ -1,6 +1,6 @@
 import type { Children, SyncNode } from "$jsx/types.ts";
 import { isAsyncIterable, isIterable } from "$jsx/guards.ts";
-import { delay } from "https://deno.land/std@0.192.0/async/delay.ts";
+import { delay } from "$std/async/delay.ts";
 
 export interface TrickledProps {
   delay: number;

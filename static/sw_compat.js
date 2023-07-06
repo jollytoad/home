@@ -809,7 +809,7 @@
     };
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.7/_internal/defer.ts
+  // https://deno.land/x/jsx_stream@v0.0.10/_internal/defer.ts
   function defaultPlaceholder(id) {
     return `<span id="${id}"></span>`;
   }
@@ -820,7 +820,10 @@
     yield `<script>document.getElementById("${id}").outerHTML = document.getElementById("_${id}").innerHTML;<\/script>`;
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.7/guards.ts
+  // https://deno.land/x/jsx_stream@v0.0.10/guards.ts
+  function isPrimitiveValue(value) {
+    return typeof value === "string" || typeof value === "number" || typeof value === "boolean" || typeof value === "bigint";
+  }
   function isPromiseLike(value) {
     return typeof value?.then === "function";
   }
@@ -831,7 +834,7 @@
     return typeof value?.[Symbol.asyncIterator] === "function";
   }
 
-  // https://deno.land/std@0.192.0/html/entities.ts
+  // https://deno.land/std@0.193.0/html/entities.ts
   var rawToEntityEntries = [
     ["&", "&amp;"],
     ["<", "&lt;"],
@@ -850,20 +853,86 @@
     return str.replaceAll(rawRe, (m) => rawToEntity.get(m));
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.7/_internal/safe_string.ts
-  var _SafeString = class extends String {
+  // https://deno.land/x/jsx_stream@v0.0.10/_internal/util.ts
+  var VOID_ELEMENTS = /* @__PURE__ */ new Set([
+    "area",
+    "base",
+    "br",
+    "col",
+    "embed",
+    "hr",
+    "img",
+    "input",
+    "keygen",
+    "link",
+    "meta",
+    "param",
+    "source",
+    "track",
+    "wbr"
+  ]);
+  function isVoidElement(tag) {
+    return VOID_ELEMENTS.has(tag);
+  }
+  function isValidTag(tag) {
+    return /^[a-zA-Z][a-zA-Z0-9\-]*$/.test(tag);
+  }
+  var SPECIAL_ATTRS = /* @__PURE__ */ new Set([
+    "dangerouslySetInnerHTML"
+  ]);
+  function isValidAttr(name, value) {
+    return value !== false && value !== void 0 && value !== null && !SPECIAL_ATTRS.has(name) && // deno-lint-ignore no-control-regex
+    /^[^\u0000-\u001F\u007F-\u009F\s"'>/=\uFDD0-\uFDEF\p{NChar}]+$/u.test(name);
+  }
+
+  // https://deno.land/x/jsx_stream@v0.0.10/_internal/token.ts
+  var _Token = class extends String {
+    kind;
+    tagName;
+    attributes;
   };
   function safe(value) {
-    return new _SafeString(value);
+    return new _Token(value);
   }
   function escape2(value) {
     return safe(escape(String(value)));
   }
+  function openTag(tagName, attrs) {
+    return _tag(tagName, attrs, "open");
+  }
+  function voidTag(tagName, attrs) {
+    return _tag(tagName, attrs, "void", "/");
+  }
+  function closeTag(tagName) {
+    const token = new _Token(`</${tagName}>`);
+    token.kind = "close";
+    token.tagName = tagName;
+    return token;
+  }
   function isSafe(value) {
-    return value instanceof _SafeString;
+    return value instanceof _Token;
+  }
+  function isTag(value, kind) {
+    return value instanceof _Token && !!value.kind && !!value.tagName && (kind ? value.kind === kind : true);
+  }
+  function _tag(tagName, attributes, kind, close = "") {
+    let attrStr = "";
+    for (const [name, value] of Object.entries(attributes)) {
+      if (isValidAttr(name, value)) {
+        attrStr += ` ${name}`;
+        if (value !== true) {
+          attrStr += `="${escape2(value)}"`;
+        }
+      }
+    }
+    const token = new _Token(`<${tagName}${attrStr}${close}>`);
+    token.kind = kind;
+    token.tagName = tagName;
+    token.attributes = attributes;
+    return token;
   }
 
-  // https://deno.land/std@0.192.0/async/delay.ts
+  // https://deno.land/std@0.193.0/async/delay.ts
   function delay(ms, options = {}) {
     const { signal, persistent } = options;
     if (signal?.aborted) {
@@ -893,7 +962,7 @@
     });
   }
 
-  // https://deno.land/std@0.192.0/async/deferred.ts
+  // https://deno.land/std@0.193.0/async/deferred.ts
   function deferred() {
     let methods;
     let state = "pending";
@@ -915,7 +984,7 @@
     return Object.assign(promise, methods);
   }
 
-  // https://deno.land/std@0.192.0/async/mux_async_iterator.ts
+  // https://deno.land/std@0.193.0/async/mux_async_iterator.ts
   var MuxAsyncIterator = class {
     #iteratorCount = 0;
     #yields = [];
@@ -962,19 +1031,56 @@
     }
   };
 
-  // https://deno.land/x/jsx_stream@v0.0.7/_internal/stream_node.ts
+  // https://deno.land/x/jsx_stream@v0.0.10/_internal/stream_node.ts
   async function* streamNode(node, options) {
     const deferredTimeout = asSafeInteger(options?.deferredTimeout);
     const streamDelay2 = asSafeInteger(options?.streamDelay);
     const renderPlaceholder = asFunction(options?.deferredPlaceholder) ?? defaultPlaceholder;
     const renderSubstitution = asFunction(options?.deferredSubstitution) ?? defaultSubstitution;
     const deferrals = new MuxAsyncIterator();
+    const tagStack = [];
+    const context = {
+      scripts: /* @__PURE__ */ new Set(),
+      stylesheets: /* @__PURE__ */ new Set()
+    };
     yield* streamNode_(node);
     for await (const deferredStream of deferrals) {
       yield* deferredStream;
     }
     async function* streamNode_(node2) {
-      if (isSafe(node2)) {
+      if (isTag(node2, "open")) {
+        tagStack.unshift([node2, []]);
+        stashTokens(node2);
+        yield* applyTagHooks("beforeStart", node2);
+        yield String(node2);
+        yield* applyTagHooks("afterStart", node2);
+      } else if (isTag(node2, "void")) {
+        stashTokens(node2);
+        yield* applyTagHooks("beforeStart", node2);
+        yield String(node2);
+        yield* applyTagHooks("afterEnd", node2);
+      } else if (isTag(node2, "close")) {
+        stashTokens(node2);
+        if (!tagStack.length) {
+          console.error(
+            `%cTag mismatch, closing tag </${node2.tagName}> has no opening tag.`,
+            "color: red"
+          );
+        } else {
+          const [[tag, tokens]] = tagStack;
+          if (tag.tagName !== node2.tagName) {
+            console.error(
+              `%cTag mismatch, closing tag </${node2.tagName}> does not match expected opening tag <${tag.tagName}>`,
+              "color: red"
+            );
+          }
+          yield* applyTagHooks("beforeEnd", tag, tokens);
+          yield String(node2);
+          yield* applyTagHooks("afterEnd", tag, tokens);
+          tagStack.shift();
+        }
+      } else if (isSafe(node2)) {
+        stashTokens(node2);
         yield String(node2);
       } else if (typeof node2 === "string") {
         console.warn("%cWARNING: raw string detected:", "color: red", node2);
@@ -1005,6 +1111,28 @@
       }
       if (streamDelay2) {
         await delay(streamDelay2);
+      }
+    }
+    async function* applyTagHooks(place, tag, tokens) {
+      const wildcards = tag.tagName.split("-").map(
+        (_v, i, a) => [...a.slice(0, i), "*"].join("-")
+      ).reverse();
+      for (const name of [tag.tagName, ...wildcards]) {
+        if (name) {
+          const fn = asFunction(options?.tagHandlers?.[name]?.[place]);
+          const node2 = fn?.(tag, context, tokens);
+          if (node2) {
+            yield* streamNode_(node2);
+          }
+        }
+      }
+    }
+    function stashTokens(token) {
+      for (const [tag, tokens] of tagStack) {
+        const tagHooks = options?.tagHandlers?.[tag.tagName];
+        if (tagHooks?.collectTokens && (tagHooks?.beforeEnd || tagHooks?.afterEnd)) {
+          tokens?.push(token);
+        }
       }
     }
     function defer(node2) {
@@ -1047,7 +1175,7 @@
     }
   }
 
-  // https://deno.land/std@0.192.0/streams/readable_stream_from_iterable.ts
+  // https://deno.land/std@0.193.0/streams/readable_stream_from_iterable.ts
   function readableStreamFromIterable(iterable) {
     const iterator = iterable[Symbol.asyncIterator]?.() ?? iterable[Symbol.iterator]?.();
     return new ReadableStream({
@@ -1070,7 +1198,7 @@
     });
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.7/serialize.ts
+  // https://deno.land/x/jsx_stream@v0.0.10/serialize.ts
   function renderBody(node, options) {
     return readableStreamFromIterable(streamNode(node, options)).pipeThrough(
       new TextEncoderStream()
@@ -1086,12 +1214,12 @@
     });
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.7/_internal/stream_component.ts
+  // https://deno.land/x/jsx_stream@v0.0.10/_internal/stream_component.ts
   function streamComponent(component, props) {
     return component(props);
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.7/_internal/awaited_props.ts
+  // https://deno.land/x/jsx_stream@v0.0.10/_internal/awaited_props.ts
   function awaitedProps(props) {
     const promisedEntries = [];
     for (const [name, value] of Object.entries(props)) {
@@ -1109,11 +1237,11 @@
     }
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.7/_internal/stream_fragment.ts
+  // https://deno.land/x/jsx_stream@v0.0.10/_internal/stream_fragment.ts
   function* streamFragment(children) {
     if (isSafe(children)) {
       yield children;
-    } else if (typeof children === "string" || typeof children === "boolean" || typeof children === "number") {
+    } else if (isPrimitiveValue(children)) {
       yield escape2(children);
     } else if (isPromiseLike(children)) {
       yield children.then(streamFragment);
@@ -1130,76 +1258,36 @@
     }
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.7/_internal/util.ts
-  var VOID_ELEMENTS = /* @__PURE__ */ new Set([
-    "area",
-    "base",
-    "br",
-    "col",
-    "embed",
-    "hr",
-    "img",
-    "input",
-    "keygen",
-    "link",
-    "meta",
-    "param",
-    "source",
-    "track",
-    "wbr"
-  ]);
-  function isVoidElement(tag) {
-    return VOID_ELEMENTS.has(tag);
-  }
-  function isValidTag(tag) {
-    return /^[a-zA-Z][a-zA-Z0-9\-]*$/.test(tag);
-  }
-  var SPECIAL_ATTRS = /* @__PURE__ */ new Set([
-    "dangerouslySetInnerHTML"
-  ]);
-  function isValidAttr(name, value) {
-    return value !== false && value !== void 0 && value !== null && !SPECIAL_ATTRS.has(name) && /^[a-zA-Z][a-zA-Z0-9\-]*$/.test(name);
-  }
-
-  // https://deno.land/x/jsx_stream@v0.0.7/_internal/stream_element.ts
-  function* streamElement(tag, props) {
+  // https://deno.land/x/jsx_stream@v0.0.10/_internal/stream_element.ts
+  function* streamElement(tagName, props) {
     const { children, ...attrs } = props && typeof props === "object" ? props : {};
     const awaitedAttrs = awaitedProps(attrs);
     if (isPromiseLike(awaitedAttrs)) {
       yield awaitedAttrs.then((attrs2) => {
-        return streamElement(tag, { children, attrs: attrs2 });
+        return streamElement(tagName, { children, attrs: attrs2 });
       });
     } else {
-      let attrStr = "";
-      for (const [name, value] of Object.entries(awaitedAttrs)) {
-        if (isValidAttr(name, value)) {
-          attrStr += ` ${name}`;
-          if (value !== true) {
-            attrStr += `="${escape2(value)}"`;
-          }
-        }
-      }
-      if (isVoidElement(tag)) {
-        yield safe(`<${tag}${attrStr}/>`);
+      if (isVoidElement(tagName)) {
+        yield voidTag(tagName, awaitedAttrs);
       } else {
-        yield safe(`<${tag}${attrStr}>`);
+        yield openTag(tagName, awaitedAttrs);
         const __html = awaitedAttrs.dangerouslySetInnerHTML?.__html;
         if (typeof __html === "string") {
           yield safe(__html);
         } else {
           yield* streamFragment(children);
         }
-        yield safe(`</${tag}>`);
+        yield closeTag(tagName);
       }
     }
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.7/_internal/stream_unknown.ts
+  // https://deno.land/x/jsx_stream@v0.0.10/_internal/stream_unknown.ts
   async function* streamUnknown(type) {
     console.warn(`Unknown JSX type: ${type}`);
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.7/jsx-runtime.ts
+  // https://deno.land/x/jsx_stream@v0.0.10/jsx-runtime.ts
   function jsx(type, props) {
     try {
       if (typeof type === "function") {
@@ -1269,7 +1357,7 @@
     return bodyInit instanceof FormData || bodyInit instanceof URLSearchParams;
   }
 
-  // https://deno.land/std@0.192.0/http/http_status.ts
+  // https://deno.land/std@0.193.0/http/http_status.ts
   var STATUS_TEXT = {
     [202 /* Accepted */]: "Accepted",
     [208 /* AlreadyReported */]: "Already Reported",
@@ -1396,7 +1484,90 @@
     return async (req, data) => handler(req, await mapper(req, data));
   }
 
+  // lib/tag_hooks/inject.tsx
+  var recordScript = {
+    "script": {
+      afterEnd: (tag, context) => {
+        if (typeof tag.attributes?.src === "string") {
+          context.scripts.add(tag.attributes.src);
+        }
+      }
+    }
+  };
+  var recordStylesheet = {
+    "link": {
+      afterEnd: (tag, context) => {
+        console.log("LINK", tag);
+        if (tag.attributes?.rel === "stylesheet" && typeof tag.attributes?.href === "string") {
+          context.stylesheets.add(tag.attributes.href);
+        }
+      }
+    }
+  };
+  function inject(fn, place = "beforeStart") {
+    return {
+      [place]: function* (tag, context) {
+        const injections = fn(tag);
+        for (const url of asArray(injections.stylesheet)) {
+          if (!context.stylesheets.has(url)) {
+            yield /* @__PURE__ */ jsx("link", { rel: "stylesheet", href: url });
+          }
+        }
+        for (const url of asArray(injections.module)) {
+          if (!context.scripts.has(url)) {
+            yield /* @__PURE__ */ jsx("script", { type: "module", src: url });
+          }
+        }
+        for (const url of asArray(injections.script)) {
+          if (!context.scripts.has(url)) {
+            yield /* @__PURE__ */ jsx("script", { src: url });
+          }
+        }
+      }
+    };
+  }
+  function asArray(value) {
+    return Array.isArray(value) ? value : value !== void 0 ? [value] : [];
+  }
+
+  // lib/tag_hooks/material_design.ts
+  var mdComponents = {
+    "md-tab": "tabs/tab"
+    // TODO: add more mappings as necessary
+  };
+  function materialDesign() {
+    return {
+      ...recordScript,
+      "md-*": inject((tag) => {
+        const component = tag.tagName.replace(/^md-/, "");
+        const componentPath = mdComponents[tag.tagName] ?? `${component}/${component}`;
+        return {
+          module: `https://esm.sh/@material/web/${componentPath}.js`
+        };
+      })
+    };
+  }
+
+  // lib/tag_hooks/shoelace.ts
+  function shoelace() {
+    return {
+      ...recordScript,
+      ...recordStylesheet,
+      "sl-*": inject(() => ({
+        stylesheet: "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.5.2/cdn/themes/light.css",
+        module: "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.5.2/cdn/shoelace-autoloader.js"
+      }))
+    };
+  }
+
   // config.ts
+  var PAGE_RENDER_OPTIONS = {
+    deferredTimeout: 10,
+    tagHandlers: {
+      ...materialDesign(),
+      ...shoelace()
+    }
+  };
   var FRAGMENT_RENDER_OPTIONS = {
     deferredTimeout: false
   };

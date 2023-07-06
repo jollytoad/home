@@ -5,7 +5,7 @@ import { FRAGMENT_RENDER_OPTIONS, PAGE_RENDER_OPTIONS } from "@/config.ts";
 import type { ComponentType } from "$jsx/types.ts";
 
 export interface RequestProps {
-  req?: Request;
+  req: Request;
 }
 
 export interface RouteProps extends RequestProps {

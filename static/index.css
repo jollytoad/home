@@ -55,3 +55,8 @@ header {
 #result.result {
   color: green;
 }
+
+.ex-swap {
+  font-size: small;
+  font-weight: normal;
+}
