@@ -18,7 +18,3 @@ export const PAGE_RENDER_OPTIONS: RenderOptions = {
     ...patternFlyElements(),
   },
 };
-
-export const FRAGMENT_RENDER_OPTIONS: RenderOptions = {
-  deferredTimeout: false,
-};

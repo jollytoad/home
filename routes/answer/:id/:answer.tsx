@@ -1,4 +1,4 @@
-import { handleFragment } from "@/lib/route.ts";
+import { handleFragment } from "@/lib/handle_fragment.ts";
 import { QuizAnswer } from "@/components/QuizAnswer.tsx";
 import { notFound } from "$http_fns/response.ts";
 

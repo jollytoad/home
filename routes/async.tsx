@@ -1,7 +1,7 @@
 import { Page } from "@/components/Page.tsx";
 import { Delayed } from "@/components/Delayed.tsx";
 import { Trickled } from "@/components/Trickled.tsx";
-import { handlePage } from "@/lib/route.ts";
+import { handlePage } from "@/lib/handle_page.ts";
 
 export default handlePage(({ req }) => (
   <Page req={req} module={import.meta.url}>

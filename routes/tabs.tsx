@@ -1,9 +1,7 @@
 import { Page } from "@/components/Page.tsx";
-import { handlePage, RouteProps } from "@/lib/route.ts";
+import { handlePage } from "@/lib/handle_page.ts";
 
-export default handlePage(HomePage);
-
-export function HomePage({ req }: RouteProps) {
+export default handlePage(({ req }) => {
   return (
     <Page req={req} module={import.meta.url}>
       <h1>Web Components</h1>
@@ -122,4 +120,4 @@ export function HomePage({ req }: RouteProps) {
       </vaadin-tabs>
     </Page>
   );
-}
+});

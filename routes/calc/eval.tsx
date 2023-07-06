@@ -1,4 +1,4 @@
-import { handleFragment } from "@/lib/route.ts";
+import { handleFragment } from "@/lib/handle_fragment.ts";
 import { Evaluate, evaluatePropsFrom } from "@/components/Evaluate.tsx";
 
 export default handleFragment(({ req }) => {
