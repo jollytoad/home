@@ -9,7 +9,7 @@
     "mkcert": "mkcert -install -key-file localhost-key.pem -cert-file localhost-cert.pem localhost",
     "deploy": "deno run --allow-net --allow-read --allow-write --allow-env https://deno.land/x/deploy@1.7.0/deployctl.ts deploy --import-map=deno.json --project=jollytoad --exclude=.env,localhost-cert.pem,localhost-key.pem,scripts main.ts",
     "check": "deno fmt && deno lint && deno --unstable check **/*.ts",
-    "lock": "rm deno.lock && deno check main.ts"
+    "lock": "rm -f deno.lock && deno check main.ts"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
@@ -25,9 +25,9 @@
     "$std/": "https://deno.land/std@0.193.0/",
     "https://deno.land/std@0.192.0/": "https://deno.land/std@0.193.0/",
     "https://deno.land/std@0.161.0/encoding/base64.ts": "https://deno.land/std@0.193.0/encoding/base64.ts",
-    "$http_fns/": "https://deno.land/x/http_fns@v0.0.15/",
+    "$http_fns/": "https://deno.land/x/http_fns@v0.0.17/",
     "$http_render_fns/": "https://deno.land/x/http_render_fns@v0.0.4/",
-    "$ahx_fns/": "https://deno.land/x/ahx_fns@v0.0.10/",
+    "$ahx_fns/": "https://deno.land/x/ahx_fns@v0.0.11/",
     "$jsx/": "https://deno.land/x/jsx_stream@v0.0.10/",
     "$jsx/jsx-runtime": "https://deno.land/x/jsx_stream@v0.0.10/jsx-runtime.ts",
     "$deno_kv_oauth/": "https://deno.land/x/deno_kv_oauth@v0.2.6/src/",
