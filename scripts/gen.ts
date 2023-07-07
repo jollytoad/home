@@ -1,12 +1,19 @@
 import { GenerateOptions, generateRoutesModule } from "$http_fns/generate.ts";
 
-function generateRoutes(dynamic: GenerateOptions["dynamic"] = "lazy") {
+const defaultOpts: GenerateOptions = {
+  routeDiscovery: "static",
+  moduleImports: "dynamic",
+};
+
+function generateRoutes(opts: GenerateOptions = defaultOpts) {
+  console.debug("Generating routes:", opts);
+
   return generateRoutesModule(
     "/",
     import.meta.resolve("@/routes"),
     import.meta.resolve("@/routes.ts"),
     {
-      dynamic,
+      ...opts,
       httpFns: "$http_fns/",
     },
   );
