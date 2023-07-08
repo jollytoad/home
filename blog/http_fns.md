@@ -8,8 +8,13 @@ henceforth Oak deal with it via middleware routers.
 I don't see the need to create an Application or Router object and start
 registering routes, when you could just compose functions.
 
-The Deno HTTP server takes a simple Request -> Response handler function, so why
-not embrace this and compose your handler from more functions.
+The Deno [HTTP server][serve] takes a simple [Request] -> [Response] [handler]
+function, so why not embrace this and compose your handler from more functions.
+
+[serve]: https://deno.land/manual/runtime/http_server_apis
+[Request]: https://developer.mozilla.org/en-US/docs/Web/API/Request
+[Response]: https://developer.mozilla.org/en-US/docs/Web/API/Response
+[handler]: https://deno.land/api?s=Deno.ServeHandler
 
 I started building up some simple functions to handle routing, and it eventually
 grew into quite a collection. All functions exist in their own module, so you
@@ -22,13 +27,15 @@ The library can be found at: https://deno.land/x/http_fns
 First, a quick reminder of the basic Deno Hello World server...
 
 ```ts
-Deno.serve((req: Request) => {
+Deno.serve((_req: Request) => {
   return new Response("Hello World");
 });
 ```
 
-You can copy and paste this, and all later examples directly into the Deno REPL
-and have a running server at http://localhost:8000.
+You can copy and paste this, and all later examples directly into the Deno
+[REPL] and have a running server at http://localhost:8000.
+
+[REPL]: https://deno.land/manual/tools/repl
 
 ## URLPattern matching
 
@@ -51,6 +58,8 @@ Deno.serve(withFallback(
 
 I'll come to `withFallback` in a minute, but first we'll look at `byPattern`.
 
+### [byPattern](https://deno.land/x/http_fns/pattern.ts?s=byPattern)
+
 ```ts
 function byPattern(pattern, handler): Handler;
 ```
@@ -58,9 +67,11 @@ function byPattern(pattern, handler): Handler;
 This takes a route pattern as the first arg, which may be:
 
 - a plain `string`, which will just attempt to match the path of the URL,
-- a `URLPatternInit`, the input object to `new URLPattern(...)`
+- a [URLPatternInit], the input object to `new URLPattern(...)`
 - a pre-constructed [URLPattern]
 - or an array of any of these, to match multiple routes with one handler
+
+[URLPatternInit]: https://deno.land/api?s=URLPatternInit
 
 > NOTE: a plain `string` is the equivalent of
 > `new URLPattern({ pathname: ... }))`, rather than `new URLPattern(...)`, which
@@ -88,6 +99,8 @@ into `withFallback`.
 Which, you guessed it, returns a guaranteed fallback Response, should the given
 handler return a `null`.
 
+### [withFallback](https://deno.land/x/http_fns/fallback.ts?s=withFallback)
+
 ```ts
 function withFallback(primaryHandler, fallbackHandler?): Handler;
 ```
@@ -104,6 +117,8 @@ have the ability for a handler skip, we can combine several `byPattern` handlers
 into a cascading delegation. ie. attempt handler 1, then 2, then 3, etc.
 
 For this we can use `cascade`...
+
+### [cascade](https://deno.land/x/http_fns/cascade.ts?s=cascade)
 
 ```ts
 function cascade(...handlers): Handler;
@@ -134,6 +149,8 @@ Deno.serve(withFallback(
 
 I found this `cascade`/`withFallback` combination quite common, and so also
 provide the `handle` function as a shortcut...
+
+### [handle](https://deno.land/x/http_fns/handle.ts?s=handle)
 
 ```ts
 function handle(handlers, fallbackHandler?): Handler;
@@ -167,11 +184,10 @@ support HEAD and OPTIONS with grace too, and maybe respond with a
 `405 Method Not Allowed` for unsupported methods. This is all common behaviour
 that is neatly dealt with by the `byMethod` function.
 
+### [byMethod](https://deno.land/x/http_fns/method.ts?s=byMethod)
+
 ```ts
-function byMethod(
-  methodHandlers: Record<Method, Handler>,
-  fallbackHandler?,
-): Handle;
+function byMethod(methodHandlers, fallbackHandler?): Handler;
 ```
 
 The first arg is an object of handler per method.
@@ -231,6 +247,8 @@ declare a set of qualified preferences.
 So `byMediaType` supports both at the same time (although extension support is
 optional).
 
+### [byMediaType](https://deno.land/x/http_fns/media_type.ts?s=byMediaType)
+
 ```ts
 function byMediaType(mediaTypeHandlers, fallbackExt?, fallbackAccept?): Handler;
 ```
@@ -287,22 +305,25 @@ An explicit extension will always override the `Accept` header.
 [typesByExtension]: https://deno.land/std/media_types/type_by_extension.ts?s=typeByExtension
 [accepts]: https://deno.land/std/http/negotiation.ts?s=accepts
 
-## More to come
+## And there's more...
 
 I'll leave it here for now, but there are a lot more functions in the library,
 including:
 
-- Response shortcuts
-- Request helpers
-- Interceptors (aspect oriented middleware)
-- CORS support
-- Logging
-- Lazy module loading handler
-- Filesystem based routing, including static code generation, and dynamic
-  routing
-- Static file serving
-- Data argument mapping
-- Content rendering (in a separate library)
+- [Response shortcuts](https://deno.land/x/http_fns/response.ts)
+- [Request helpers](https://deno.land/x/http_fns/request.ts)
+- [Interceptors](https://deno.land/x/http_fns/intercept.ts) (aspect oriented
+  middleware)
+- [CORS support](https://deno.land/x/http_fns/cors.ts?s=cors)
+- [Logging](https://deno.land/x/http_fns/logger.ts)
+- [Lazy module loading handler](https://deno.land/x/http_fns/lazy.ts?s=lazy)
+- Filesystem based routing, including static
+  [code generation](https://deno.land/x/http_fns/generate.ts?s=generateRoutesModule),
+  and [dynamic routing](https://deno.land/x/http_fns/dynamic.ts?s=dynamicRoute)
+- [Static file serving](https://deno.land/x/http_fns/static.ts?s=staticRoute)
+- [Data argument mapping](https://deno.land/x/http_fns/map.ts?s=mapData)
+- [Content rendering](https://deno.land/x/http_render_fns) (in a separate
+  library)
 
 All of these are based on simple Request -> Response (possibly skipping)
 functions, and could therefore be mixed with any other server framework that you
