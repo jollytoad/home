@@ -302,7 +302,7 @@ It uses [typeByExtension] to link the matched `:ext` to the media-type, and
 
 An explicit extension will always override the `Accept` header.
 
-[typesByExtension]: https://deno.land/std/media_types/type_by_extension.ts?s=typeByExtension
+[typeByExtension]: https://deno.land/std/media_types/type_by_extension.ts?s=typeByExtension
 [accepts]: https://deno.land/std/http/negotiation.ts?s=accepts
 
 ## And there's more...
