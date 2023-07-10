@@ -20,9 +20,9 @@ export default handlePage(({ req }) => {
         </li>
       </ul>
 
-      <hr />
-
       <Markdown url="@/blog/index.md" />
+
+      <Markdown url="@/blog/links.md" />
     </Page>
   );
 });

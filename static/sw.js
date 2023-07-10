@@ -1,11 +1,11 @@
 (() => {
-  // https://deno.land/x/http_fns@v0.0.19/pattern.ts
+  // https://deno.land/x/http_fns@v0.0.20/pattern.ts
   function byPattern(pattern, handler) {
     return async (req, ..._args) => {
       const patterns = Array.isArray(pattern) ? pattern : [pattern];
       const url = new URL(req.url);
       for (const pattern2 of patterns) {
-        const match = typeof pattern2 === "string" ? new URLPattern({ pathname: pattern2 }).exec(url) : pattern2 instanceof URLPattern ? pattern2.exec(url) : new URLPattern(pattern2).exec(url);
+        const match = asURLPattern(pattern2).exec(url);
         if (match) {
           const res = await handler(req, match);
           if (res) {
@@ -16,8 +16,11 @@
       return null;
     };
   }
+  function asURLPattern(pattern) {
+    return typeof pattern === "string" ? new URLPattern({ pathname: pattern }) : pattern instanceof URLPattern ? pattern : new URLPattern(pattern);
+  }
 
-  // https://deno.land/x/http_fns@v0.0.19/cascade.ts
+  // https://deno.land/x/http_fns@v0.0.20/cascade.ts
   function cascade(...handlers) {
     return async (req, ...args) => {
       for (const handler of handlers) {
@@ -644,7 +647,7 @@
     [506 /* VariantAlsoNegotiates */]: "Variant Also Negotiates"
   };
 
-  // https://deno.land/x/http_fns@v0.0.19/response.ts
+  // https://deno.land/x/http_fns@v0.0.20/response.ts
   function response(status, body, headers) {
     return new Response(body, {
       status,
@@ -661,7 +664,7 @@
     return errorResponse(null, 405 /* MethodNotAllowed */);
   }
 
-  // https://deno.land/x/http_fns@v0.0.19/method.ts
+  // https://deno.land/x/http_fns@v0.0.20/method.ts
   function byMethod(handlers, fallback = () => methodNotAllowed()) {
     const defaultHandlers = {
       OPTIONS: optionsHandler(handlers)
@@ -700,7 +703,7 @@
     return response2 ? new Response(null, response2) : response2;
   };
 
-  // https://deno.land/x/http_fns@v0.0.19/map.ts
+  // https://deno.land/x/http_fns@v0.0.20/map.ts
   function mapData(mapper, handler) {
     return async (req, data) => handler(req, await mapper(req, data));
   }
@@ -829,7 +832,7 @@
     return evalRPN(toRPN(tokenize(input)));
   }
 
-  // https://deno.land/x/http_fns@v0.0.19/request.ts
+  // https://deno.land/x/http_fns@v0.0.20/request.ts
   function getSearchValues(input) {
     const searchParams = input instanceof Request ? new URL(input.url).searchParams : input instanceof URL ? input.searchParams : input instanceof URLSearchParams ? input : input && "search" in input && "input" in input.search ? new URLSearchParams(input.search.input) : void 0;
     return (param, separator) => {
