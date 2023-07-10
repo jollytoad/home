@@ -28,7 +28,7 @@
     "$std/": "https://deno.land/std@0.193.0/",
     "https://deno.land/std@0.192.0/": "https://deno.land/std@0.193.0/",
     "https://deno.land/std@0.161.0/encoding/base64.ts": "https://deno.land/std@0.193.0/encoding/base64.ts",
-    "$http_fns/": "https://deno.land/x/http_fns@v0.0.19/",
+    "$http_fns/": "https://deno.land/x/http_fns@v0.0.20/",
     "$http_render_fns/": "https://deno.land/x/http_render_fns@v0.0.4/",
     "$ahx_fns/": "https://deno.land/x/ahx_fns@v0.0.10/",
     "$jsx/": "https://deno.land/x/jsx_stream@v0.0.10/",
