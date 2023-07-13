@@ -1,5 +1,4 @@
-import { serve } from "$ahx_fns/http/server.ts";
 import handler from "@/handler.ts";
-import init from "@/init.ts";
+import init from "$http_fns/hosting/deploy.ts";
 
-await serve(handler, init);
+await Deno.serve(await init(handler)).finished;

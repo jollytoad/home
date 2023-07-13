@@ -1,22 +1,28 @@
 import { GenerateOptions, generateRoutesModule } from "$http_fns/generate.ts";
 
-const defaultOpts: GenerateOptions = {
+type Opts = Pick<
+  GenerateOptions,
+  "routeDiscovery" | "moduleImports" | "verbose"
+>;
+
+const defaultOpts: Opts = {
   routeDiscovery: "static",
   moduleImports: "dynamic",
+  verbose: true,
 };
 
-function generateRoutes(opts: GenerateOptions = defaultOpts) {
+function generateRoutes(opts: Opts = defaultOpts) {
   console.debug("Generating routes:", opts);
 
-  return generateRoutesModule(
-    "/",
-    import.meta.resolve("@/routes"),
-    import.meta.resolve("@/routes.ts"),
-    {
-      ...opts,
-      httpFns: "$http_fns/",
-    },
-  );
+  return generateRoutesModule({
+    pattern: "/",
+    fileRootUrl: import.meta.resolve("@/routes"),
+    moduleOutUrl: import.meta.resolve("@/routes.ts"),
+    pathMapper: "$http_fns/fresh/path_mapper.ts",
+    routeMapper: "@/lib/route_mapper.ts",
+    httpFns: "$http_fns/",
+    ...opts,
+  });
 }
 
 export default generateRoutes;

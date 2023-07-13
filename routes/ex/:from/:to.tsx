@@ -1,1 +1,1 @@
-export { default } from "@/routes/ex.tsx";
+export { default } from "../index.tsx";

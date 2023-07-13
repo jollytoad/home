@@ -1,10 +1,10 @@
 import { renderHTML } from "$http_render_fns/render_html.tsx";
 import { byMethod } from "$http_fns/method.ts";
-import { mapData } from "$http_fns/map.ts";
 import type { ComponentType } from "$jsx/types.ts";
-import { asRouteProps, type RouteProps } from "@/lib/route.ts";
+import type { RouteProps } from "@/lib/route.ts";
 import { PAGE_RENDER_OPTIONS } from "@/config_page.ts";
 import { FRAGMENT_RENDER_OPTIONS } from "@/config_fragment.ts";
+import { CustomHandler } from "$http_fns/types.ts";
 
 /**
  * Basic GET request handler that renders a HTML full page component,
@@ -15,22 +15,26 @@ export function handlePage(
   headers?: Record<string, string>,
 ) {
   return byMethod({
-    GET: mapData(
-      asRouteProps,
-      (req, match) => {
-        let options = req.headers.has("HX-Request")
-          ? FRAGMENT_RENDER_OPTIONS
-          : PAGE_RENDER_OPTIONS;
-
-        const deferredTimeout = getDeferredTimeout(req);
-        if (deferredTimeout !== undefined) {
-          options = { ...options, deferredTimeout };
-        }
-
-        return renderHTML(Component, headers, options)(req, match);
-      },
-    ),
+    GET: renderPage(Component, headers),
   });
+}
+
+export function renderPage(
+  Component: ComponentType<RouteProps>,
+  headers?: Record<string, string>,
+): CustomHandler<[URLPatternResult]> {
+  return (req, match) => {
+    let options = req.headers.has("HX-Request")
+      ? FRAGMENT_RENDER_OPTIONS
+      : PAGE_RENDER_OPTIONS;
+
+    const deferredTimeout = getDeferredTimeout(req);
+    if (deferredTimeout !== undefined) {
+      options = { ...options, deferredTimeout };
+    }
+
+    return renderHTML(Component, headers, options)(req, { req, match });
+  };
 }
 
 function getDeferredTimeout(req: Request): number | false | undefined {
