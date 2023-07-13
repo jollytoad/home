@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Jollytoad</title><link rel="stylesheet" href="https://unpkg.com/missing.css@1.0.9/dist/missing.min.css"/><link rel="stylesheet" href="/prism.css"/><link rel="stylesheet" href="/index.css"/><script src="https://unpkg.com/htmx.org@1.9.2" integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h" crossorigin="anonymous" async></script><script src="/app.js" type="module"></script></head><body><header><h1><a href="/">The home of Jollytoad</a></h1></header><main><h1>Useful functions for a HTTP server</h1>
+<p>I&#39;ve always considered HTTP to be a function, Request in, Response out.</p>
+<p>I&#39;ve never really warmed to the way Node frameworks such as Express, Koa, and
+henceforth Oak deal with it via middleware routers.</p>
+<p>I don&#39;t see the need to create an Application or Router object and start
+registering routes, when you could just compose functions.</p>
+<p>The Deno <a href="https://deno.land/manual/runtime/http_server_apis">HTTP server</a> takes a simple <a href="https://developer.mozilla.org/en-US/docs/Web/API/Request">Request</a> -&gt; <a href="https://developer.mozilla.org/en-US/docs/Web/API/Response">Response</a> <a href="https://deno.land/api?s=Deno.ServeHandler">handler</a>
+function, so why not embrace this and compose your handler from more functions.</p>
+<p>I started building up some simple functions to handle routing, and it eventually
+grew into quite a collection. All functions exist in their own module, so you
+only import the features you actually need.</p>
+<p>The library can be found at: <a href="https://deno.land/x/http_fns">https://deno.land/x/http_fns</a></p>
+<h2>Server</h2>
+<p>First, a quick reminder of the basic Deno Hello World server...</p>
+<pre><code class="language-ts">Deno.serve((_req: Request) =&gt; {
+  return new Response(&quot;Hello World&quot;);
+});
+</code></pre>
+<p>You can copy and paste this, and all later examples directly into the Deno
+<a href="https://deno.land/manual/tools/repl">REPL</a> and have a running server at <a href="http://localhost:8000">http://localhost:8000</a>.</p>
+<h2>URLPattern matching</h2>
+<p>First thing we usually need to do is select a handler based upon the URL path,
+or seeing as Deno provides us with the standard <a href="https://developer.mozilla.org/en-US/docs/Web/API/URLPattern">URLPattern</a>, we&#39;ll make use of
+that.</p>
+<pre><code class="language-ts">import { byPattern } from &quot;https://deno.land/x/http_fns/pattern.ts&quot;;
+import { withFallback } from &quot;https://deno.land/x/http_fns/fallback.ts&quot;;
+
+Deno.serve(withFallback(
+  byPattern(&quot;/:path*&quot;, (_req, match) =&gt; {
+    return new Response(`You are at ${match.pathname.groups.path}`);
+  }),
+));
+</code></pre>
+<p>I&#39;ll come to <code>withFallback</code> in a minute, but first we&#39;ll look at <code>byPattern</code>.</p>
+<h3><a href="https://deno.land/x/http_fns/pattern.ts?s=byPattern">byPattern</a></h3>
+<pre><code class="language-ts">function byPattern(pattern, handler): Handler;
+</code></pre>
+<p>This takes a route pattern as the first arg, which may be:</p>
+<ul>
+<li>a plain <code>string</code>, which will just attempt to match the path of the URL,</li>
+<li>a <a href="https://deno.land/api?s=URLPatternInit">URLPatternInit</a>, the input object to <code>new URLPattern(...)</code></li>
+<li>a pre-constructed <a href="https://developer.mozilla.org/en-US/docs/Web/API/URLPattern">URLPattern</a></li>
+<li>or an array of any of these, to match multiple routes with one handler</li>
+</ul>
+<blockquote>
+<p>NOTE: a plain <code>string</code> is the equivalent of
+<code>new URLPattern({ pathname: ... }))</code>, rather than <code>new URLPattern(...)</code>, which
+matches the entire URL which is generally not what you want required.</p>
+</blockquote>
+<p><code>byPattern</code> returns a Request handler that attempts to match the Request URL
+against the given route pattern.</p>
+<p>If it matches, the handler passed in the second arg of <code>byPattern</code> is called, if
+it doesn&#39;t then <code>null</code> is returned to indicate handling has been skipped.</p>
+<h2>Skipping/Delegated handling</h2>
+<p>This &#39;skipping&#39; concept extends the standard Deno handler contract, but it&#39;s
+what will allow us to compose handlers and delegate handling.</p>
+<p>In an ideal world this skip indicator would be represented by a new type or
+symbol, but JS being what it is, <code>null</code> is a reasonable pragmatic choice. It
+means you have to explicitly skip by returning <code>null</code>, and not just an implicit
+<code>undefined</code>.</p>
+<p>But, Deno.serve will error if the handler returns <code>null</code>, and so we lead neatly
+into <code>withFallback</code>.</p>
+<p>Which, you guessed it, returns a guaranteed fallback Response, should the given
+handler return a <code>null</code>.</p>
+<h3><a href="https://deno.land/x/http_fns/fallback.ts?s=withFallback">withFallback</a></h3>
+<pre><code class="language-ts">function withFallback(primaryHandler, fallbackHandler?): Handler;
+</code></pre>
+<p><code>withFallback</code> returns a Request handler, that will first call the
+<code>primaryHandler</code>, if that skips, it will then call <code>fallbackHandler</code>, that MUST
+return a Response (it cannot skip). The default <code>fallbackHandler</code> returns a
+<code>404 Not Found</code> response.</p>
+<h2>Cascading handlers</h2>
+<p>We&#39;ll probably want to handle multiple routes with multiple handlers, and as we
+have the ability for a handler skip, we can combine several <code>byPattern</code> handlers
+into a cascading delegation. ie. attempt handler 1, then 2, then 3, etc.</p>
+<p>For this we can use <code>cascade</code>...</p>
+<h3><a href="https://deno.land/x/http_fns/cascade.ts?s=cascade">cascade</a></h3>
+<pre><code class="language-ts">function cascade(...handlers): Handler;
+</code></pre>
+<p><code>cascade</code> attempts each handler arg in turn until one returns a Response and
+doesn&#39;t skip, otherwise it will also skip, and so <code>withFallback</code> is required to
+handle that still.</p>
+<pre><code class="language-ts">import { byPattern } from &quot;https://deno.land/x/http_fns/pattern.ts&quot;;
+import { withFallback } from &quot;https://deno.land/x/http_fns/fallback.ts&quot;;
+import { cascade } from &quot;https://deno.land/x/http_fns/cascade.ts&quot;;
+
+Deno.serve(withFallback(
+  cascade(
+    byPattern(&quot;/hello&quot;, () =&gt; {
+      return new Response(&quot;Hello world&quot;);
+    }),
+    byPattern(&quot;/:path*&quot;, (_req, match) =&gt; {
+      return new Response(`You are ${match.pathname.groups.path}`);
+    }),
+  ),
+));
+</code></pre>
+<h2>Cascading with fallback shortcut</h2>
+<p>I found this <code>cascade</code>/<code>withFallback</code> combination quite common, and so also
+provide the <code>handle</code> function as a shortcut...</p>
+<h3><a href="https://deno.land/x/http_fns/handle.ts?s=handle">handle</a></h3>
+<pre><code class="language-ts">function handle(handlers, fallbackHandler?): Handler;
+</code></pre>
+<p>The main difference, is that the handlers are passed in an array, to allow a
+fallback to be optionally provided.</p>
+<pre><code class="language-ts">import { handle } from &quot;https://deno.land/x/http_fns/handle.ts&quot;;
+import { byPattern } from &quot;https://deno.land/x/http_fns/pattern.ts&quot;;
+
+Deno.serve(handle([
+  byPattern(&quot;/hello&quot;, () =&gt; {
+    return new Response(&quot;Hello world&quot;);
+  }),
+  byPattern(&quot;/:path*&quot;, (_req, match) =&gt; {
+    return new Response(`You are ${match.pathname.groups.path}`);
+  }),
+]));
+</code></pre>
+<h2>Method handling</h2>
+<p>Quite often your routes will only serve a limited set of methods, maybe just a
+GET, maybe also a PUT or POST, but you&#39;d probably want to handle those
+differently.</p>
+<p>You could just switch on the method within the handler, but you may also want to
+support HEAD and OPTIONS with grace too, and maybe respond with a
+<code>405 Method Not Allowed</code> for unsupported methods. This is all common behaviour
+that is neatly dealt with by the <code>byMethod</code> function.</p>
+<h3><a href="https://deno.land/x/http_fns/method.ts?s=byMethod">byMethod</a></h3>
+<pre><code class="language-ts">function byMethod(methodHandlers, fallbackHandler?): Handler;
+</code></pre>
+<p>The first arg is an object of handler per method.</p>
+<pre><code class="language-ts">import { handle } from &quot;https://deno.land/x/http_fns/handle.ts&quot;;
+import { byPattern } from &quot;https://deno.land/x/http_fns/pattern.ts&quot;;
+import { byMethod } from &quot;https://deno.land/x/http_fns/method.ts&quot;;
+
+Deno.serve(handle([
+  byPattern(
+    &quot;/hello&quot;,
+    byMethod({
+      GET: () =&gt; {
+        return new Response(&quot;Hello world&quot;);
+      },
+    }),
+  ),
+  byPattern(
+    &quot;/:path*&quot;,
+    byMethod({
+      GET: (_req, match) =&gt; {
+        return new Response(`GET from ${match.pathname.groups.path}`);
+      },
+      PUT: (_req, match) =&gt; {
+        return new Response(`PUT to ${match.pathname.groups.path}`);
+      },
+    }),
+  ),
+]));
+</code></pre>
+<p>If a <code>GET</code> method handler is provided, then a default <code>HEAD</code> handler will also
+be derived that calls the GET handler but discards the body of the Response.</p>
+<p>Also, a default <code>OPTIONS</code> handler is also derived that responds with the
+implemented methods.</p>
+<p>These defaults can be overridden by explicitly including the methods with
+handlers in the object.</p>
+<p>The <code>fallbackHandler</code> will be called for any method not explicitly given or
+implicitly derived, this defaults a <code>405 Method Not Allowed</code>.</p>
+<h2>Media Type variants</h2>
+<p>Another common pattern in serving HTTP, is to provide variant Responses based on
+the URL path extension or an <code>Accept</code> header.</p>
+<p>For example: <code>/hello.txt</code>, <code>/hello.html</code>, or <code>Accept: text/plain</code>,
+<code>Accept: text/html</code>.</p>
+<p>It&#39;s common to allow users to explicitly choose a type via a URL extension in a
+browser, as well as supporting <code>Accept</code> header for browsers or other clients to
+declare a set of qualified preferences.</p>
+<p>So <code>byMediaType</code> supports both at the same time (although extension support is
+optional).</p>
+<h3><a href="https://deno.land/x/http_fns/media_type.ts?s=byMediaType">byMediaType</a></h3>
+<pre><code class="language-ts">function byMediaType(mediaTypeHandlers, fallbackExt?, fallbackAccept?): Handler;
+</code></pre>
+<pre><code class="language-ts">import { handle } from &quot;https://deno.land/x/http_fns/handle.ts&quot;;
+import { byPattern } from &quot;https://deno.land/x/http_fns/pattern.ts&quot;;
+import { byMethod } from &quot;https://deno.land/x/http_fns/method.ts&quot;;
+import { byMediaType } from &quot;https://deno.land/x/http_fns/media_type.ts&quot;;
+
+Deno.serve(handle([
+  byPattern(
+    &quot;/hello{.:ext}?&quot;,
+    byMethod({
+      GET: byMediaType({
+        &quot;text/plain&quot;: () =&gt; {
+          return new Response(&quot;Hello world&quot;);
+        },
+        &quot;text/html&quot;: () =&gt; {
+          return new Response(
+            &quot;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello world&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&quot;,
+            {
+              headers: {
+                &quot;Content-Type&quot;: &quot;text/html&quot;,
+              },
+            },
+          );
+        },
+      }),
+    }),
+  ),
+]));
+</code></pre>
+<p>Try hitting the following URLs:</p>
+<ul>
+<li><a href="http://localhost:8000/hello">http://localhost:8000/hello</a></li>
+<li><a href="http://localhost:8000/hello.html">http://localhost:8000/hello.html</a></li>
+<li><a href="http://localhost:8000/hello.txt">http://localhost:8000/hello.txt</a></li>
+<li><a href="http://localhost:8000/hello.js">http://localhost:8000/hello.js</a></li>
+</ul>
+<p>Extension support is optional and enabled only if a path group of the URLPattern
+is named <code>ext</code>, so you&#39;ll generally want to add <code>{.:ext}</code> (extension is
+required) or <code>{.:ext}?</code> (extension is optional) to the end of your route
+pattern.</p>
+<p>The handlers are indexed by the usual two-part media type identifier.</p>
+<p>It uses <a href="https://deno.land/std/media_types/type_by_extension.ts?s=typeByExtension">typeByExtension</a> to link the matched <code>:ext</code> to the media-type, and
+<a href="https://deno.land/std/http/negotiation.ts?s=accepts">accepts</a> to determine the most appropriate handler from an <code>Accept</code> header.</p>
+<p>An explicit extension will always override the <code>Accept</code> header.</p>
+<h2>And there&#39;s more...</h2>
+<p>I&#39;ll leave it here for now, but there are a lot more functions in the library,
+including:</p>
+<ul>
+<li><a href="https://deno.land/x/http_fns/response.ts">Response shortcuts</a></li>
+<li><a href="https://deno.land/x/http_fns/request.ts">Request helpers</a></li>
+<li><a href="https://deno.land/x/http_fns/intercept.ts">Interceptors</a> (aspect oriented
+middleware)</li>
+<li><a href="https://deno.land/x/http_fns/cors.ts?s=cors">CORS support</a></li>
+<li><a href="https://deno.land/x/http_fns/logger.ts">Logging</a></li>
+<li><a href="https://deno.land/x/http_fns/lazy.ts?s=lazy">Lazy module loading handler</a></li>
+<li>Filesystem based routing, including static
+<a href="https://deno.land/x/http_fns/generate.ts?s=generateRoutesModule">code generation</a>,
+and <a href="https://deno.land/x/http_fns/dynamic.ts?s=dynamicRoute">dynamic routing</a></li>
+<li><a href="https://deno.land/x/http_fns/static.ts?s=staticRoute">Static file serving</a></li>
+<li><a href="https://deno.land/x/http_fns/map.ts?s=mapData">Data argument mapping</a></li>
+<li><a href="https://deno.land/x/http_render_fns">Content rendering</a> (in a separate
+library)</li>
+</ul>
+<p>All of these are based on simple Request -&gt; Response (possibly skipping)
+functions, and could therefore be mixed with any other server framework that you
+want.</p><script src="/prism.js" async></script></main><footer><div class="src"><a href="https://github.com/jollytoad/home/blob/main/routes/blog/http_fns.md" target="_blank">View source on GitHub</a></div><div>©️ 2023 Mark Gibson</div></footer></body></html>
