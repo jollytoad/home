@@ -13,6 +13,7 @@ export function Page({ req, children, reqURL, module, ...props }: Props) {
   return reqURL ? <>{children}</> : (
     <html lang="en-GB">
       <head>
+        <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Jollytoad</title>
         <link
