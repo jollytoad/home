@@ -778,15 +778,15 @@
   };
   globalThis.URLPattern || (globalThis.URLPattern = J);
 
-  // https://deno.land/x/http_fns@v0.0.21/pattern.ts
+  // https://deno.land/x/http_fns@v0.0.22/pattern.ts
   function byPattern(pattern, handler) {
-    return async (req, ..._args) => {
+    return async (req, ...args) => {
       const patterns = Array.isArray(pattern) ? pattern : [pattern];
       const url = new URL(req.url);
       for (const pattern2 of patterns) {
         const match = asURLPattern(pattern2).exec(url);
         if (match) {
-          const res = await handler(req, match);
+          const res = await handler(req, match, ...args);
           if (res) {
             return res;
           }
@@ -799,7 +799,7 @@
     return typeof pattern === "string" ? new URLPattern({ pathname: pattern }) : pattern instanceof URLPattern ? pattern : new URLPattern(pattern);
   }
 
-  // https://deno.land/x/http_fns@v0.0.21/cascade.ts
+  // https://deno.land/x/http_fns@v0.0.22/cascade.ts
   function cascade(...handlers) {
     return async (req, ...args) => {
       for (const handler of handlers) {
@@ -837,7 +837,7 @@
     return typeof value?.[Symbol.asyncIterator] === "function";
   }
 
-  // https://deno.land/std@0.193.0/html/entities.ts
+  // https://deno.land/std@0.194.0/html/entities.ts
   var rawToEntityEntries = [
     ["&", "&amp;"],
     ["<", "&lt;"],
@@ -935,7 +935,7 @@
     return token;
   }
 
-  // https://deno.land/std@0.193.0/async/delay.ts
+  // https://deno.land/std@0.194.0/async/delay.ts
   function delay(ms, options = {}) {
     const { signal, persistent } = options;
     if (signal?.aborted) {
@@ -965,7 +965,7 @@
     });
   }
 
-  // https://deno.land/std@0.193.0/async/deferred.ts
+  // https://deno.land/std@0.194.0/async/deferred.ts
   function deferred() {
     let methods;
     let state = "pending";
@@ -987,7 +987,7 @@
     return Object.assign(promise, methods);
   }
 
-  // https://deno.land/std@0.193.0/async/mux_async_iterator.ts
+  // https://deno.land/std@0.194.0/async/mux_async_iterator.ts
   var MuxAsyncIterator = class {
     #iteratorCount = 0;
     #yields = [];
@@ -1178,7 +1178,7 @@
     }
   }
 
-  // https://deno.land/std@0.193.0/streams/readable_stream_from_iterable.ts
+  // https://deno.land/std@0.194.0/streams/readable_stream_from_iterable.ts
   function readableStreamFromIterable(iterable) {
     const iterator = iterable[Symbol.asyncIterator]?.() ?? iterable[Symbol.iterator]?.();
     return new ReadableStream({
@@ -1360,7 +1360,7 @@
     return bodyInit instanceof FormData || bodyInit instanceof URLSearchParams;
   }
 
-  // https://deno.land/std@0.193.0/http/http_status.ts
+  // https://deno.land/std@0.194.0/http/http_status.ts
   var STATUS_TEXT = {
     [202 /* Accepted */]: "Accepted",
     [208 /* AlreadyReported */]: "Already Reported",
@@ -1426,7 +1426,7 @@
     [506 /* VariantAlsoNegotiates */]: "Variant Also Negotiates"
   };
 
-  // https://deno.land/x/http_fns@v0.0.21/response.ts
+  // https://deno.land/x/http_fns@v0.0.22/response.ts
   function response(status, body, headers) {
     return new Response(body, {
       status,
@@ -1443,7 +1443,7 @@
     return errorResponse(null, 405 /* MethodNotAllowed */);
   }
 
-  // https://deno.land/x/http_fns@v0.0.21/method.ts
+  // https://deno.land/x/http_fns@v0.0.22/method.ts
   function byMethod(handlers, fallback = () => methodNotAllowed()) {
     const defaultHandlers = {
       OPTIONS: optionsHandler(handlers)
@@ -1482,7 +1482,7 @@
     return response2 ? new Response(null, response2) : response2;
   };
 
-  // https://deno.land/x/http_fns@v0.0.21/map.ts
+  // https://deno.land/x/http_fns@v0.0.22/map.ts
   function mapData(mapper, handler) {
     return async (req, data) => handler(req, await mapper(req, data));
   }
@@ -1611,7 +1611,7 @@
     return evalRPN(toRPN(tokenize(input)));
   }
 
-  // https://deno.land/x/http_fns@v0.0.21/request.ts
+  // https://deno.land/x/http_fns@v0.0.22/request.ts
   function getSearchValues(input) {
     const searchParams = input instanceof Request ? new URL(input.url).searchParams : input instanceof URL ? input.searchParams : input instanceof URLSearchParams ? input : input && "search" in input && "input" in input.search ? new URLSearchParams(input.search.input) : void 0;
     return (param, separator) => {

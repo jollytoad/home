@@ -4,7 +4,6 @@ import type { ComponentType } from "$jsx/types.ts";
 import type { RouteProps } from "@/lib/route.ts";
 import { PAGE_RENDER_OPTIONS } from "@/config_page.ts";
 import { FRAGMENT_RENDER_OPTIONS } from "@/config_fragment.ts";
-import { CustomHandler } from "$http_fns/types.ts";
 
 /**
  * Basic GET request handler that renders a HTML full page component,
@@ -22,8 +21,8 @@ export function handlePage(
 export function renderPage(
   Component: ComponentType<RouteProps>,
   headers?: Record<string, string>,
-): CustomHandler<[URLPatternResult]> {
-  return (req, match) => {
+) {
+  return (req: Request, match: URLPatternResult) => {
     let options = req.headers.has("HX-Request")
       ? FRAGMENT_RENDER_OPTIONS
       : PAGE_RENDER_OPTIONS;
