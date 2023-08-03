@@ -11,7 +11,7 @@ export default cascade(
   byPattern("/ex/:from/:to", lazy(() => import("./routes/ex/:from/:to.tsx"))),
   byPattern("/ex", lazy(() => import("./routes/ex/index.tsx"))),
   byPattern("/calc/eval", lazy(() => import("./routes/calc/eval.tsx"))),
-  byPattern("/calc", lazy(() => import("./routes/calc.tsx"))),
+  byPattern("/calc", lazy(() => import("./routes/calc/index.tsx"))),
   byPattern(["/blog/md{.:ext}?","/blog/links{.:ext}?","/blog/jsx_streaming{.:ext}?","/blog/index{.:ext}","/blog/http_fns{.:ext}?","/blog"], lazy(() => import("./lib/handle_route_md.tsx"))),
   byPattern("/async", lazy(() => import("./routes/async.tsx"))),
   byPattern("/answer/:id/:answer", lazy(() => import("./routes/answer/:id/:answer.tsx"))),

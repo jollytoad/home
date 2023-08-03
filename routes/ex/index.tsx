@@ -36,4 +36,6 @@ export default handlePage(({ req, match }) => {
       </Page>
     );
   }
+}, {
+  Vary: "HX-Target",
 });
