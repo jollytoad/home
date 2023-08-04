@@ -310,8 +310,8 @@ An explicit extension will always override the `Accept` header.
 I'll leave it here for now, but there are a lot more functions in the library,
 including:
 
-- [Response shortcuts](https://deno.land/x/http_fns/response.ts)
-- [Request helpers](https://deno.land/x/http_fns/request.ts)
+- [Response shortcuts](https://deno.land/x/http_fns/response)
+- [Request helpers](https://deno.land/x/http_fns/request)
 - [Interceptors](https://deno.land/x/http_fns/intercept.ts) (aspect oriented
   middleware)
 - [CORS support](https://deno.land/x/http_fns/cors.ts?s=cors)

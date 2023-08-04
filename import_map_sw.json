@@ -1,0 +1,10 @@
+{
+  "imports": {
+    "@/": "./",
+    "$http_fns/": "https://deno.land/x/http_fns@v0.0.23/",
+    "$http_render_fns/": "https://deno.land/x/http_render_fns@v0.0.5/",
+    "$jsx/": "https://deno.land/x/jsx_stream@v0.0.11/",
+    "$jsx/jsx-runtime": "https://deno.land/x/jsx_stream@v0.0.11/jsx-runtime.ts",
+    "$jsx/serialize.ts": "https://deno.land/x/jsx_stream@v0.0.11/serialize_sw.ts"
+  }
+}

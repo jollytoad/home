@@ -5,6 +5,9 @@ import { cascade } from "$http_fns/cascade.ts";
 import { lazy } from "$http_fns/lazy.ts";
 
 export default cascade(
+  byPattern("/todo/:listId/:itemId", lazy(() => import("./routes/todo/:listId/:itemId.tsx"))),
+  byPattern("/todo/:listId", lazy(() => import("./routes/todo/:listId/index.tsx"))),
+  byPattern("/todo", lazy(() => import("./routes/todo/index.ts"))),
   byPattern("/tabs", lazy(() => import("./routes/tabs.tsx"))),
   byPattern("/sleep", lazy(() => import("./routes/sleep.ts"))),
   byPattern("/quiz", lazy(() => import("./routes/quiz.tsx"))),

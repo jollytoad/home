@@ -1,6 +1,5 @@
-import { delay } from "$std/async/delay.ts";
 import { evaluate } from "@/lib/evaluate.js";
-import { getSearchValues } from "$http_fns/request.ts";
+import { getSearchValues } from "$http_fns/request/search_values.ts";
 
 interface Props {
   expr: string;
@@ -10,7 +9,7 @@ export async function Evaluate({ expr }: Props) {
   if (expr) {
     console.log("Calculating...", expr);
 
-    await delay(1);
+    await new Promise((resolve) => setTimeout(resolve, 1));
 
     try {
       const result = evaluate(expr);

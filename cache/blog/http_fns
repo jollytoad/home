@@ -222,8 +222,8 @@ pattern.</p>
 <p>I&#39;ll leave it here for now, but there are a lot more functions in the library,
 including:</p>
 <ul>
-<li><a href="https://deno.land/x/http_fns/response.ts">Response shortcuts</a></li>
-<li><a href="https://deno.land/x/http_fns/request.ts">Request helpers</a></li>
+<li><a href="https://deno.land/x/http_fns/response">Response shortcuts</a></li>
+<li><a href="https://deno.land/x/http_fns/request">Request helpers</a></li>
 <li><a href="https://deno.land/x/http_fns/intercept.ts">Interceptors</a> (aspect oriented
 middleware)</li>
 <li><a href="https://deno.land/x/http_fns/cors.ts?s=cors">CORS support</a></li>

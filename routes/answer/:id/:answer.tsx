@@ -1,6 +1,6 @@
 import { handleFragment } from "@/lib/handle_fragment.ts";
 import { QuizAnswer } from "@/components/QuizAnswer.tsx";
-import { notFound } from "$http_fns/response.ts";
+import { notFound } from "$http_fns/response/not_found.ts";
 
 export default handleFragment(
   async function AnswerResult({ match }) {

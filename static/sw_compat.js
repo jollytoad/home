@@ -778,7 +778,7 @@
   };
   globalThis.URLPattern || (globalThis.URLPattern = J);
 
-  // https://deno.land/x/http_fns@v0.0.22/pattern.ts
+  // https://deno.land/x/http_fns@v0.0.23/pattern.ts
   function byPattern(pattern, handler) {
     return async (req, ...args) => {
       const patterns = Array.isArray(pattern) ? pattern : [pattern];
@@ -799,7 +799,7 @@
     return typeof pattern === "string" ? new URLPattern({ pathname: pattern }) : pattern instanceof URLPattern ? pattern : new URLPattern(pattern);
   }
 
-  // https://deno.land/x/http_fns@v0.0.22/cascade.ts
+  // https://deno.land/x/http_fns@v0.0.23/cascade.ts
   function cascade(...handlers) {
     return async (req, ...args) => {
       for (const handler of handlers) {
@@ -812,18 +812,7 @@
     };
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.10/_internal/defer.ts
-  function defaultPlaceholder(id) {
-    return `<span id="${id}"></span>`;
-  }
-  async function* defaultSubstitution(id, children) {
-    yield `<template id="_${id}">`;
-    yield* children;
-    yield `</template>`;
-    yield `<script>document.getElementById("${id}").outerHTML = document.getElementById("_${id}").innerHTML;<\/script>`;
-  }
-
-  // https://deno.land/x/jsx_stream@v0.0.10/guards.ts
+  // https://deno.land/x/jsx_stream@v0.0.11/guards.ts
   function isPrimitiveValue(value) {
     return typeof value === "string" || typeof value === "number" || typeof value === "boolean" || typeof value === "bigint";
   }
@@ -837,7 +826,7 @@
     return typeof value?.[Symbol.asyncIterator] === "function";
   }
 
-  // https://deno.land/std@0.194.0/html/entities.ts
+  // https://deno.land/std@0.197.0/html/entities.ts
   var rawToEntityEntries = [
     ["&", "&amp;"],
     ["<", "&lt;"],
@@ -856,7 +845,7 @@
     return str.replaceAll(rawRe, (m) => rawToEntity.get(m));
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.10/_internal/util.ts
+  // https://deno.land/x/jsx_stream@v0.0.11/_internal/util.ts
   var VOID_ELEMENTS = /* @__PURE__ */ new Set([
     "area",
     "base",
@@ -888,7 +877,7 @@
     /^[^\u0000-\u001F\u007F-\u009F\s"'>/=\uFDD0-\uFDEF\p{NChar}]+$/u.test(name);
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.10/_internal/token.ts
+  // https://deno.land/x/jsx_stream@v0.0.11/_internal/token.ts
   var _Token = class extends String {
     kind;
     tagName;
@@ -935,121 +924,14 @@
     return token;
   }
 
-  // https://deno.land/std@0.194.0/async/delay.ts
-  function delay(ms, options = {}) {
-    const { signal, persistent } = options;
-    if (signal?.aborted) {
-      return Promise.reject(new DOMException("Delay was aborted.", "AbortError"));
-    }
-    return new Promise((resolve, reject) => {
-      const abort = () => {
-        clearTimeout(i);
-        reject(new DOMException("Delay was aborted.", "AbortError"));
-      };
-      const done = () => {
-        signal?.removeEventListener("abort", abort);
-        resolve();
-      };
-      const i = setTimeout(done, ms);
-      signal?.addEventListener("abort", abort, { once: true });
-      if (persistent === false) {
-        try {
-          Deno.unrefTimer(i);
-        } catch (error) {
-          if (!(error instanceof ReferenceError)) {
-            throw error;
-          }
-          console.error("`persistent` option is only available in Deno");
-        }
-      }
-    });
-  }
-
-  // https://deno.land/std@0.194.0/async/deferred.ts
-  function deferred() {
-    let methods;
-    let state = "pending";
-    const promise = new Promise((resolve, reject) => {
-      methods = {
-        async resolve(value) {
-          await value;
-          state = "fulfilled";
-          resolve(value);
-        },
-        // deno-lint-ignore no-explicit-any
-        reject(reason) {
-          state = "rejected";
-          reject(reason);
-        }
-      };
-    });
-    Object.defineProperty(promise, "state", { get: () => state });
-    return Object.assign(promise, methods);
-  }
-
-  // https://deno.land/std@0.194.0/async/mux_async_iterator.ts
-  var MuxAsyncIterator = class {
-    #iteratorCount = 0;
-    #yields = [];
-    // deno-lint-ignore no-explicit-any
-    #throws = [];
-    #signal = deferred();
-    add(iterable) {
-      ++this.#iteratorCount;
-      this.#callIteratorNext(iterable[Symbol.asyncIterator]());
-    }
-    async #callIteratorNext(iterator) {
-      try {
-        const { value, done } = await iterator.next();
-        if (done) {
-          --this.#iteratorCount;
-        } else {
-          this.#yields.push({ iterator, value });
-        }
-      } catch (e) {
-        this.#throws.push(e);
-      }
-      this.#signal.resolve();
-    }
-    async *iterate() {
-      while (this.#iteratorCount > 0) {
-        await this.#signal;
-        for (let i = 0; i < this.#yields.length; i++) {
-          const { iterator, value } = this.#yields[i];
-          yield value;
-          this.#callIteratorNext(iterator);
-        }
-        if (this.#throws.length) {
-          for (const e of this.#throws) {
-            throw e;
-          }
-          this.#throws.length = 0;
-        }
-        this.#yields.length = 0;
-        this.#signal = deferred();
-      }
-    }
-    [Symbol.asyncIterator]() {
-      return this.iterate();
-    }
-  };
-
-  // https://deno.land/x/jsx_stream@v0.0.10/_internal/stream_node.ts
+  // https://deno.land/x/jsx_stream@v0.0.11/_internal/stream_node_sw.ts
   async function* streamNode(node, options) {
-    const deferredTimeout = asSafeInteger(options?.deferredTimeout);
-    const streamDelay2 = asSafeInteger(options?.streamDelay);
-    const renderPlaceholder = asFunction(options?.deferredPlaceholder) ?? defaultPlaceholder;
-    const renderSubstitution = asFunction(options?.deferredSubstitution) ?? defaultSubstitution;
-    const deferrals = new MuxAsyncIterator();
     const tagStack = [];
     const context = {
       scripts: /* @__PURE__ */ new Set(),
       stylesheets: /* @__PURE__ */ new Set()
     };
     yield* streamNode_(node);
-    for await (const deferredStream of deferrals) {
-      yield* deferredStream;
-    }
     async function* streamNode_(node2) {
       if (isTag(node2, "open")) {
         tagStack.unshift([node2, []]);
@@ -1088,32 +970,15 @@
       } else if (typeof node2 === "string") {
         console.warn("%cWARNING: raw string detected:", "color: red", node2);
       } else if (isPromiseLike(node2)) {
-        const awaited = await timeout(node2, deferredTimeout);
-        if (awaited) {
-          yield* streamNode_(awaited);
-        } else {
-          yield defer(node2);
-        }
+        yield* streamNode_(await node2);
       } else if (isIterable(node2)) {
         for (const child of node2) {
           yield* streamNode_(child);
         }
       } else if (isAsyncIterable(node2)) {
-        if (deferredTimeout) {
-          yield* streamNode_(firstNodeIteration(node2));
-        } else {
-          for await (const child of node2) {
-            yield* streamNode_(child);
-          }
+        for await (const child of node2) {
+          yield* streamNode_(child);
         }
-      } else if (isNodeIteration(node2)) {
-        if (!node2.done) {
-          yield* streamNode_(node2.value);
-          yield* streamNode_(nextNodeIteration(node2.iterator));
-        }
-      }
-      if (streamDelay2) {
-        await delay(streamDelay2);
       }
     }
     async function* applyTagHooks(place, tag, tokens) {
@@ -1138,91 +1003,24 @@
         }
       }
     }
-    function defer(node2) {
-      const id = crypto.randomUUID();
-      deferrals.add(renderDeferred(id, node2));
-      return renderPlaceholder(id);
-    }
-    async function* renderDeferred(id, deferred2) {
-      const node2 = await deferred2;
-      yield renderSubstitution(id, streamNode_(node2));
-    }
-  }
-  function asSafeInteger(value) {
-    return Number.isSafeInteger(value) ? value : void 0;
   }
   function asFunction(fn) {
     return typeof fn === "function" ? fn : void 0;
   }
-  function firstNodeIteration(iterable) {
-    return nextNodeIteration(iterable[Symbol.asyncIterator]());
-  }
-  async function nextNodeIteration(iterator) {
-    const result = await iterator.next();
-    return {
-      ...result,
-      iterator
-    };
-  }
-  function isNodeIteration(node) {
-    return typeof node?.iterator?.next === "function";
-  }
-  function timeout(value, deferredTimeout) {
-    if (deferredTimeout) {
-      return Promise.race([
-        value,
-        delay(deferredTimeout)
-      ]);
-    } else {
-      return value;
-    }
-  }
 
-  // https://deno.land/std@0.194.0/streams/readable_stream_from_iterable.ts
-  function readableStreamFromIterable(iterable) {
-    const iterator = iterable[Symbol.asyncIterator]?.() ?? iterable[Symbol.iterator]?.();
-    return new ReadableStream({
-      async pull(controller) {
-        const { value, done } = await iterator.next();
-        if (done) {
-          controller.close();
-        } else {
-          controller.enqueue(value);
-        }
-      },
-      async cancel(reason) {
-        if (typeof iterator.throw == "function") {
-          try {
-            await iterator.throw(reason);
-          } catch {
-          }
-        }
-      }
-    });
-  }
-
-  // https://deno.land/x/jsx_stream@v0.0.10/serialize.ts
+  // https://deno.land/x/jsx_stream@v0.0.11/serialize_sw.ts
   function renderBody(node, options) {
-    return readableStreamFromIterable(streamNode(node, options)).pipeThrough(
+    return ReadableStream.from(streamNode(node, options)).pipeThrough(
       new TextEncoderStream()
     );
   }
 
-  // https://deno.land/x/http_render_fns@v0.0.4/response.ts
-  function ok(body, headers) {
-    return new Response(body, {
-      status: body ? 200 : 204,
-      statusText: body ? "OK" : "No Content",
-      headers
-    });
-  }
-
-  // https://deno.land/x/jsx_stream@v0.0.10/_internal/stream_component.ts
+  // https://deno.land/x/jsx_stream@v0.0.11/_internal/stream_component.ts
   function streamComponent(component, props) {
     return component(props);
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.10/_internal/awaited_props.ts
+  // https://deno.land/x/jsx_stream@v0.0.11/_internal/awaited_props.ts
   function awaitedProps(props) {
     const promisedEntries = [];
     for (const [name, value] of Object.entries(props)) {
@@ -1240,7 +1038,7 @@
     }
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.10/_internal/stream_fragment.ts
+  // https://deno.land/x/jsx_stream@v0.0.11/_internal/stream_fragment.ts
   function* streamFragment(children) {
     if (isSafe(children)) {
       yield children;
@@ -1261,7 +1059,7 @@
     }
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.10/_internal/stream_element.ts
+  // https://deno.land/x/jsx_stream@v0.0.11/_internal/stream_element.ts
   function* streamElement(tagName, props) {
     const { children, ...attrs } = props && typeof props === "object" ? props : {};
     const awaitedAttrs = awaitedProps(attrs);
@@ -1285,12 +1083,12 @@
     }
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.10/_internal/stream_unknown.ts
+  // https://deno.land/x/jsx_stream@v0.0.11/_internal/stream_unknown.ts
   async function* streamUnknown(type) {
     console.warn(`Unknown JSX type: ${type}`);
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.10/jsx-runtime.ts
+  // https://deno.land/x/jsx_stream@v0.0.11/jsx-runtime.ts
   function jsx(type, props) {
     try {
       if (typeof type === "function") {
@@ -1306,7 +1104,7 @@
     }
   }
 
-  // https://deno.land/x/http_render_fns@v0.0.4/render_html.tsx
+  // https://deno.land/x/http_render_fns@v0.0.5/render_html.tsx
   var DOCTYPE = "<!DOCTYPE html>\n";
   var ENCODED_DOCTYPE = new TextEncoder().encode(DOCTYPE);
   var streamDelay = 0;
@@ -1316,7 +1114,11 @@
       const vnode = /* @__PURE__ */ jsx(Component, { ...props });
       let bodyInit = await renderBody(vnode, options);
       if (isData(bodyInit)) {
-        return ok(bodyInit, headers);
+        return new Response(bodyInit, {
+          status: 200,
+          statusText: "OK",
+          headers
+        });
       } else if (isStream(bodyInit)) {
         const reader = bodyInit.getReader();
         bodyInit = new ReadableStream({
@@ -1343,9 +1145,13 @@
         ]);
         logTiming("Blob");
       }
-      return ok(bodyInit, {
-        "Content-Type": "text/html; charset=utf-8",
-        ...headers
+      return new Response(bodyInit, {
+        status: 200,
+        statusText: "OK",
+        headers: {
+          "Content-Type": "text/html; charset=utf-8",
+          ...headers
+        }
       });
       function logTiming(note) {
         const end = performance.now();
@@ -1360,90 +1166,23 @@
     return bodyInit instanceof FormData || bodyInit instanceof URLSearchParams;
   }
 
-  // https://deno.land/std@0.194.0/http/http_status.ts
-  var STATUS_TEXT = {
-    [202 /* Accepted */]: "Accepted",
-    [208 /* AlreadyReported */]: "Already Reported",
-    [502 /* BadGateway */]: "Bad Gateway",
-    [400 /* BadRequest */]: "Bad Request",
-    [409 /* Conflict */]: "Conflict",
-    [100 /* Continue */]: "Continue",
-    [201 /* Created */]: "Created",
-    [103 /* EarlyHints */]: "Early Hints",
-    [417 /* ExpectationFailed */]: "Expectation Failed",
-    [424 /* FailedDependency */]: "Failed Dependency",
-    [403 /* Forbidden */]: "Forbidden",
-    [302 /* Found */]: "Found",
-    [504 /* GatewayTimeout */]: "Gateway Timeout",
-    [410 /* Gone */]: "Gone",
-    [505 /* HTTPVersionNotSupported */]: "HTTP Version Not Supported",
-    [226 /* IMUsed */]: "IM Used",
-    [507 /* InsufficientStorage */]: "Insufficient Storage",
-    [500 /* InternalServerError */]: "Internal Server Error",
-    [411 /* LengthRequired */]: "Length Required",
-    [423 /* Locked */]: "Locked",
-    [508 /* LoopDetected */]: "Loop Detected",
-    [405 /* MethodNotAllowed */]: "Method Not Allowed",
-    [421 /* MisdirectedRequest */]: "Misdirected Request",
-    [301 /* MovedPermanently */]: "Moved Permanently",
-    [207 /* MultiStatus */]: "Multi Status",
-    [300 /* MultipleChoices */]: "Multiple Choices",
-    [511 /* NetworkAuthenticationRequired */]: "Network Authentication Required",
-    [204 /* NoContent */]: "No Content",
-    [203 /* NonAuthoritativeInfo */]: "Non Authoritative Info",
-    [406 /* NotAcceptable */]: "Not Acceptable",
-    [510 /* NotExtended */]: "Not Extended",
-    [404 /* NotFound */]: "Not Found",
-    [501 /* NotImplemented */]: "Not Implemented",
-    [304 /* NotModified */]: "Not Modified",
-    [200 /* OK */]: "OK",
-    [206 /* PartialContent */]: "Partial Content",
-    [402 /* PaymentRequired */]: "Payment Required",
-    [308 /* PermanentRedirect */]: "Permanent Redirect",
-    [412 /* PreconditionFailed */]: "Precondition Failed",
-    [428 /* PreconditionRequired */]: "Precondition Required",
-    [102 /* Processing */]: "Processing",
-    [407 /* ProxyAuthRequired */]: "Proxy Auth Required",
-    [413 /* RequestEntityTooLarge */]: "Request Entity Too Large",
-    [431 /* RequestHeaderFieldsTooLarge */]: "Request Header Fields Too Large",
-    [408 /* RequestTimeout */]: "Request Timeout",
-    [414 /* RequestURITooLong */]: "Request URI Too Long",
-    [416 /* RequestedRangeNotSatisfiable */]: "Requested Range Not Satisfiable",
-    [205 /* ResetContent */]: "Reset Content",
-    [303 /* SeeOther */]: "See Other",
-    [503 /* ServiceUnavailable */]: "Service Unavailable",
-    [101 /* SwitchingProtocols */]: "Switching Protocols",
-    [418 /* Teapot */]: "I'm a teapot",
-    [307 /* TemporaryRedirect */]: "Temporary Redirect",
-    [425 /* TooEarly */]: "Too Early",
-    [429 /* TooManyRequests */]: "Too Many Requests",
-    [401 /* Unauthorized */]: "Unauthorized",
-    [451 /* UnavailableForLegalReasons */]: "Unavailable For Legal Reasons",
-    [422 /* UnprocessableEntity */]: "Unprocessable Entity",
-    [415 /* UnsupportedMediaType */]: "Unsupported Media Type",
-    [426 /* UpgradeRequired */]: "Upgrade Required",
-    [305 /* UseProxy */]: "Use Proxy",
-    [506 /* VariantAlsoNegotiates */]: "Variant Also Negotiates"
-  };
-
-  // https://deno.land/x/http_fns@v0.0.22/response.ts
-  function response(status, body, headers) {
-    return new Response(body, {
+  // https://deno.land/x/http_fns@v0.0.23/response/plain_error.ts
+  function plainError(status, statusText, message) {
+    return new Response(message ?? statusText, {
       status,
-      statusText: STATUS_TEXT[status],
-      headers
+      statusText,
+      headers: {
+        "Content-Type": "text/plain"
+      }
     });
-  }
-  function errorResponse(message, status = 400 /* BadRequest */) {
-    return response(status, message ?? STATUS_TEXT[status], {
-      "Content-Type": "text/plain"
-    });
-  }
-  function methodNotAllowed() {
-    return errorResponse(null, 405 /* MethodNotAllowed */);
   }
 
-  // https://deno.land/x/http_fns@v0.0.22/method.ts
+  // https://deno.land/x/http_fns@v0.0.23/response/method_not_allowed.ts
+  function methodNotAllowed(message) {
+    return plainError(405, "Method Not Allowed", message);
+  }
+
+  // https://deno.land/x/http_fns@v0.0.23/method.ts
   function byMethod(handlers, fallback = () => methodNotAllowed()) {
     const defaultHandlers = {
       OPTIONS: optionsHandler(handlers)
@@ -1478,11 +1217,11 @@
     };
   }
   var headHandler = (handler) => async (req, ...args) => {
-    const response2 = await handler(req, ...args);
-    return response2 ? new Response(null, response2) : response2;
+    const response = await handler(req, ...args);
+    return response ? new Response(null, response) : response;
   };
 
-  // https://deno.land/x/http_fns@v0.0.22/map.ts
+  // https://deno.land/x/http_fns@v0.0.23/map.ts
   function mapData(mapper, handler) {
     return async (req, data) => handler(req, await mapper(req, data));
   }
@@ -1611,7 +1350,7 @@
     return evalRPN(toRPN(tokenize(input)));
   }
 
-  // https://deno.land/x/http_fns@v0.0.22/request.ts
+  // https://deno.land/x/http_fns@v0.0.23/request/search_values.ts
   function getSearchValues(input) {
     const searchParams = input instanceof Request ? new URL(input.url).searchParams : input instanceof URL ? input.searchParams : input instanceof URLSearchParams ? input : input && "search" in input && "input" in input.search ? new URLSearchParams(input.search.input) : void 0;
     return (param, separator) => {
@@ -1625,7 +1364,7 @@
   async function Evaluate({ expr }) {
     if (expr) {
       console.log("Calculating...", expr);
-      await delay(1);
+      await new Promise((resolve) => setTimeout(resolve, 1));
       try {
         const result = evaluate(expr);
         console.log("The answer is:", result);
@@ -1660,9 +1399,9 @@
   console.log("SERVICE WORKER");
   self.addEventListener("fetch", async (event) => {
     console.log("FETCH");
-    const response2 = await routes_default(event.request);
-    if (response2) {
-      event.respondWith(response2);
+    const response = await routes_default(event.request);
+    if (response) {
+      event.respondWith(response);
     }
   });
 })();

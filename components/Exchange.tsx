@@ -1,4 +1,4 @@
-import { getSearchValues } from "$http_fns/request.ts";
+import { getSearchValues } from "$http_fns/request/search_values.ts";
 
 interface Props {
   id: string;

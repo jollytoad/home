@@ -4,8 +4,13 @@ import type {
 } from "$http_fns/discover_routes.ts";
 
 export default function routeMapper(
-  { name, ext, pattern, module }: DiscoveredPath,
+  { parentPath, name, ext, pattern, module }: DiscoveredPath,
 ): DiscoveredRoute[] {
+  // Skip any route that has a path segment that starts with an underscore
+  if (name.startsWith("_") || /[/\\]_/.test(parentPath)) {
+    return [];
+  }
+
   switch (ext) {
     case ".ts":
     case ".tsx":

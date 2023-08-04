@@ -7,7 +7,7 @@ import oauth2 from "@/handlers/oauth2.ts";
 export default handle([
   interceptResponse(
     staticRoute("/", import.meta.resolve("@/cache")),
-    skip(404),
+    skip(404, 405),
   ),
   oauth2,
   routes,

@@ -3,7 +3,7 @@ import { gfm } from "https://esm.sh/micromark-extension-gfm@2.0.3";
 import { gfmFromMarkdown } from "https://esm.sh/mdast-util-gfm@2.0.2";
 import { toHast } from "https://esm.sh/mdast-util-to-hast@12.3.0";
 import {
-  Options,
+  type Options,
   toJsxRuntime,
 } from "https://esm.sh/hast-util-to-jsx-runtime@1.2.0";
 import { raw } from "https://esm.sh/hast-util-raw@8.0.0";

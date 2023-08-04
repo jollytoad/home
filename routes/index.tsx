@@ -18,6 +18,9 @@ export default handlePage(({ req }) => {
         <li>
           <a href="/tabs">Web Components demo</a>
         </li>
+        <li>
+          <a href="/todo">Todo List demo</a>
+        </li>
       </ul>
 
       <Markdown url="@/routes/blog/index.md" />

@@ -64,3 +64,8 @@ footer .src {
   font-size: small;
   font-weight: normal;
 }
+
+.todo-item * {
+  display: inline;
+  margin: 2px 4px;
+}

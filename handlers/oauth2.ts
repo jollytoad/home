@@ -1,7 +1,8 @@
 import { cascade } from "$http_fns/cascade.ts";
 import { byPattern } from "$http_fns/pattern.ts";
 import { byMethod } from "$http_fns/method.ts";
-import { badRequest, notFound } from "$http_fns/response.ts";
+import { badRequest } from "$http_fns/response/bad_request.ts";
+import { notFound } from "$http_fns/response/not_found.ts";
 import { signIn } from "$deno_kv_oauth/sign_in.ts";
 import { signOut } from "$deno_kv_oauth/sign_out.ts";
 import { handleCallback as handleCallback_ } from "$deno_kv_oauth/handle_callback.ts";
