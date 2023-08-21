@@ -25,9 +25,9 @@ const results = pooledMap(4, cached_routes, async (route) => {
     const response = await handler(new Request(url, reqInit));
 
     if (response.ok && response.status === 200 && response.body) {
-      const file = `./cache${route}`;
+      const file = `./cache${route === "/" ? "/index.html" : route}`;
       await ensureDir(dirname(file));
-      await Deno.writeFile(`./cache${route}`, response.body);
+      await Deno.writeFile(file, response.body);
       return file;
     }
   } catch (e) {

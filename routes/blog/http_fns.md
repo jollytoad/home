@@ -328,3 +328,10 @@ including:
 All of these are based on simple Request -> Response (possibly skipping)
 functions, and could therefore be mixed with any other server framework that you
 want.
+
+## Discussion
+
+If you'd like to ask a question or discuss this blog further please use the
+GitHub [discussion].
+
+[discussion]: https://github.com/jollytoad/home/discussions/2

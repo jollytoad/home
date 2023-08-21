@@ -163,4 +163,7 @@ future.</p>
 <p><a href="https://deno.land/x/jsx_stream">jsx_stream</a> is available as a Deno module, you can find the source on
 <a href="https://github.com/jollytoad/deno_jsx_stream">GitHub</a>.</p>
 <p>NOTE: It&#39;s still fairly experimental, lacking docs, and hasn&#39;t been tested for
-many edge cases, but it does power this website.</p><script src="/prism.js" async></script></main><footer><div class="src"><a href="https://github.com/jollytoad/home/blob/main/routes/blog/jsx_streaming.md" target="_blank">View source on GitHub</a></div><div>©️ 2023 Mark Gibson</div></footer></body></html>
+many edge cases, but it does power this website.</p>
+<h2>Discussion</h2>
+<p>If you&#39;d like to ask a question or discuss this blog further please use the
+GitHub <a href="https://github.com/jollytoad/home/discussions/1">discussion</a>.</p><script src="/prism.js" async></script></main><footer><div class="src"><a href="https://github.com/jollytoad/home/blob/main/routes/blog/jsx_streaming.md" target="_blank">View source on GitHub</a></div><div>©️ 2023 Mark Gibson</div></footer></body></html>

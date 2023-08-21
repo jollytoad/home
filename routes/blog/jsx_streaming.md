@@ -235,3 +235,10 @@ NOTE: It's still fairly experimental, lacking docs, and hasn't been tested for
 many edge cases, but it does power this website.
 
 [src]: https://github.com/jollytoad/deno_jsx_stream
+
+## Discussion
+
+If you'd like to ask a question or discuss this blog further please use the
+GitHub [discussion].
+
+[discussion]: https://github.com/jollytoad/home/discussions/1

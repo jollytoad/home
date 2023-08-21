@@ -239,4 +239,7 @@ library)</li>
 </ul>
 <p>All of these are based on simple Request -&gt; Response (possibly skipping)
 functions, and could therefore be mixed with any other server framework that you
-want.</p><script src="/prism.js" async></script></main><footer><div class="src"><a href="https://github.com/jollytoad/home/blob/main/routes/blog/http_fns.md" target="_blank">View source on GitHub</a></div><div>©️ 2023 Mark Gibson</div></footer></body></html>
+want.</p>
+<h2>Discussion</h2>
+<p>If you&#39;d like to ask a question or discuss this blog further please use the
+GitHub <a href="https://github.com/jollytoad/home/discussions/2">discussion</a>.</p><script src="/prism.js" async></script></main><footer><div class="src"><a href="https://github.com/jollytoad/home/blob/main/routes/blog/http_fns.md" target="_blank">View source on GitHub</a></div><div>©️ 2023 Mark Gibson</div></footer></body></html>
