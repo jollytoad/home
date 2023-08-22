@@ -1,3 +1,7 @@
+ul a, h1 a {
+  text-decoration: none;
+}
+
 header {
   display: flex;
   justify-content: space-between;
@@ -41,6 +45,7 @@ footer .src {
   border-radius: 1em;
   padding: 0.5em 1em;
   margin: 1ex 0;
+  font-size: inherit;
 }
 
 .quiz .answer button.correct {

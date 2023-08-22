@@ -18,7 +18,7 @@ export function Page({ req, children, reqURL, module, ...props }: Props) {
         <title>Jollytoad</title>
         <link
           rel="stylesheet"
-          href="https://unpkg.com/missing.css@1.0.9/dist/missing.min.css"
+          href="https://unpkg.com/missing.css@1.0.13/dist/missing.min.css"
         />
         <link rel="stylesheet" href="/prism.css" />
         <link rel="stylesheet" href="/index.css" />
