@@ -24,10 +24,15 @@ export function Page({ req, children, reqURL, module, ...props }: Props) {
         <link rel="stylesheet" href="/index.css" />
 
         <script
-          src="https://unpkg.com/htmx.org@1.9.2"
-          integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h"
+          src="https://unpkg.com/htmx.org@1.9.4"
+          integrity="sha384-zUfuhFKKZCbHTY6aRR46gxiqszMk5tcHjsVFxnUo8VMus4kHGVdIYVbOYYNlKmHV"
           crossorigin="anonymous"
-          async
+        />
+
+        <script
+          src="https://unpkg.com/htmx.org@1.9.4/dist/ext/sse.js"
+          integrity="sha384-9sPcBiA9fhU9fq7gfjFF29VlQp6vyoGP5skQ99zfpnpCEUZ2+9f+XmIk/DGE+ndH"
+          crossorigin="anonymous"
         />
 
         <script src="/app.js" type="module" />

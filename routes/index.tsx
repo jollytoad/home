@@ -5,23 +5,18 @@ import { handlePage } from "@/lib/handle_page.ts";
 export default handlePage(({ req }) => {
   return (
     <Page req={req} module={import.meta.url}>
-      <ul>
-        <li>
-          <a href="/quiz">Quiz</a>
-        </li>
-        <li>
-          <a href="/async">Async component streaming demo</a>
-        </li>
-        <li>
-          <a href="/calc">Service Worker Calculator</a>
-        </li>
-        <li>
-          <a href="/tabs">Web Components demo</a>
-        </li>
-        <li>
-          <a href="/todo">Todo List demo</a>
-        </li>
-      </ul>
+      <Markdown>
+        {`
+## Demos and Experiments
+
+* [Quiz](/quiz)
+* [Async component streaming demo](/async)
+* [Service Worker Calculator](/calc)
+* [Web Components demo](/tabs)
+* [Todo List demo](/todo)
+* [Server Sent Events demo](/sse)
+`}
+      </Markdown>
 
       <Markdown url="@/routes/blog/index.md" />
 
