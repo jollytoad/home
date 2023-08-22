@@ -9,6 +9,7 @@ export default cascade(
   byPattern("/todo/:listId", lazy(() => import("./routes/todo/:listId/index.tsx"))),
   byPattern("/todo", lazy(() => import("./routes/todo/index.ts"))),
   byPattern("/tabs", lazy(() => import("./routes/tabs.tsx"))),
+  byPattern("/sse/stop", lazy(() => import("./routes/sse/stop.tsx"))),
   byPattern("/sse/start", lazy(() => import("./routes/sse/start.tsx"))),
   byPattern("/sse/feed", lazy(() => import("./routes/sse/feed.tsx"))),
   byPattern("/sse", lazy(() => import("./routes/sse/index.tsx"))),

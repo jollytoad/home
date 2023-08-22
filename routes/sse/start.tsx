@@ -10,7 +10,10 @@ export default handleFragment(() => {
       hx-target="#output"
       hx-swap="beforeend"
     >
-      Feed in progress
+      <span>Feed in progress&nbsp;</span>
+      <button hx-get="/sse/stop" hx-target="#control" hx-swap="outerHTML">
+        Stop
+      </button>
     </div>
   );
 });

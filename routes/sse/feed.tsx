@@ -3,7 +3,7 @@ import type { Node } from "$jsx/types.ts";
 import { delay } from "$std/async/delay.ts";
 import { ok } from "$http_fns/response/ok.ts";
 
-export default function (req: Request) {
+export default function (_req: Request) {
   const body = ReadableStream.from(streamEvents())
     .pipeThrough(new TextEncoderStream());
 
@@ -14,16 +14,20 @@ export default function (req: Request) {
 
 async function* streamEvents() {
   for (let i = 1; i < 10; i++) {
+    console.log(`Sending Item ${i}`);
     yield htmlEvent(<Item count={i} />);
     await delay(1000);
   }
-  yield htmlEvent(
-    <div id="control" hx-swap-oob="true">Feed has completed</div>,
-  );
+  console.log(`Feed Complete`);
+  yield htmlEvent(<Complete />);
 }
 
 function Item({ count }: { count: number }) {
   return <div>Item {count}</div>;
+}
+
+function Complete() {
+  return <div id="control" hx-swap-oob="true">Feed has completed</div>;
 }
 
 async function htmlEvent(node: Node) {
