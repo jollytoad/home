@@ -1,4 +1,7 @@
 import * as providers from "$deno_kv_oauth/providers.ts";
+import type { signIn } from "$deno_kv_oauth/sign_in.ts";
+
+export type OAuth2Client = Parameters<typeof signIn>[1];
 
 type Providers = typeof providers;
 type ProviderFn = Providers[keyof Providers];
@@ -6,20 +9,9 @@ type CreateClientFn = (
   config: Parameters<ProviderFn>[0],
 ) => ReturnType<ProviderFn>;
 
-export function getOAuth2ClientFn(
-  provider: string,
-): CreateClientFn | undefined {
-  const providerFnName = `create${provider}oauth2client`;
-
-  for (const [name, fn] of Object.entries(providers)) {
-    if (typeof fn === "function") {
-      if (name.toLowerCase() === providerFnName) {
-        return fn as CreateClientFn;
-      }
-    }
-  }
-}
-
+/**
+ * Get a list of all supported OAuth2 client names
+ */
 export function getOAuth2ClientNames(): string[] {
   const names: string[] = [];
 
@@ -35,6 +27,9 @@ export function getOAuth2ClientNames(): string[] {
   return names;
 }
 
+/**
+ * Detect whether environment vars have been set for a given OAuth2 client
+ */
 export async function hasOAuth2ClientEnvVars(name: string): Promise<boolean> {
   const upper = name.toUpperCase();
   const clientIdVar = `${upper}_CLIENT_ID`;
@@ -49,6 +44,29 @@ export async function hasOAuth2ClientEnvVars(name: string): Promise<boolean> {
   }
 }
 
+/**
+ * Get the create client function for an OAuth2 client
+ * @param provider the name of the OAuth2 client
+ * @returns the OAuth2 client constructor function
+ */
+export function getOAuth2ClientFn(
+  provider: string,
+): CreateClientFn | undefined {
+  const providerFnName = `create${provider.toLowerCase()}oauth2client`;
+
+  for (const [name, fn] of Object.entries(providers)) {
+    if (typeof fn === "function") {
+      if (name.toLowerCase() === providerFnName) {
+        return fn as CreateClientFn;
+      }
+    }
+  }
+}
+
+/**
+ * Get the OAuth2 scope for a provider from environment vars
+ * @param provider the name of the OAuth2 client
+ */
 export async function getOAuth2ClientScope(
   provider: string,
 ): Promise<undefined | string> {

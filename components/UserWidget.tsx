@@ -26,7 +26,7 @@ export async function UserWidget({ req }: Partial<RequestProps>) {
 function SignedIn({ sessionId }: { sessionId: string }) {
   return (
     <div class="user-widget signed-in">
-      <a href="/signout" title={sessionId}>Sign Out</a>
+      <a href="/auth/signout" title={sessionId}>Sign Out</a>
     </div>
   );
 }
@@ -39,7 +39,7 @@ function SignedOut({ providers }: { providers: Provider[] }) {
       return (
         <div class="user-widget signed-out">
           <a
-            href={`/signin/${providers[0].id}`}
+            href={`/auth/${providers[0].id}/signin`}
             title={`Sign in with ${providers[0].name}`}
           >
             Sign In
@@ -53,7 +53,7 @@ function SignedOut({ providers }: { providers: Provider[] }) {
           <span class="signin-menu">
             {providers.map((provider) => (
               <a
-                href={`/signin/${provider.id}`}
+                href={`/auth/${provider.id}/signin`}
                 title={`Sign in with ${provider.name}`}
               >
                 {provider.name}
