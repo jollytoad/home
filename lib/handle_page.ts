@@ -4,6 +4,7 @@ import type { ComponentType } from "$jsx/types.ts";
 import type { RouteProps } from "@/lib/route.ts";
 import { PAGE_RENDER_OPTIONS } from "@/config_page.ts";
 import { FRAGMENT_RENDER_OPTIONS } from "@/config_fragment.ts";
+import { getDeferredTimeout } from "@/lib/deferrred_timeout.ts";
 
 /**
  * Basic GET request handler that renders a HTML full page component,
@@ -34,17 +35,4 @@ export function renderPage(
 
     return renderHTML(Component, headers, options)(req, { req, match });
   };
-}
-
-function getDeferredTimeout(req: Request): number | false | undefined {
-  if (req.headers.has("Deferred-Timeout")) {
-    const deferredTimeoutHeader = req.headers.get("Deferred-Timeout");
-    const deferredTimeout = deferredTimeoutHeader === "false"
-      ? false
-      : Number.parseInt(deferredTimeoutHeader ?? "");
-
-    if (deferredTimeout === false || Number.isSafeInteger(deferredTimeout)) {
-      return deferredTimeout;
-    }
-  }
 }

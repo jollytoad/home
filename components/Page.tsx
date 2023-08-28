@@ -1,6 +1,7 @@
 import type { Children } from "$jsx/types.ts";
 import { Src } from "@/components/Src.tsx";
 import { UserWidget } from "@/components/UserWidget.tsx";
+import { getDeferredTimeout } from "@/lib/deferrred_timeout.ts";
 
 interface Props {
   req?: Request;
@@ -10,6 +11,8 @@ interface Props {
 }
 
 export function Page({ req, children, reqURL, module, ...props }: Props) {
+  const deferredTimeout = req ? getDeferredTimeout(req) : false;
+
   return reqURL ? <>{children}</> : (
     <html lang="en-GB">
       <head>
@@ -42,7 +45,7 @@ export function Page({ req, children, reqURL, module, ...props }: Props) {
           <h1>
             <a href="/">The home of Jollytoad</a>
           </h1>
-          <UserWidget req={req} />
+          <UserWidget req={req} lazy={deferredTimeout === false} />
         </header>
 
         <main>
