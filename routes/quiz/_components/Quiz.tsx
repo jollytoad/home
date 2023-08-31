@@ -1,12 +1,19 @@
-import { Delayed } from "./Delayed.tsx";
+import { Delayed } from "@/components/Delayed.tsx";
 import { QuizAnswer } from "./QuizAnswer.tsx";
+import { QuizScore } from "./QuizScore.tsx";
 
-export function Quiz() {
+interface QuizProps {
+  score?: bigint;
+}
+
+export function Quiz({ score }: QuizProps) {
   return (
     <article class="quiz">
       <h2>Quiz</h2>
 
       <Question />
+
+      <QuizScore score={score} />
     </article>
   );
 }

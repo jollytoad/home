@@ -90,6 +90,7 @@ I'm keen to rectify that. I'm hoping to actually get some time to work on the
 tools I talk of. In the meantime, I hope this stirs up some ideas and healthy
 discussion.
 
-If you'd like to discuss this subject further please use the GitHub [discussion].
+If you'd like to discuss this subject further please use the GitHub
+[discussion].
 
 [discussion]: https://github.com/jollytoad/home/discussions/3

@@ -11,7 +11,7 @@ import { asRouteProps, type RouteProps } from "@/lib/route.ts";
  */
 export function handleFragment(
   Component: ComponentType<RouteProps>,
-  headers?: Record<string, string>,
+  headers?: HeadersInit,
 ) {
   return byMethod({
     GET: mapData(

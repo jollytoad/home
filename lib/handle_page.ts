@@ -12,7 +12,7 @@ import { getDeferredTimeout } from "@/lib/deferrred_timeout.ts";
  */
 export function handlePage(
   Component: ComponentType<RouteProps>,
-  headers?: Record<string, string>,
+  headers?: HeadersInit,
 ) {
   return byMethod({
     GET: renderPage(Component, headers),
@@ -21,7 +21,7 @@ export function handlePage(
 
 export function renderPage(
   Component: ComponentType<RouteProps>,
-  headers?: Record<string, string>,
+  headers?: HeadersInit,
 ) {
   return (req: Request, match: URLPatternResult) => {
     let options = req.headers.has("HX-Request")

@@ -14,7 +14,8 @@ export default cascade(
   byPattern("/sse/feed", lazy(() => import("./routes/sse/feed.tsx"))),
   byPattern("/sse", lazy(() => import("./routes/sse/index.tsx"))),
   byPattern("/sleep", lazy(() => import("./routes/sleep.ts"))),
-  byPattern("/quiz", lazy(() => import("./routes/quiz.tsx"))),
+  byPattern("/quiz/answer/:id/:answer", lazy(() => import("./routes/quiz/answer/:id/:answer.tsx"))),
+  byPattern("/quiz", lazy(() => import("./routes/quiz/index.tsx"))),
   byPattern("/ex/:from/:to", lazy(() => import("./routes/ex/:from/:to.tsx"))),
   byPattern("/ex", lazy(() => import("./routes/ex/index.tsx"))),
   byPattern("/calc/eval", lazy(() => import("./routes/calc/eval.tsx"))),
@@ -27,6 +28,5 @@ export default cascade(
   byPattern("/auth/:provider/signin", lazy(() => import("./routes/auth/:provider/signin.ts"))),
   byPattern("/auth/:provider/callback", lazy(() => import("./routes/auth/:provider/callback.ts"))),
   byPattern("/async", lazy(() => import("./routes/async.tsx"))),
-  byPattern("/answer/:id/:answer", lazy(() => import("./routes/answer/:id/:answer.tsx"))),
   byPattern("/", lazy(() => import("./routes/index.tsx"))),
 );

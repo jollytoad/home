@@ -14,7 +14,7 @@ export function QuizAnswer({ reqURL = "", id, answer, correct }: Props) {
   } else {
     return (
       <button
-        hx-get={`${reqURL}/answer/${id}/${encodeURIComponent(answer)}`}
+        hx-get={`${reqURL}/quiz/answer/${id}/${encodeURIComponent(answer)}`}
         hx-swap="outerHTML"
       >
         {answer}
