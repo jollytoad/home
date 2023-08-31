@@ -1,5 +1,5 @@
 (() => {
-  // https://deno.land/x/http_fns@v0.0.23/pattern.ts
+  // https://deno.land/x/http_fns@v0.0.26/pattern.ts
   function byPattern(pattern, handler) {
     return async (req, ...args) => {
       const patterns = Array.isArray(pattern) ? pattern : [pattern];
@@ -20,7 +20,7 @@
     return typeof pattern === "string" ? new URLPattern({ pathname: pattern }) : pattern instanceof URLPattern ? pattern : new URLPattern(pattern);
   }
 
-  // https://deno.land/x/http_fns@v0.0.23/cascade.ts
+  // https://deno.land/x/http_fns@v0.0.26/cascade.ts
   function cascade(...handlers) {
     return async (req, ...args) => {
       for (const handler of handlers) {
@@ -33,7 +33,33 @@
     };
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.11/guards.ts
+  // https://deno.land/x/jsx_stream@v0.0.12/_internal/readable_stream_from_iterable.ts
+  function readableStreamFromIterable(iterable) {
+    if ("from" in ReadableStream && typeof ReadableStream.from === "function") {
+      return ReadableStream.from(iterable);
+    }
+    const iterator = iterable[Symbol.asyncIterator]?.() ?? iterable[Symbol.iterator]?.();
+    return new ReadableStream({
+      async pull(controller) {
+        const { value, done } = await iterator.next();
+        if (done) {
+          controller.close();
+        } else {
+          controller.enqueue(value);
+        }
+      },
+      async cancel(reason) {
+        if (typeof iterator.throw == "function") {
+          try {
+            await iterator.throw(reason);
+          } catch {
+          }
+        }
+      }
+    });
+  }
+
+  // https://deno.land/x/jsx_stream@v0.0.12/guards.ts
   function isPrimitiveValue(value) {
     return typeof value === "string" || typeof value === "number" || typeof value === "boolean" || typeof value === "bigint";
   }
@@ -66,7 +92,7 @@
     return str.replaceAll(rawRe, (m) => rawToEntity.get(m));
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.11/_internal/util.ts
+  // https://deno.land/x/jsx_stream@v0.0.12/_internal/util.ts
   var VOID_ELEMENTS = /* @__PURE__ */ new Set([
     "area",
     "base",
@@ -98,7 +124,7 @@
     /^[^\u0000-\u001F\u007F-\u009F\s"'>/=\uFDD0-\uFDEF\p{NChar}]+$/u.test(name);
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.11/_internal/token.ts
+  // https://deno.land/x/jsx_stream@v0.0.12/_internal/token.ts
   var _Token = class extends String {
     kind;
     tagName;
@@ -145,7 +171,7 @@
     return token;
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.11/_internal/stream_node_sw.ts
+  // https://deno.land/x/jsx_stream@v0.0.12/_internal/stream_node_sw.ts
   async function* streamNode(node, options) {
     const tagStack = [];
     const context = {
@@ -229,19 +255,19 @@
     return typeof fn === "function" ? fn : void 0;
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.11/serialize_sw.ts
+  // https://deno.land/x/jsx_stream@v0.0.12/serialize_sw.ts
   function renderBody(node, options) {
-    return ReadableStream.from(streamNode(node, options)).pipeThrough(
+    return readableStreamFromIterable(streamNode(node, options)).pipeThrough(
       new TextEncoderStream()
     );
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.11/_internal/stream_component.ts
+  // https://deno.land/x/jsx_stream@v0.0.12/_internal/stream_component.ts
   function streamComponent(component, props) {
     return component(props);
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.11/_internal/awaited_props.ts
+  // https://deno.land/x/jsx_stream@v0.0.12/_internal/awaited_props.ts
   function awaitedProps(props) {
     const promisedEntries = [];
     for (const [name, value] of Object.entries(props)) {
@@ -259,7 +285,7 @@
     }
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.11/_internal/stream_fragment.ts
+  // https://deno.land/x/jsx_stream@v0.0.12/_internal/stream_fragment.ts
   function* streamFragment(children) {
     if (isSafe(children)) {
       yield children;
@@ -280,7 +306,7 @@
     }
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.11/_internal/stream_element.ts
+  // https://deno.land/x/jsx_stream@v0.0.12/_internal/stream_element.ts
   function* streamElement(tagName, props) {
     const { children, ...attrs } = props && typeof props === "object" ? props : {};
     const awaitedAttrs = awaitedProps(attrs);
@@ -304,12 +330,12 @@
     }
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.11/_internal/stream_unknown.ts
+  // https://deno.land/x/jsx_stream@v0.0.12/_internal/stream_unknown.ts
   async function* streamUnknown(type) {
     console.warn(`Unknown JSX type: ${type}`);
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.11/jsx-runtime.ts
+  // https://deno.land/x/jsx_stream@v0.0.12/jsx-runtime.ts
   function jsx(type, props) {
     try {
       if (typeof type === "function") {
@@ -387,7 +413,7 @@
     return bodyInit instanceof FormData || bodyInit instanceof URLSearchParams;
   }
 
-  // https://deno.land/x/http_fns@v0.0.23/response/plain_error.ts
+  // https://deno.land/x/http_fns@v0.0.26/response/plain_error.ts
   function plainError(status, statusText, message) {
     return new Response(message ?? statusText, {
       status,
@@ -398,12 +424,12 @@
     });
   }
 
-  // https://deno.land/x/http_fns@v0.0.23/response/method_not_allowed.ts
+  // https://deno.land/x/http_fns@v0.0.26/response/method_not_allowed.ts
   function methodNotAllowed(message) {
     return plainError(405, "Method Not Allowed", message);
   }
 
-  // https://deno.land/x/http_fns@v0.0.23/method.ts
+  // https://deno.land/x/http_fns@v0.0.26/method.ts
   function byMethod(handlers, fallback = () => methodNotAllowed()) {
     const defaultHandlers = {
       OPTIONS: optionsHandler(handlers)
@@ -442,7 +468,7 @@
     return response ? new Response(null, response) : response;
   };
 
-  // https://deno.land/x/http_fns@v0.0.23/map.ts
+  // https://deno.land/x/http_fns@v0.0.26/map.ts
   function mapData(mapper, handler) {
     return async (req, data) => handler(req, await mapper(req, data));
   }
@@ -571,7 +597,7 @@
     return evalRPN(toRPN(tokenize(input)));
   }
 
-  // https://deno.land/x/http_fns@v0.0.23/request/search_values.ts
+  // https://deno.land/x/http_fns@v0.0.26/request/search_values.ts
   function getSearchValues(input) {
     const searchParams = input instanceof Request ? new URL(input.url).searchParams : input instanceof URL ? input.searchParams : input instanceof URLSearchParams ? input : input && "search" in input && "input" in input.search ? new URLSearchParams(input.search.input) : void 0;
     return (param, separator) => {
