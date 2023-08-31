@@ -25,6 +25,12 @@ export default function routeMapper(
           : `${pattern}{.:ext}?`,
         module: import.meta.resolve("@/lib/handle_route_md.tsx"),
       }];
+    case ".png":
+    case ".svg":
+      return [{
+        pattern: `${pattern}${ext}`,
+        module: import.meta.resolve("@/lib/handle_route_static.ts"),
+      }];
   }
   return [];
 }
