@@ -1,4 +1,4 @@
-import { byMethod } from "$http_fns/method.ts";
+import { byMethod } from "$http_fns/by_method.ts";
 import { fetchContent } from "@/lib/content.ts";
 
 export default byMethod({

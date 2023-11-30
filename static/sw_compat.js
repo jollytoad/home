@@ -778,7 +778,12 @@
   };
   globalThis.URLPattern || (globalThis.URLPattern = J);
 
-  // https://deno.land/x/http_fns@v0.0.26/pattern.ts
+  // https://deno.land/x/http_fns@v0.1.0/lib/as_url_pattern.ts
+  function asURLPattern(pattern) {
+    return typeof pattern === "string" ? new URLPattern({ pathname: pattern }) : pattern instanceof URLPattern ? pattern : new URLPattern(pattern);
+  }
+
+  // https://deno.land/x/http_fns@v0.1.0/lib/by_pattern.ts
   function byPattern(pattern, handler) {
     return async (req, ...args) => {
       const patterns = Array.isArray(pattern) ? pattern : [pattern];
@@ -795,11 +800,8 @@
       return null;
     };
   }
-  function asURLPattern(pattern) {
-    return typeof pattern === "string" ? new URLPattern({ pathname: pattern }) : pattern instanceof URLPattern ? pattern : new URLPattern(pattern);
-  }
 
-  // https://deno.land/x/http_fns@v0.0.26/cascade.ts
+  // https://deno.land/x/http_fns@v0.1.0/lib/cascade.ts
   function cascade(...handlers) {
     return async (req, ...args) => {
       for (const handler of handlers) {
@@ -812,7 +814,7 @@
     };
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.12/_internal/readable_stream_from_iterable.ts
+  // https://deno.land/x/jsx_stream@v0.0.13/_internal/readable_stream_from_iterable.ts
   function readableStreamFromIterable(iterable) {
     if ("from" in ReadableStream && typeof ReadableStream.from === "function") {
       return ReadableStream.from(iterable);
@@ -838,7 +840,7 @@
     });
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.12/guards.ts
+  // https://deno.land/x/jsx_stream@v0.0.13/guards.ts
   function isPrimitiveValue(value) {
     return typeof value === "string" || typeof value === "number" || typeof value === "boolean" || typeof value === "bigint";
   }
@@ -852,7 +854,7 @@
     return typeof value?.[Symbol.asyncIterator] === "function";
   }
 
-  // https://deno.land/std@0.197.0/html/entities.ts
+  // https://deno.land/std@0.208.0/html/entities.ts
   var rawToEntityEntries = [
     ["&", "&amp;"],
     ["<", "&lt;"],
@@ -871,7 +873,7 @@
     return str.replaceAll(rawRe, (m) => rawToEntity.get(m));
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.12/_internal/util.ts
+  // https://deno.land/x/jsx_stream@v0.0.13/_internal/util.ts
   var VOID_ELEMENTS = /* @__PURE__ */ new Set([
     "area",
     "base",
@@ -903,7 +905,7 @@
     /^[^\u0000-\u001F\u007F-\u009F\s"'>/=\uFDD0-\uFDEF\p{NChar}]+$/u.test(name);
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.12/_internal/token.ts
+  // https://deno.land/x/jsx_stream@v0.0.13/_internal/token.ts
   var _Token = class extends String {
     kind;
     tagName;
@@ -950,7 +952,7 @@
     return token;
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.12/_internal/stream_node_sw.ts
+  // https://deno.land/x/jsx_stream@v0.0.13/_internal/stream_node_sw.ts
   async function* streamNode(node, options) {
     const tagStack = [];
     const context = {
@@ -1034,19 +1036,19 @@
     return typeof fn === "function" ? fn : void 0;
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.12/serialize_sw.ts
+  // https://deno.land/x/jsx_stream@v0.0.13/serialize_sw.ts
   function renderBody(node, options) {
     return readableStreamFromIterable(streamNode(node, options)).pipeThrough(
       new TextEncoderStream()
     );
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.12/_internal/stream_component.ts
+  // https://deno.land/x/jsx_stream@v0.0.13/_internal/stream_component.ts
   function streamComponent(component, props) {
     return component(props);
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.12/_internal/awaited_props.ts
+  // https://deno.land/x/jsx_stream@v0.0.13/_internal/awaited_props.ts
   function awaitedProps(props) {
     const promisedEntries = [];
     for (const [name, value] of Object.entries(props)) {
@@ -1064,7 +1066,7 @@
     }
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.12/_internal/stream_fragment.ts
+  // https://deno.land/x/jsx_stream@v0.0.13/_internal/stream_fragment.ts
   function* streamFragment(children) {
     if (isSafe(children)) {
       yield children;
@@ -1085,7 +1087,7 @@
     }
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.12/_internal/stream_element.ts
+  // https://deno.land/x/jsx_stream@v0.0.13/_internal/stream_element.ts
   function* streamElement(tagName, props) {
     const { children, ...attrs } = props && typeof props === "object" ? props : {};
     const awaitedAttrs = awaitedProps(attrs);
@@ -1109,12 +1111,12 @@
     }
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.12/_internal/stream_unknown.ts
+  // https://deno.land/x/jsx_stream@v0.0.13/_internal/stream_unknown.ts
   async function* streamUnknown(type) {
     console.warn(`Unknown JSX type: ${type}`);
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.12/jsx-runtime.ts
+  // https://deno.land/x/jsx_stream@v0.0.13/jsx-runtime.ts
   function jsx(type, props) {
     try {
       if (typeof type === "function") {
@@ -1130,7 +1132,7 @@
     }
   }
 
-  // https://deno.land/x/http_render_fns@v0.0.5/render_html.tsx
+  // https://deno.land/x/http_render_fns@v0.1.0/lib/render_html.tsx
   var DOCTYPE = "<!DOCTYPE html>\n";
   var ENCODED_DOCTYPE = new TextEncoder().encode(DOCTYPE);
   var streamDelay = 0;
@@ -1171,13 +1173,14 @@
         ]);
         logTiming("Blob");
       }
+      const headersWithType = new Headers(headers);
+      if (!headersWithType.has("Content-Type")) {
+        headersWithType.set("Content-Type", "text/html; charset=utf-8");
+      }
       return new Response(bodyInit, {
         status: 200,
         statusText: "OK",
-        headers: {
-          "Content-Type": "text/html; charset=utf-8",
-          ...headers
-        }
+        headers: headersWithType
       });
       function logTiming(note) {
         const end = performance.now();
@@ -1192,7 +1195,7 @@
     return bodyInit instanceof FormData || bodyInit instanceof URLSearchParams;
   }
 
-  // https://deno.land/x/http_fns@v0.0.26/response/plain_error.ts
+  // https://deno.land/x/http_fns@v0.1.0/lib/response/plain_error.ts
   function plainError(status, statusText, message) {
     return new Response(message ?? statusText, {
       status,
@@ -1203,12 +1206,30 @@
     });
   }
 
-  // https://deno.land/x/http_fns@v0.0.26/response/method_not_allowed.ts
+  // https://deno.land/x/http_fns@v0.1.0/lib/response/method_not_allowed.ts
   function methodNotAllowed(message) {
     return plainError(405, "Method Not Allowed", message);
   }
 
-  // https://deno.land/x/http_fns@v0.0.26/method.ts
+  // https://deno.land/x/http_fns@v0.1.0/lib/response/no_content.ts
+  function noContent(headers) {
+    return new Response(null, {
+      status: 204,
+      statusText: "No Content",
+      headers
+    });
+  }
+
+  // https://deno.land/x/http_fns@v0.1.0/lib/response/replace_body.ts
+  function replaceBody(res, body) {
+    return res.body === body ? res : new Response(body, {
+      status: res.status,
+      statusText: res.statusText,
+      headers: res.headers
+    });
+  }
+
+  // https://deno.land/x/http_fns@v0.1.0/lib/by_method.ts
   function byMethod(handlers, fallback = () => methodNotAllowed()) {
     const defaultHandlers = {
       OPTIONS: optionsHandler(handlers)
@@ -1227,27 +1248,21 @@
   }
   function optionsHandler(handlers) {
     const methods = Object.keys(handlers);
-    if ("GET" in methods && !("HEAD" in methods)) {
+    if ("GET" in handlers && !("HEAD" in handlers)) {
       methods.push("HEAD");
     }
-    if (!("OPTIONS" in methods)) {
+    if (!("OPTIONS" in handlers)) {
       methods.push("OPTIONS");
     }
     const allow = methods.join(", ");
-    return () => {
-      return new Response(null, {
-        headers: {
-          allow
-        }
-      });
-    };
+    return () => noContent({ allow });
   }
   var headHandler = (handler) => async (req, ...args) => {
     const response = await handler(req, ...args);
-    return response ? new Response(null, response) : response;
+    return response ? replaceBody(response, null) : response;
   };
 
-  // https://deno.land/x/http_fns@v0.0.26/map.ts
+  // https://deno.land/x/http_fns@v0.1.0/lib/map_data.ts
   function mapData(mapper, handler) {
     return async (req, data) => handler(req, await mapper(req, data));
   }
@@ -1376,7 +1391,7 @@
     return evalRPN(toRPN(tokenize(input)));
   }
 
-  // https://deno.land/x/http_fns@v0.0.26/request/search_values.ts
+  // https://deno.land/x/http_fns@v0.1.0/lib/request/search_values.ts
   function getSearchValues(input) {
     const searchParams = input instanceof Request ? new URL(input.url).searchParams : input instanceof URL ? input.searchParams : input instanceof URLSearchParams ? input : input && "search" in input && "input" in input.search ? new URLSearchParams(input.search.input) : void 0;
     return (param, separator) => {

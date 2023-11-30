@@ -1,34 +1,32 @@
 import { badRequest } from "$http_fns/response/bad_request.ts";
 import { notFound } from "$http_fns/response/not_found.ts";
 import {
-  getOAuth2ClientFn,
-  getOAuth2ClientScope,
-  type OAuth2Client,
-} from "@/lib/oauth2_clients.ts";
+  getOAuthClientScope,
+  getOAuthConfigFn,
+  type OAuth2ClientConfig,
+} from "../../../lib/oauth_config.ts";
 
-export async function asOAuth2Client(
+export async function asOAuth2ClientConfig(
   req: Request,
   match: URLPatternResult,
-): Promise<OAuth2Client> {
+): Promise<OAuth2ClientConfig> {
   const provider = match.pathname.groups.provider;
 
   if (!provider) {
     throw badRequest();
   }
 
-  const createOAuth2Client = getOAuth2ClientFn(provider);
+  const createOAuthConfig = getOAuthConfigFn(provider);
 
-  if (!createOAuth2Client) {
+  if (!createOAuthConfig) {
     throw notFound();
   }
 
   const redirectUri = new URL("callback", req.url).href;
-  const scope = await getOAuth2ClientScope(provider);
+  const scope = await getOAuthClientScope(provider);
 
-  return createOAuth2Client({
+  return createOAuthConfig({
     redirectUri,
-    defaults: {
-      scope,
-    },
+    scope,
   });
 }

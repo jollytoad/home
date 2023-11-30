@@ -1,10 +1,10 @@
 {
   "imports": {
     "@/": "./",
-    "$http_fns/": "https://deno.land/x/http_fns@v0.0.26/",
-    "$http_render_fns/": "https://deno.land/x/http_render_fns@v0.0.5/",
-    "$jsx/": "https://deno.land/x/jsx_stream@v0.0.12/",
-    "$jsx/jsx-runtime": "https://deno.land/x/jsx_stream@v0.0.12/jsx-runtime.ts",
-    "$jsx/serialize.ts": "https://deno.land/x/jsx_stream@v0.0.12/serialize_sw.ts"
+    "$http_fns/": "https://deno.land/x/http_fns@v0.1.0/lib/",
+    "$http_render_fns/": "https://deno.land/x/http_render_fns@v0.1.0/lib/",
+    "$jsx/": "https://deno.land/x/jsx_stream@v0.0.13/",
+    "$jsx/jsx-runtime": "https://deno.land/x/jsx_stream@v0.0.13/jsx-runtime.ts",
+    "$jsx/serialize.ts": "https://deno.land/x/jsx_stream@v0.0.13/serialize_sw.ts"
   }
 }

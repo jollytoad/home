@@ -1,4 +1,4 @@
-import { byPattern } from "$http_fns/pattern.ts";
+import { byPattern } from "$http_fns/by_pattern.ts";
 import { cascade } from "$http_fns/cascade.ts";
 import calc_eval from "@/routes/calc/eval.tsx";
 

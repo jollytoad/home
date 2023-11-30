@@ -1,4 +1,4 @@
-import { byMethod } from "$http_fns/method.ts";
+import { byMethod } from "$http_fns/by_method.ts";
 import { renderHTML } from "$http_render_fns/render_html.tsx";
 import { Page } from "@/components/Page.tsx";
 import { renderPage } from "@/lib/handle_page.ts";

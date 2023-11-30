@@ -1,6 +1,6 @@
 import { renderHTML } from "$http_render_fns/render_html.tsx";
-import { byMethod } from "$http_fns/method.ts";
-import { mapData } from "$http_fns/map.ts";
+import { byMethod } from "$http_fns/by_method.ts";
+import { mapData } from "$http_fns/map_data.ts";
 import { FRAGMENT_RENDER_OPTIONS } from "@/config_fragment.ts";
 import type { ComponentType } from "$jsx/types.ts";
 import { asRouteProps, type RouteProps } from "@/lib/route.ts";

@@ -1,12 +1,12 @@
-import { fromMarkdown } from "https://esm.sh/mdast-util-from-markdown@1.3.1";
-import { gfm } from "https://esm.sh/micromark-extension-gfm@2.0.3";
-import { gfmFromMarkdown } from "https://esm.sh/mdast-util-gfm@2.0.2";
-import { toHast } from "https://esm.sh/mdast-util-to-hast@12.3.0";
+import { fromMarkdown } from "https://esm.sh/mdast-util-from-markdown@2.0.0";
+import { gfm } from "https://esm.sh/micromark-extension-gfm@3.0.0";
+import { gfmFromMarkdown } from "https://esm.sh/mdast-util-gfm@3.0.0";
+import { toHast } from "https://esm.sh/mdast-util-to-hast@13.0.2";
 import {
   type Options,
   toJsxRuntime,
-} from "https://esm.sh/hast-util-to-jsx-runtime@1.2.0";
-import { raw } from "https://esm.sh/hast-util-raw@8.0.0";
+} from "https://esm.sh/hast-util-to-jsx-runtime@2.2.0";
+import { raw } from "https://esm.sh/hast-util-raw@9.0.1";
 import { Fragment, jsx, jsxDEV, jsxs } from "$jsx/jsx-runtime";
 import { fetchContent } from "@/lib/content.ts";
 import type { Promisable } from "$jsx/types.ts";

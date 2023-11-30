@@ -1,5 +1,5 @@
 import { renderHTML } from "$http_render_fns/render_html.tsx";
-import { byMethod } from "$http_fns/method.ts";
+import { byMethod } from "$http_fns/by_method.ts";
 import type { ComponentType } from "$jsx/types.ts";
 import type { RouteProps } from "@/lib/route.ts";
 import { PAGE_RENDER_OPTIONS } from "@/config_page.ts";

@@ -1,4 +1,4 @@
-import { byMethod } from "$http_fns/method.ts";
+import { byMethod } from "$http_fns/by_method.ts";
 import { seeOther } from "$http_fns/response/see_other.ts";
 import { newId } from "./_lib/id.ts";
 

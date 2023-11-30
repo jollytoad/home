@@ -1,7 +1,7 @@
-import { streamNode } from "$jsx/_internal/stream_node.ts";
-import type { Node } from "$jsx/types.ts";
 import { delay } from "$std/async/delay.ts";
 import { ok } from "$http_fns/response/ok.ts";
+import { renderString } from "$jsx/serialize.ts";
+import type { JSX } from "$jsx/jsx-runtime";
 
 export default function (_req: Request) {
   const body = ReadableStream.from(streamEvents())
@@ -30,20 +30,11 @@ function Complete() {
   return <div id="control" hx-swap-oob="true">Feed has completed</div>;
 }
 
-async function htmlEvent(node: Node) {
+async function htmlEvent(node: JSX.Element) {
   return renderEvent(await renderString(node));
 }
 
 // TODO: Consider adding SSE event helper functions into http_fns
 function renderEvent(content: string) {
   return content.split(/\r?\n/).map((s) => `data: ${s}`).join("\n") + "\n\n";
-}
-
-// TODO: Add this into jsx-stream
-async function renderString(node: Node) {
-  let str = "";
-  for await (const s of streamNode(node, { deferredTimeout: false })) {
-    str += s;
-  }
-  return str;
 }

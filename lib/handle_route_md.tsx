@@ -1,8 +1,8 @@
-import { byMethod } from "$http_fns/method.ts";
+import { byMethod } from "$http_fns/by_method.ts";
 import { renderPage } from "@/lib/handle_page.ts";
 import { Page } from "@/components/Page.tsx";
 import { Markdown } from "@/components/Markdown.tsx";
-import { byMediaType } from "$http_fns/media_type.ts";
+import { byMediaType } from "$http_fns/by_media_type.ts";
 import { fetchContent } from "@/lib/content.ts";
 
 export default byMethod({

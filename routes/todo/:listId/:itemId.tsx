@@ -1,4 +1,4 @@
-import { byMethod } from "$http_fns/method.ts";
+import { byMethod } from "$http_fns/by_method.ts";
 import { renderHTML } from "$http_render_fns/render_html.tsx";
 import { deleteItem, writeItem } from "../_lib/data.ts";
 import type { TodoListItem } from "../_lib/types.ts";

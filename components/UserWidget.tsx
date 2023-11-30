@@ -1,9 +1,9 @@
 import type { RequestProps } from "@/lib/route.ts";
 import { getSessionId } from "$deno_kv_oauth/get_session_id.ts";
 import {
-  getOAuth2ClientNames,
-  hasOAuth2ClientEnvVars,
-} from "@/lib/oauth2_clients.ts";
+  getOAuthClientNames,
+  hasOAuthClientEnvVars,
+} from "../lib/oauth_config.ts";
 
 export async function UserWidget(
   { req, lazy }: Partial<RequestProps> & { lazy?: boolean },
@@ -83,8 +83,8 @@ interface Provider {
 
 async function getProviders(): Promise<Provider[]> {
   return (await Promise.all(
-    getOAuth2ClientNames().map(async (name) => {
-      if (await hasOAuth2ClientEnvVars(name)) {
+    getOAuthClientNames().map(async (name) => {
+      if (await hasOAuthClientEnvVars(name)) {
         return {
           id: name.toLowerCase(),
           name,

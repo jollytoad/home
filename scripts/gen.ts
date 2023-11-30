@@ -1,7 +1,7 @@
 import {
   type GenerateOptions,
   generateRoutesModule,
-} from "$http_fns/generate.ts";
+} from "$http_fns/generate_routes_module.ts";
 
 type Opts = Pick<
   GenerateOptions,

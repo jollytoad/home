@@ -1,5 +1,5 @@
-import * as esbuild from "https://deno.land/x/esbuild@v0.18.17/mod.js";
-import { denoPlugins } from "https://deno.land/x/esbuild_deno_loader@0.8.1/mod.ts";
+import * as esbuild from "https://deno.land/x/esbuild@v0.19.7/mod.js";
+import { denoPlugins } from "https://deno.land/x/esbuild_deno_loader@0.8.2/mod.ts";
 import { fromFileUrl } from "$std/path/mod.ts";
 
 /**
