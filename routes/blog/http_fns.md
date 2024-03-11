@@ -20,7 +20,8 @@ I started building up some simple functions to handle routing, and it eventually
 grew into quite a collection. All functions exist in their own module, so you
 only import the features you actually need.
 
-The library can be found at: https://deno.land/x/http_fns
+The library can be found at: https://deno.land/x/http_fns (and now at
+https://jsr.io/@http/fns)
 
 ## Server
 

@@ -164,6 +164,7 @@ future.</p>
 <a href="https://github.com/jollytoad/deno_jsx_stream">GitHub</a>.</p>
 <p>NOTE: It&#39;s still fairly experimental, lacking docs, and hasn&#39;t been tested for
 many edge cases, but it does power this website.</p>
+<p>Now also available via <a href="https://jsr.io/@http/jsx-stream">JSR</a>.</p>
 <h2>Discussion</h2>
 <p>If you&#39;d like to ask a question or discuss this blog further please use the
 GitHub <a href="https://github.com/jollytoad/home/discussions/1">discussion</a>.</p><script src="/prism.js" async></script></main><footer><div class="src"><a href="https://github.com/jollytoad/home/blob/main/routes/blog/jsx_streaming.md" target="_blank">View source on GitHub</a></div><div>©️ 2024 Mark Gibson</div></footer></body></html>

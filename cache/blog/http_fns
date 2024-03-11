@@ -10,7 +10,8 @@ function, so why not embrace this and compose your handler from more functions.<
 <p>I started building up some simple functions to handle routing, and it eventually
 grew into quite a collection. All functions exist in their own module, so you
 only import the features you actually need.</p>
-<p>The library can be found at: <a href="https://deno.land/x/http_fns">https://deno.land/x/http_fns</a></p>
+<p>The library can be found at: <a href="https://deno.land/x/http_fns">https://deno.land/x/http_fns</a> (and now at
+<a href="https://jsr.io/@http/fns">https://jsr.io/@http/fns</a>)</p>
 <h2>Server</h2>
 <p>First, a quick reminder of the basic Deno Hello World server...</p>
 <pre><code class="language-ts">Deno.serve((_req: Request) =&gt; {

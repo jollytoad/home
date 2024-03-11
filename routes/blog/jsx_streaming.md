@@ -236,6 +236,8 @@ many edge cases, but it does power this website.
 
 [src]: https://github.com/jollytoad/deno_jsx_stream
 
+Now also available via [JSR](https://jsr.io/@http/jsx-stream).
+
 ## Discussion
 
 If you'd like to ask a question or discuss this blog further please use the
