@@ -1,6 +1,6 @@
-import type { Children } from "$jsx/types.ts";
-import { isAsyncIterable, isIterable } from "$jsx/guards.ts";
-import { delay } from "$std/async/delay.ts";
+import type { Children } from "$jsx/types";
+import { isAsyncIterable, isIterable } from "$jsx/guards";
+import { delay } from "@std/async/delay";
 
 export interface TrickledProps {
   delay: number;

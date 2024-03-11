@@ -1,9 +1,5 @@
-import type { TagHandlers } from "$jsx/types.ts";
-import {
-  inject,
-  recordScript,
-  recordStylesheet,
-} from "@/lib/tag_hooks/inject.tsx";
+import type { TagHandlers } from "$jsx/types";
+import { inject, recordScript, recordStylesheet } from "./inject.tsx";
 
 export function shoelaceElements(): TagHandlers {
   return {

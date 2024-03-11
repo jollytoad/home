@@ -1,13 +1,13 @@
-import { byMethod } from "$http_fns/by_method.ts";
-import { renderHTML } from "$http_render_fns/render_html.tsx";
+import { byMethod } from "@http/fns/by_method";
 import { deleteItem, writeItem } from "../_lib/data.ts";
 import type { TodoListItem } from "../_lib/types.ts";
 import { TodoItemView } from "../_components/TodoItemView.tsx";
-import { FRAGMENT_RENDER_OPTIONS } from "@/config_fragment.ts";
-import { badRequest } from "$http_fns/response/bad_request.ts";
-import { seeOther } from "$http_fns/response/see_other.ts";
-import { ok } from "$http_fns/response/ok.ts";
-import { notFound } from "$http_fns/response/not_found.ts";
+import { FRAGMENT_RENDER_OPTIONS } from "../../../config_fragment.ts";
+import { badRequest } from "@http/fns/response/bad_request";
+import { seeOther } from "@http/fns/response/see_other";
+import { ok } from "@http/fns/response/ok";
+import { notFound } from "@http/fns/response/not_found";
+import { renderHTML } from "../../../lib/render_html.tsx";
 
 export default byMethod({
   POST: async (req: Request, match: URLPatternResult) => {
@@ -42,9 +42,11 @@ export default byMethod({
 
     if (item) {
       if (req.headers.has("HX-Request")) {
-        return renderHTML(TodoItemView, undefined, FRAGMENT_RENDER_OPTIONS)(
-          req,
+        return renderHTML(
+          TodoItemView,
           { listId, item },
+          undefined,
+          FRAGMENT_RENDER_OPTIONS,
         );
       } else {
         return seeOther(match.pathname.input);

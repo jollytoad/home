@@ -1,7 +1,7 @@
 import type {
   DiscoveredPath,
   DiscoveredRoute,
-} from "$http_fns/discover_routes.ts";
+} from "@http/fns/discover_routes";
 
 export default function routeMapper(
   { parentPath, name, ext, pattern, module }: DiscoveredPath,
@@ -23,13 +23,13 @@ export default function routeMapper(
         pattern: name === "index"
           ? [pattern, `${pattern}/index{.:ext}`]
           : `${pattern}{.:ext}?`,
-        module: import.meta.resolve("@/lib/handle_route_md.tsx"),
+        module: import.meta.resolve("./handle_route_md.tsx"),
       }];
     case ".png":
     case ".svg":
       return [{
         pattern: `${pattern}${ext}`,
-        module: import.meta.resolve("@/lib/handle_route_static.ts"),
+        module: import.meta.resolve("./handle_route_static.ts"),
       }];
   }
   return [];

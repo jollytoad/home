@@ -1,4 +1,4 @@
-import { filterValues } from "$std/collections/filter_values.ts";
+import { filterValues } from "@std/collections/filter_values";
 import type { TodoListItem } from "./types.ts";
 import { getItem, listItems, removeItem, setItem } from "$store";
 import { newId } from "./id.ts";

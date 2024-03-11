@@ -1,5 +1,5 @@
-import type { TagHandlers } from "$jsx/types.ts";
-import { inject, recordScript } from "@/lib/tag_hooks/inject.tsx";
+import type { TagHandlers } from "$jsx/types";
+import { inject, recordScript } from "./inject.tsx";
 
 const injectGH = inject((tag) => ({
   module: `https://esm.sh/@github/${tag.tagName}-element`,

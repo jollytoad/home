@@ -1,5 +1,5 @@
-import { getCookies, setCookie } from "$std/http/cookie.ts";
-import { ulid } from "https://deno.land/x/ulid@v0.2.1/mod.ts";
+import { getCookies, setCookie } from "@std/http/cookie";
+import { ulid } from "@std/ulid";
 
 interface QuizSession {
   id: string;

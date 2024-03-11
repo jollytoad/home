@@ -1,5 +1,5 @@
-import { byMethod } from "$http_fns/by_method.ts";
-import { mapData } from "$http_fns/map_data.ts";
+import { byMethod } from "@http/fns/by_method";
+import { mapData } from "@http/fns/map_data";
 import { handleCallback } from "$deno_kv_oauth/handle_callback.ts";
 import { asOAuth2ClientConfig } from "../_lib/oauth_config.ts";
 

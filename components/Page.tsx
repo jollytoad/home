@@ -1,7 +1,7 @@
-import type { Children } from "$jsx/types.ts";
-import { Src } from "@/components/Src.tsx";
-import { UserWidget } from "@/components/UserWidget.tsx";
-import { getDeferredTimeout } from "@/lib/deferrred_timeout.ts";
+import type { Children } from "$jsx/types";
+import { Src } from "../components/Src.tsx";
+import { UserWidget } from "../components/UserWidget.tsx";
+import { getDeferredTimeout } from "../lib/deferred_timeout.ts";
 
 interface Props {
   req?: Request;

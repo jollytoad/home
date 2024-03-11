@@ -1,15 +1,15 @@
-import { byMethod } from "$http_fns/by_method.ts";
-import { renderHTML } from "$http_render_fns/render_html.tsx";
-import { Page } from "@/components/Page.tsx";
-import { renderPage } from "@/lib/handle_page.ts";
+import { byMethod } from "@http/fns/by_method";
+import { Page } from "../../../components/Page.tsx";
+import { renderPage } from "../../../lib/handle_page.ts";
 import type { TodoListItem } from "../_lib/types.ts";
 import { writeItem } from "../_lib/data.ts";
 import { TodoListView } from "../_components/TodoListView.tsx";
 import { TodoItemAdded } from "../_components/TodoItemView.tsx";
-import { FRAGMENT_RENDER_OPTIONS } from "@/config_fragment.ts";
-import { badRequest } from "$http_fns/response/bad_request.ts";
-import { seeOther } from "$http_fns/response/see_other.ts";
-import { forbidden } from "$http_fns/response/forbidden.ts";
+import { FRAGMENT_RENDER_OPTIONS } from "../../../config_fragment.ts";
+import { badRequest } from "@http/fns/response/bad_request";
+import { seeOther } from "@http/fns/response/see_other";
+import { forbidden } from "@http/fns/response/forbidden";
+import { renderHTML } from "../../../lib/render_html.tsx";
 
 export default byMethod({
   GET: renderPage(({ req, match }) => (
@@ -40,9 +40,11 @@ export default byMethod({
 
     if (item) {
       if (req.headers.has("HX-Request")) {
-        return renderHTML(TodoItemAdded, undefined, FRAGMENT_RENDER_OPTIONS)(
-          req,
+        return renderHTML(
+          TodoItemAdded,
           { listId, item },
+          undefined,
+          FRAGMENT_RENDER_OPTIONS,
         );
       } else {
         return seeOther(match.pathname.input);

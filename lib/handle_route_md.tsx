@@ -1,9 +1,9 @@
-import { byMethod } from "$http_fns/by_method.ts";
-import { renderPage } from "@/lib/handle_page.ts";
-import { Page } from "@/components/Page.tsx";
-import { Markdown } from "@/components/Markdown.tsx";
-import { byMediaType } from "$http_fns/by_media_type.ts";
-import { fetchContent } from "@/lib/content.ts";
+import { byMethod } from "@http/fns/by_method";
+import { renderPage } from "./handle_page.ts";
+import { Page } from "../components/Page.tsx";
+import { Markdown } from "../components/Markdown.tsx";
+import { byMediaType } from "@http/fns/by_media_type";
+import { fetchContent } from "../lib/content.ts";
 
 export default byMethod({
   GET: byMediaType({
@@ -26,7 +26,7 @@ function moduleUrl(match: URLPatternResult): string {
   const name = ext
     ? match.pathname.input.slice(0, -(ext.length + 1))
     : match.pathname.input;
-  return import.meta.resolve(`@/routes${name}.md`);
+  return import.meta.resolve(`../routes${name}.md`);
 }
 
 function rawContent(_req: Request, match: URLPatternResult) {

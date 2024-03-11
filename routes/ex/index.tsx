@@ -1,6 +1,6 @@
-import { Page } from "@/components/Page.tsx";
-import { handlePage } from "@/lib/handle_page.ts";
-import { Exchange, exchangePropsFrom } from "@/components/Exchange.tsx";
+import { Page } from "../../components/Page.tsx";
+import { handlePage } from "../../lib/handle_page.ts";
+import { Exchange, exchangePropsFrom } from "../../components/Exchange.tsx";
 
 export default handlePage(({ req, match }) => {
   const exchangeProps = exchangePropsFrom(req, match);

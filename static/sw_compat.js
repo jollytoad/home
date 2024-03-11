@@ -1,204 +1,204 @@
 (() => {
-  // https://esm.sh/v135/urlpattern-polyfill@9.0.0/denonext/urlpattern.js
-  var O = class {
+  // ../../Library/Caches/deno/deno_esbuild/urlpattern-polyfill@10.0.0/node_modules/urlpattern-polyfill/dist/urlpattern.js
+  var R = class {
     type = 3;
     name = "";
     prefix = "";
     value = "";
     suffix = "";
     modifier = 3;
-    constructor(t, e, s, i, o, u) {
-      this.type = t, this.name = e, this.prefix = s, this.value = i, this.suffix = o, this.modifier = u;
+    constructor(t, r, n, o, c, l) {
+      this.type = t, this.name = r, this.prefix = n, this.value = o, this.suffix = c, this.modifier = l;
     }
     hasCustomName() {
       return this.name !== "" && typeof this.name != "number";
     }
   };
-  var Q = /[$_\p{ID_Start}]/u;
-  var Y = /[$_\u200C\u200D\p{ID_Continue}]/u;
-  var D = ".*";
-  function tt(t, e) {
-    return (e ? /^[\x00-\xFF]*$/ : /^[\x00-\x7F]*$/).test(t);
+  var be = /[$_\p{ID_Start}]/u;
+  var Pe = /[$_\u200C\u200D\p{ID_Continue}]/u;
+  var M = ".*";
+  function Re(e, t) {
+    return (t ? /^[\x00-\xFF]*$/ : /^[\x00-\x7F]*$/).test(e);
   }
-  function M(t, e = false) {
-    let s = [], i = 0;
-    for (; i < t.length; ) {
-      let o = t[i], u = function(h) {
-        if (!e)
-          throw new TypeError(h);
-        s.push({ type: "INVALID_CHAR", index: i, value: t[i++] });
+  function v(e, t = false) {
+    let r = [], n = 0;
+    for (; n < e.length; ) {
+      let o = e[n], c = function(l) {
+        if (!t)
+          throw new TypeError(l);
+        r.push({ type: "INVALID_CHAR", index: n, value: e[n++] });
       };
       if (o === "*") {
-        s.push({ type: "ASTERISK", index: i, value: t[i++] });
+        r.push({ type: "ASTERISK", index: n, value: e[n++] });
         continue;
       }
       if (o === "+" || o === "?") {
-        s.push({ type: "OTHER_MODIFIER", index: i, value: t[i++] });
+        r.push({ type: "OTHER_MODIFIER", index: n, value: e[n++] });
         continue;
       }
       if (o === "\\") {
-        s.push({ type: "ESCAPED_CHAR", index: i++, value: t[i++] });
+        r.push({ type: "ESCAPED_CHAR", index: n++, value: e[n++] });
         continue;
       }
       if (o === "{") {
-        s.push({ type: "OPEN", index: i, value: t[i++] });
+        r.push({ type: "OPEN", index: n, value: e[n++] });
         continue;
       }
       if (o === "}") {
-        s.push({ type: "CLOSE", index: i, value: t[i++] });
+        r.push({ type: "CLOSE", index: n, value: e[n++] });
         continue;
       }
       if (o === ":") {
-        let h = "", r = i + 1;
-        for (; r < t.length; ) {
-          let a = t.substr(r, 1);
-          if (r === i + 1 && Q.test(a) || r !== i + 1 && Y.test(a)) {
-            h += t[r++];
+        let l = "", s = n + 1;
+        for (; s < e.length; ) {
+          let i = e.substr(s, 1);
+          if (s === n + 1 && be.test(i) || s !== n + 1 && Pe.test(i)) {
+            l += e[s++];
             continue;
           }
           break;
         }
-        if (!h) {
-          u(`Missing parameter name at ${i}`);
+        if (!l) {
+          c(`Missing parameter name at ${n}`);
           continue;
         }
-        s.push({ type: "NAME", index: i, value: h }), i = r;
+        r.push({ type: "NAME", index: n, value: l }), n = s;
         continue;
       }
       if (o === "(") {
-        let h = 1, r = "", a = i + 1, n = false;
-        if (t[a] === "?") {
-          u(`Pattern cannot start with "?" at ${a}`);
+        let l = 1, s = "", i = n + 1, a = false;
+        if (e[i] === "?") {
+          c(`Pattern cannot start with "?" at ${i}`);
           continue;
         }
-        for (; a < t.length; ) {
-          if (!tt(t[a], false)) {
-            u(`Invalid character '${t[a]}' at ${a}.`), n = true;
+        for (; i < e.length; ) {
+          if (!Re(e[i], false)) {
+            c(`Invalid character '${e[i]}' at ${i}.`), a = true;
             break;
           }
-          if (t[a] === "\\") {
-            r += t[a++] + t[a++];
+          if (e[i] === "\\") {
+            s += e[i++] + e[i++];
             continue;
           }
-          if (t[a] === ")") {
-            if (h--, h === 0) {
-              a++;
+          if (e[i] === ")") {
+            if (l--, l === 0) {
+              i++;
               break;
             }
-          } else if (t[a] === "(" && (h++, t[a + 1] !== "?")) {
-            u(`Capturing groups are not allowed at ${a}`), n = true;
+          } else if (e[i] === "(" && (l++, e[i + 1] !== "?")) {
+            c(`Capturing groups are not allowed at ${i}`), a = true;
             break;
           }
-          r += t[a++];
+          s += e[i++];
         }
-        if (n)
+        if (a)
           continue;
-        if (h) {
-          u(`Unbalanced pattern at ${i}`);
-          continue;
-        }
-        if (!r) {
-          u(`Missing pattern at ${i}`);
+        if (l) {
+          c(`Unbalanced pattern at ${n}`);
           continue;
         }
-        s.push({ type: "REGEX", index: i, value: r }), i = a;
+        if (!s) {
+          c(`Missing pattern at ${n}`);
+          continue;
+        }
+        r.push({ type: "REGEX", index: n, value: s }), n = i;
         continue;
       }
-      s.push({ type: "CHAR", index: i, value: t[i++] });
+      r.push({ type: "CHAR", index: n, value: e[n++] });
     }
-    return s.push({ type: "END", index: i, value: "" }), s;
+    return r.push({ type: "END", index: n, value: "" }), r;
   }
-  function F(t, e = {}) {
-    let s = M(t);
-    e.delimiter ??= "/#?", e.prefixes ??= "./";
-    let i = `[^${g(e.delimiter)}]+?`, o = [], u = 0, h = 0, r = "", a = /* @__PURE__ */ new Set(), n = (p) => {
-      if (h < s.length && s[h].type === p)
-        return s[h++].value;
-    }, f = () => n("OTHER_MODIFIER") ?? n("ASTERISK"), w = (p) => {
-      let c = n(p);
-      if (c !== void 0)
-        return c;
-      let { type: l, index: R } = s[h];
-      throw new TypeError(`Unexpected ${l} at ${R}, expected ${p}`);
-    }, v = () => {
-      let p = "", c;
-      for (; c = n("CHAR") ?? n("ESCAPED_CHAR"); )
-        p += c;
-      return p;
-    }, J = (p) => p, P = e.encodePart || J, T = "", U = (p) => {
-      T += p;
-    }, I = () => {
-      T.length && (o.push(new O(3, "", "", P(T), "", 3)), T = "");
-    }, _ = (p, c, l, R, b) => {
-      let d = 3;
-      switch (b) {
+  function D(e, t = {}) {
+    let r = v(e);
+    t.delimiter ??= "/#?", t.prefixes ??= "./";
+    let n = `[^${S(t.delimiter)}]+?`, o = [], c = 0, l = 0, s = "", i = /* @__PURE__ */ new Set(), a = (h) => {
+      if (l < r.length && r[l].type === h)
+        return r[l++].value;
+    }, f = () => a("OTHER_MODIFIER") ?? a("ASTERISK"), d = (h) => {
+      let u = a(h);
+      if (u !== void 0)
+        return u;
+      let { type: p, index: A } = r[l];
+      throw new TypeError(`Unexpected ${p} at ${A}, expected ${h}`);
+    }, T = () => {
+      let h = "", u;
+      for (; u = a("CHAR") ?? a("ESCAPED_CHAR"); )
+        h += u;
+      return h;
+    }, Se = (h) => h, L = t.encodePart || Se, I = "", U = (h) => {
+      I += h;
+    }, $ = () => {
+      I.length && (o.push(new R(3, "", "", L(I), "", 3)), I = "");
+    }, V = (h, u, p, A, Y) => {
+      let g = 3;
+      switch (Y) {
         case "?":
-          d = 1;
+          g = 1;
           break;
         case "*":
-          d = 0;
+          g = 0;
           break;
         case "+":
-          d = 2;
+          g = 2;
           break;
       }
-      if (!c && !l && d === 3) {
-        U(p);
+      if (!u && !p && g === 3) {
+        U(h);
         return;
       }
-      if (I(), !c && !l) {
-        if (!p)
+      if ($(), !u && !p) {
+        if (!h)
           return;
-        o.push(new O(3, "", "", P(p), "", d));
+        o.push(new R(3, "", "", L(h), "", g));
         return;
       }
       let m;
-      l ? l === "*" ? m = D : m = l : m = i;
-      let C = 2;
-      m === i ? (C = 1, m = "") : m === D && (C = 0, m = "");
-      let x;
-      if (c ? x = c : l && (x = u++), a.has(x))
-        throw new TypeError(`Duplicate name '${x}'.`);
-      a.add(x), o.push(new O(C, x, P(p), m, P(R), d));
+      p ? p === "*" ? m = M : m = p : m = n;
+      let O = 2;
+      m === n ? (O = 1, m = "") : m === M && (O = 0, m = "");
+      let P;
+      if (u ? P = u : p && (P = c++), i.has(P))
+        throw new TypeError(`Duplicate name '${P}'.`);
+      i.add(P), o.push(new R(O, P, L(h), m, L(A), g));
     };
-    for (; h < s.length; ) {
-      let p = n("CHAR"), c = n("NAME"), l = n("REGEX");
-      if (!c && !l && (l = n("ASTERISK")), c || l) {
-        let b = p ?? "";
-        e.prefixes.indexOf(b) === -1 && (U(b), b = ""), I();
-        let d = f();
-        _(b, c, l, "", d);
+    for (; l < r.length; ) {
+      let h = a("CHAR"), u = a("NAME"), p = a("REGEX");
+      if (!u && !p && (p = a("ASTERISK")), u || p) {
+        let g = h ?? "";
+        t.prefixes.indexOf(g) === -1 && (U(g), g = ""), $();
+        let m = f();
+        V(g, u, p, "", m);
         continue;
       }
-      let R = p ?? n("ESCAPED_CHAR");
-      if (R) {
-        U(R);
+      let A = h ?? a("ESCAPED_CHAR");
+      if (A) {
+        U(A);
         continue;
       }
-      if (n("OPEN")) {
-        let b = v(), d = n("NAME"), m = n("REGEX");
-        !d && !m && (m = n("ASTERISK"));
-        let C = v();
-        w("CLOSE");
-        let x = f();
-        _(b, d, m, C, x);
+      if (a("OPEN")) {
+        let g = T(), m = a("NAME"), O = a("REGEX");
+        !m && !O && (O = a("ASTERISK"));
+        let P = T();
+        d("CLOSE");
+        let xe = f();
+        V(g, m, O, P, xe);
         continue;
       }
-      I(), w("END");
+      $(), d("END");
     }
     return o;
   }
-  function g(t) {
-    return t.replace(/([.+*?^${}()[\]|/\\])/g, "\\$1");
+  function S(e) {
+    return e.replace(/([.+*?^${}()[\]|/\\])/g, "\\$1");
   }
-  function j(t) {
-    return t && t.ignoreCase ? "ui" : "u";
+  function X(e) {
+    return e && e.ignoreCase ? "ui" : "u";
   }
-  function et(t, e, s) {
-    return W(F(t, s), e, s);
+  function Z(e, t, r) {
+    return F(D(e, r), t, r);
   }
-  function k(t) {
-    switch (t) {
+  function k(e) {
+    switch (e) {
       case 0:
         return "*";
       case 1:
@@ -209,104 +209,104 @@
         return "";
     }
   }
-  function W(t, e, s = {}) {
-    s.delimiter ??= "/#?", s.prefixes ??= "./", s.sensitive ??= false, s.strict ??= false, s.end ??= true, s.start ??= true, s.endsWith = "";
-    let i = s.start ? "^" : "";
-    for (let r of t) {
-      if (r.type === 3) {
-        r.modifier === 3 ? i += g(r.value) : i += `(?:${g(r.value)})${k(r.modifier)}`;
+  function F(e, t, r = {}) {
+    r.delimiter ??= "/#?", r.prefixes ??= "./", r.sensitive ??= false, r.strict ??= false, r.end ??= true, r.start ??= true, r.endsWith = "";
+    let n = r.start ? "^" : "";
+    for (let s of e) {
+      if (s.type === 3) {
+        s.modifier === 3 ? n += S(s.value) : n += `(?:${S(s.value)})${k(s.modifier)}`;
         continue;
       }
-      e && e.push(r.name);
-      let a = `[^${g(s.delimiter)}]+?`, n = r.value;
-      if (r.type === 1 ? n = a : r.type === 0 && (n = D), !r.prefix.length && !r.suffix.length) {
-        r.modifier === 3 || r.modifier === 1 ? i += `(${n})${k(r.modifier)}` : i += `((?:${n})${k(r.modifier)})`;
+      t && t.push(s.name);
+      let i = `[^${S(r.delimiter)}]+?`, a = s.value;
+      if (s.type === 1 ? a = i : s.type === 0 && (a = M), !s.prefix.length && !s.suffix.length) {
+        s.modifier === 3 || s.modifier === 1 ? n += `(${a})${k(s.modifier)}` : n += `((?:${a})${k(s.modifier)})`;
         continue;
       }
-      if (r.modifier === 3 || r.modifier === 1) {
-        i += `(?:${g(r.prefix)}(${n})${g(r.suffix)})`, i += k(r.modifier);
+      if (s.modifier === 3 || s.modifier === 1) {
+        n += `(?:${S(s.prefix)}(${a})${S(s.suffix)})`, n += k(s.modifier);
         continue;
       }
-      i += `(?:${g(r.prefix)}`, i += `((?:${n})(?:`, i += g(r.suffix), i += g(r.prefix), i += `(?:${n}))*)${g(r.suffix)})`, r.modifier === 0 && (i += "?");
+      n += `(?:${S(s.prefix)}`, n += `((?:${a})(?:`, n += S(s.suffix), n += S(s.prefix), n += `(?:${a}))*)${S(s.suffix)})`, s.modifier === 0 && (n += "?");
     }
-    let o = `[${g(s.endsWith)}]|$`, u = `[${g(s.delimiter)}]`;
-    if (s.end)
-      return s.strict || (i += `${u}?`), s.endsWith.length ? i += `(?=${o})` : i += "$", new RegExp(i, j(s));
-    s.strict || (i += `(?:${u}(?=${o}))?`);
-    let h = false;
-    if (t.length) {
-      let r = t[t.length - 1];
-      r.type === 3 && r.modifier === 3 && (h = s.delimiter.indexOf(r) > -1);
+    let o = `[${S(r.endsWith)}]|$`, c = `[${S(r.delimiter)}]`;
+    if (r.end)
+      return r.strict || (n += `${c}?`), r.endsWith.length ? n += `(?=${o})` : n += "$", new RegExp(n, X(r));
+    r.strict || (n += `(?:${c}(?=${o}))?`);
+    let l = false;
+    if (e.length) {
+      let s = e[e.length - 1];
+      s.type === 3 && s.modifier === 3 && (l = r.delimiter.indexOf(s) > -1);
     }
-    return h || (i += `(?=${u}|${o})`), new RegExp(i, j(s));
+    return l || (n += `(?=${c}|${o})`), new RegExp(n, X(r));
   }
-  var E = { delimiter: "", prefixes: "", sensitive: true, strict: true };
-  var st = { delimiter: ".", prefixes: "", sensitive: true, strict: true };
-  var rt = { delimiter: "/", prefixes: "/", sensitive: true, strict: true };
-  function it(t, e) {
-    return t.length ? t[0] === "/" ? true : !e || t.length < 2 ? false : (t[0] == "\\" || t[0] == "{") && t[1] == "/" : false;
+  var x = { delimiter: "", prefixes: "", sensitive: true, strict: true };
+  var B = { delimiter: ".", prefixes: "", sensitive: true, strict: true };
+  var q = { delimiter: "/", prefixes: "/", sensitive: true, strict: true };
+  function J(e, t) {
+    return e.length ? e[0] === "/" ? true : !t || e.length < 2 ? false : (e[0] == "\\" || e[0] == "{") && e[1] == "/" : false;
   }
-  function K(t, e) {
-    return t.startsWith(e) ? t.substring(e.length, t.length) : t;
+  function Q(e, t) {
+    return e.startsWith(t) ? e.substring(t.length, e.length) : e;
   }
-  function nt(t, e) {
-    return t.endsWith(e) ? t.substr(0, t.length - e.length) : t;
+  function Ee(e, t) {
+    return e.endsWith(t) ? e.substr(0, e.length - t.length) : e;
   }
-  function G(t) {
-    return !t || t.length < 2 ? false : t[0] === "[" || (t[0] === "\\" || t[0] === "{") && t[1] === "[";
+  function W(e) {
+    return !e || e.length < 2 ? false : e[0] === "[" || (e[0] === "\\" || e[0] === "{") && e[1] === "[";
   }
-  var X = ["ftp", "file", "http", "https", "ws", "wss"];
-  function V(t) {
-    if (!t)
+  var ee = ["ftp", "file", "http", "https", "ws", "wss"];
+  function N(e) {
+    if (!e)
       return true;
-    for (let e of X)
-      if (t.test(e))
+    for (let t of ee)
+      if (e.test(t))
         return true;
     return false;
   }
-  function ht(t, e) {
-    if (t = K(t, "#"), e || t === "")
-      return t;
-    let s = new URL("https://example.com");
-    return s.hash = t, s.hash ? s.hash.substring(1, s.hash.length) : "";
+  function te(e, t) {
+    if (e = Q(e, "#"), t || e === "")
+      return e;
+    let r = new URL("https://example.com");
+    return r.hash = e, r.hash ? r.hash.substring(1, r.hash.length) : "";
   }
-  function at(t, e) {
-    if (t = K(t, "?"), e || t === "")
-      return t;
-    let s = new URL("https://example.com");
-    return s.search = t, s.search ? s.search.substring(1, s.search.length) : "";
+  function re(e, t) {
+    if (e = Q(e, "?"), t || e === "")
+      return e;
+    let r = new URL("https://example.com");
+    return r.search = e, r.search ? r.search.substring(1, r.search.length) : "";
   }
-  function ot(t, e) {
-    return e || t === "" ? t : G(t) ? q(t) : Z(t);
+  function ne(e, t) {
+    return t || e === "" ? e : W(e) ? j(e) : z(e);
   }
-  function ut(t, e) {
-    if (e || t === "")
-      return t;
-    let s = new URL("https://example.com");
-    return s.password = t, s.password;
+  function se(e, t) {
+    if (t || e === "")
+      return e;
+    let r = new URL("https://example.com");
+    return r.password = e, r.password;
   }
-  function pt(t, e) {
-    if (e || t === "")
-      return t;
-    let s = new URL("https://example.com");
-    return s.username = t, s.username;
+  function ie(e, t) {
+    if (t || e === "")
+      return e;
+    let r = new URL("https://example.com");
+    return r.username = e, r.username;
   }
-  function ct(t, e, s) {
-    if (s || t === "")
-      return t;
-    if (e && !X.includes(e))
-      return new URL(`${e}:${t}`).pathname;
-    let i = t[0] == "/";
-    return t = new URL(i ? t : "/-" + t, "https://example.com").pathname, i || (t = t.substring(2, t.length)), t;
+  function ae(e, t, r) {
+    if (r || e === "")
+      return e;
+    if (t && !ee.includes(t))
+      return new URL(`${t}:${e}`).pathname;
+    let n = e[0] == "/";
+    return e = new URL(n ? e : "/-" + e, "https://example.com").pathname, n || (e = e.substring(2, e.length)), e;
   }
-  function ft(t, e, s) {
-    return z(e) === t && (t = ""), s || t === "" ? t : B(t);
+  function oe(e, t, r) {
+    return _(t) === e && (e = ""), r || e === "" ? e : K(e);
   }
-  function lt(t, e) {
-    return t = nt(t, ":"), e || t === "" ? t : N(t);
+  function ce(e, t) {
+    return e = Ee(e, ":"), t || e === "" ? e : y(e);
   }
-  function z(t) {
-    switch (t) {
+  function _(e) {
+    switch (e) {
       case "ws":
       case "http":
         return "80";
@@ -319,136 +319,136 @@
         return "";
     }
   }
-  function N(t) {
-    if (t === "")
-      return t;
-    if (/^[-+.A-Za-z0-9]*$/.test(t))
-      return t.toLowerCase();
-    throw new TypeError(`Invalid protocol '${t}'.`);
+  function y(e) {
+    if (e === "")
+      return e;
+    if (/^[-+.A-Za-z0-9]*$/.test(e))
+      return e.toLowerCase();
+    throw new TypeError(`Invalid protocol '${e}'.`);
   }
-  function mt(t) {
-    if (t === "")
-      return t;
-    let e = new URL("https://example.com");
-    return e.username = t, e.username;
+  function le(e) {
+    if (e === "")
+      return e;
+    let t = new URL("https://example.com");
+    return t.username = e, t.username;
   }
-  function gt(t) {
-    if (t === "")
-      return t;
-    let e = new URL("https://example.com");
-    return e.password = t, e.password;
+  function fe(e) {
+    if (e === "")
+      return e;
+    let t = new URL("https://example.com");
+    return t.password = e, t.password;
   }
-  function Z(t) {
-    if (t === "")
-      return t;
-    if (/[\t\n\r #%/:<>?@[\]^\\|]/g.test(t))
-      throw new TypeError(`Invalid hostname '${t}'`);
-    let e = new URL("https://example.com");
-    return e.hostname = t, e.hostname;
+  function z(e) {
+    if (e === "")
+      return e;
+    if (/[\t\n\r #%/:<>?@[\]^\\|]/g.test(e))
+      throw new TypeError(`Invalid hostname '${e}'`);
+    let t = new URL("https://example.com");
+    return t.hostname = e, t.hostname;
   }
-  function q(t) {
-    if (t === "")
-      return t;
-    if (/[^0-9a-fA-F[\]:]/g.test(t))
-      throw new TypeError(`Invalid IPv6 hostname '${t}'`);
-    return t.toLowerCase();
+  function j(e) {
+    if (e === "")
+      return e;
+    if (/[^0-9a-fA-F[\]:]/g.test(e))
+      throw new TypeError(`Invalid IPv6 hostname '${e}'`);
+    return e.toLowerCase();
   }
-  function B(t) {
-    if (t === "" || /^[0-9]*$/.test(t) && parseInt(t) <= 65535)
-      return t;
-    throw new TypeError(`Invalid port '${t}'.`);
+  function K(e) {
+    if (e === "" || /^[0-9]*$/.test(e) && parseInt(e) <= 65535)
+      return e;
+    throw new TypeError(`Invalid port '${e}'.`);
   }
-  function dt(t) {
-    if (t === "")
-      return t;
-    let e = new URL("https://example.com");
-    return e.pathname = t[0] !== "/" ? "/-" + t : t, t[0] !== "/" ? e.pathname.substring(2, e.pathname.length) : e.pathname;
+  function he(e) {
+    if (e === "")
+      return e;
+    let t = new URL("https://example.com");
+    return t.pathname = e[0] !== "/" ? "/-" + e : e, e[0] !== "/" ? t.pathname.substring(2, t.pathname.length) : t.pathname;
   }
-  function wt(t) {
-    return t === "" ? t : new URL(`data:${t}`).pathname;
+  function ue(e) {
+    return e === "" ? e : new URL(`data:${e}`).pathname;
   }
-  function yt(t) {
-    if (t === "")
-      return t;
-    let e = new URL("https://example.com");
-    return e.search = t, e.search.substring(1, e.search.length);
+  function de(e) {
+    if (e === "")
+      return e;
+    let t = new URL("https://example.com");
+    return t.search = e, t.search.substring(1, t.search.length);
   }
-  function bt(t) {
-    if (t === "")
-      return t;
-    let e = new URL("https://example.com");
-    return e.hash = t, e.hash.substring(1, e.hash.length);
+  function pe(e) {
+    if (e === "")
+      return e;
+    let t = new URL("https://example.com");
+    return t.hash = e, t.hash.substring(1, t.hash.length);
   }
-  var xt = class {
-    #n;
-    #r = [];
-    #e = {};
-    #t = 0;
-    #i = 1;
-    #f = 0;
-    #o = 0;
+  var H = class {
+    #i;
+    #n = [];
+    #t = {};
+    #e = 0;
+    #s = 1;
     #l = 0;
-    #m = 0;
+    #o = 0;
+    #d = 0;
+    #p = 0;
     #g = false;
     constructor(t) {
-      this.#n = t;
+      this.#i = t;
     }
     get result() {
-      return this.#e;
+      return this.#t;
     }
     parse() {
-      for (this.#r = M(this.#n, true); this.#t < this.#r.length; this.#t += this.#i) {
-        if (this.#i = 1, this.#r[this.#t].type === "END") {
+      for (this.#n = v(this.#i, true); this.#e < this.#n.length; this.#e += this.#s) {
+        if (this.#s = 1, this.#n[this.#e].type === "END") {
           if (this.#o === 0) {
-            this.#b(), this.#u() ? this.#s(9, 1) : this.#p() ? (this.#s(8, 1), this.#e.hash = "") : (this.#s(7, 0), this.#e.search = "", this.#e.hash = "");
+            this.#b(), this.#f() ? this.#r(9, 1) : this.#h() ? this.#r(8, 1) : this.#r(7, 0);
             continue;
           } else if (this.#o === 2) {
-            this.#c(5);
+            this.#u(5);
             continue;
           }
-          this.#s(10, 0);
+          this.#r(10, 0);
           break;
         }
-        if (this.#l > 0)
-          if (this.#C())
-            this.#l -= 1;
+        if (this.#d > 0)
+          if (this.#A())
+            this.#d -= 1;
           else
             continue;
-        if (this.#k()) {
-          this.#l += 1;
+        if (this.#T()) {
+          this.#d += 1;
           continue;
         }
         switch (this.#o) {
           case 0:
-            this.#x() && (this.#e.username = "", this.#e.password = "", this.#e.hostname = "", this.#e.port = "", this.#e.pathname = "", this.#e.search = "", this.#e.hash = "", this.#c(1));
+            this.#P() && this.#u(1);
             break;
           case 1:
-            if (this.#x()) {
-              this.#O();
-              let t = 7, e = 1;
-              this.#g && (this.#e.pathname = "/"), this.#E() ? (t = 2, e = 3) : this.#g && (t = 2), this.#s(t, e);
+            if (this.#P()) {
+              this.#C();
+              let t = 7, r = 1;
+              this.#E() ? (t = 2, r = 3) : this.#g && (t = 2), this.#r(t, r);
             }
             break;
           case 2:
-            this.#w() ? this.#c(3) : (this.#y() || this.#p() || this.#u()) && this.#c(5);
+            this.#S() ? this.#u(3) : (this.#x() || this.#h() || this.#f()) && this.#u(5);
             break;
           case 3:
-            this.#v() ? this.#s(4, 1) : this.#w() && this.#s(5, 1);
+            this.#O() ? this.#r(4, 1) : this.#S() && this.#r(5, 1);
             break;
           case 4:
-            this.#w() && this.#s(5, 1);
+            this.#S() && this.#r(5, 1);
             break;
           case 5:
-            this.#L() ? this.#m += 1 : this.#A() && (this.#m -= 1), this.#R() && !this.#m ? this.#s(6, 1) : this.#y() ? this.#s(7, 0) : this.#p() ? this.#s(8, 1) : this.#u() && this.#s(9, 1);
+            this.#y() ? this.#p += 1 : this.#w() && (this.#p -= 1), this.#k() && !this.#p ? this.#r(6, 1) : this.#x() ? this.#r(7, 0) : this.#h() ? this.#r(8, 1) : this.#f() && this.#r(9, 1);
             break;
           case 6:
-            this.#y() ? this.#s(7, 0) : this.#p() ? this.#s(8, 1) : this.#u() && this.#s(9, 1);
+            this.#x() ? this.#r(7, 0) : this.#h() ? this.#r(8, 1) : this.#f() && this.#r(9, 1);
             break;
           case 7:
-            this.#p() ? this.#s(8, 1) : this.#u() && this.#s(9, 1);
+            this.#h() ? this.#r(8, 1) : this.#f() && this.#r(9, 1);
             break;
           case 8:
-            this.#u() && this.#s(9, 1);
+            this.#f() && this.#r(9, 1);
             break;
           case 9:
             break;
@@ -456,342 +456,352 @@
             break;
         }
       }
+      this.#t.hostname !== void 0 && this.#t.port === void 0 && (this.#t.port = "");
     }
-    #s(t, e) {
+    #r(t, r) {
       switch (this.#o) {
         case 0:
           break;
         case 1:
-          this.#e.protocol = this.#a();
+          this.#t.protocol = this.#c();
           break;
         case 2:
           break;
         case 3:
-          this.#e.username = this.#a();
+          this.#t.username = this.#c();
           break;
         case 4:
-          this.#e.password = this.#a();
+          this.#t.password = this.#c();
           break;
         case 5:
-          this.#e.hostname = this.#a();
+          this.#t.hostname = this.#c();
           break;
         case 6:
-          this.#e.port = this.#a();
+          this.#t.port = this.#c();
           break;
         case 7:
-          this.#e.pathname = this.#a();
+          this.#t.pathname = this.#c();
           break;
         case 8:
-          this.#e.search = this.#a();
+          this.#t.search = this.#c();
           break;
         case 9:
-          this.#e.hash = this.#a();
+          this.#t.hash = this.#c();
           break;
         case 10:
           break;
       }
-      this.#$(t, e);
+      this.#o !== 0 && t !== 10 && ([1, 2, 3, 4].includes(this.#o) && [6, 7, 8, 9].includes(t) && (this.#t.hostname ??= ""), [1, 2, 3, 4, 5, 6].includes(this.#o) && [8, 9].includes(t) && (this.#t.pathname ??= this.#g ? "/" : ""), [1, 2, 3, 4, 5, 6, 7].includes(this.#o) && t === 9 && (this.#t.search ??= "")), this.#R(t, r);
     }
-    #$(t, e) {
-      this.#o = t, this.#f = this.#t + e, this.#t += e, this.#i = 0;
+    #R(t, r) {
+      this.#o = t, this.#l = this.#e + r, this.#e += r, this.#s = 0;
     }
     #b() {
-      this.#t = this.#f, this.#i = 0;
+      this.#e = this.#l, this.#s = 0;
     }
-    #c(t) {
+    #u(t) {
       this.#b(), this.#o = t;
     }
-    #d(t) {
-      return t < 0 && (t = this.#r.length - t), t < this.#r.length ? this.#r[t] : this.#r[this.#r.length - 1];
+    #m(t) {
+      return t < 0 && (t = this.#n.length - t), t < this.#n.length ? this.#n[t] : this.#n[this.#n.length - 1];
     }
-    #h(t, e) {
-      let s = this.#d(t);
-      return s.value === e && (s.type === "CHAR" || s.type === "ESCAPED_CHAR" || s.type === "INVALID_CHAR");
+    #a(t, r) {
+      let n = this.#m(t);
+      return n.value === r && (n.type === "CHAR" || n.type === "ESCAPED_CHAR" || n.type === "INVALID_CHAR");
     }
-    #x() {
-      return this.#h(this.#t, ":");
+    #P() {
+      return this.#a(this.#e, ":");
     }
     #E() {
-      return this.#h(this.#t + 1, "/") && this.#h(this.#t + 2, "/");
+      return this.#a(this.#e + 1, "/") && this.#a(this.#e + 2, "/");
     }
-    #w() {
-      return this.#h(this.#t, "@");
-    }
-    #v() {
-      return this.#h(this.#t, ":");
-    }
-    #R() {
-      return this.#h(this.#t, ":");
-    }
-    #y() {
-      return this.#h(this.#t, "/");
-    }
-    #p() {
-      if (this.#h(this.#t, "?"))
-        return true;
-      if (this.#r[this.#t].value !== "?")
-        return false;
-      let t = this.#d(this.#t - 1);
-      return t.type !== "NAME" && t.type !== "REGEX" && t.type !== "CLOSE" && t.type !== "ASTERISK";
-    }
-    #u() {
-      return this.#h(this.#t, "#");
-    }
-    #k() {
-      return this.#r[this.#t].type == "OPEN";
-    }
-    #C() {
-      return this.#r[this.#t].type == "CLOSE";
-    }
-    #L() {
-      return this.#h(this.#t, "[");
-    }
-    #A() {
-      return this.#h(this.#t, "]");
-    }
-    #a() {
-      let t = this.#r[this.#t], e = this.#d(this.#f).index;
-      return this.#n.substring(e, t.index);
+    #S() {
+      return this.#a(this.#e, "@");
     }
     #O() {
+      return this.#a(this.#e, ":");
+    }
+    #k() {
+      return this.#a(this.#e, ":");
+    }
+    #x() {
+      return this.#a(this.#e, "/");
+    }
+    #h() {
+      if (this.#a(this.#e, "?"))
+        return true;
+      if (this.#n[this.#e].value !== "?")
+        return false;
+      let t = this.#m(this.#e - 1);
+      return t.type !== "NAME" && t.type !== "REGEX" && t.type !== "CLOSE" && t.type !== "ASTERISK";
+    }
+    #f() {
+      return this.#a(this.#e, "#");
+    }
+    #T() {
+      return this.#n[this.#e].type == "OPEN";
+    }
+    #A() {
+      return this.#n[this.#e].type == "CLOSE";
+    }
+    #y() {
+      return this.#a(this.#e, "[");
+    }
+    #w() {
+      return this.#a(this.#e, "]");
+    }
+    #c() {
+      let t = this.#n[this.#e], r = this.#m(this.#l).index;
+      return this.#i.substring(r, t.index);
+    }
+    #C() {
       let t = {};
-      Object.assign(t, E), t.encodePart = N;
-      let e = et(this.#a(), void 0, t);
-      this.#g = V(e);
+      Object.assign(t, x), t.encodePart = y;
+      let r = Z(this.#c(), void 0, t);
+      this.#g = N(r);
     }
   };
-  var S = ["protocol", "username", "password", "hostname", "port", "pathname", "search", "hash"];
-  var $ = "*";
-  function H(t, e) {
-    if (typeof t != "string")
+  var G = ["protocol", "username", "password", "hostname", "port", "pathname", "search", "hash"];
+  var E = "*";
+  function ge(e, t) {
+    if (typeof e != "string")
       throw new TypeError("parameter 1 is not of type 'string'.");
-    let s = new URL(t, e);
-    return { protocol: s.protocol.substring(0, s.protocol.length - 1), username: s.username, password: s.password, hostname: s.hostname, port: s.port, pathname: s.pathname, search: s.search !== "" ? s.search.substring(1, s.search.length) : void 0, hash: s.hash !== "" ? s.hash.substring(1, s.hash.length) : void 0 };
+    let r = new URL(e, t);
+    return { protocol: r.protocol.substring(0, r.protocol.length - 1), username: r.username, password: r.password, hostname: r.hostname, port: r.port, pathname: r.pathname, search: r.search !== "" ? r.search.substring(1, r.search.length) : void 0, hash: r.hash !== "" ? r.hash.substring(1, r.hash.length) : void 0 };
   }
-  function y(t, e) {
-    return e ? A(t) : t;
+  function b(e, t) {
+    return t ? C(e) : e;
   }
-  function L(t, e, s) {
-    let i;
-    if (typeof e.baseURL == "string")
+  function w(e, t, r) {
+    let n;
+    if (typeof t.baseURL == "string")
       try {
-        i = new URL(e.baseURL), t.protocol = y(i.protocol.substring(0, i.protocol.length - 1), s), t.username = y(i.username, s), t.password = y(i.password, s), t.hostname = y(i.hostname, s), t.port = y(i.port, s), t.pathname = y(i.pathname, s), t.search = y(i.search.substring(1, i.search.length), s), t.hash = y(i.hash.substring(1, i.hash.length), s);
+        n = new URL(t.baseURL), t.protocol === void 0 && (e.protocol = b(n.protocol.substring(0, n.protocol.length - 1), r)), !r && t.protocol === void 0 && t.hostname === void 0 && t.port === void 0 && t.username === void 0 && (e.username = b(n.username, r)), !r && t.protocol === void 0 && t.hostname === void 0 && t.port === void 0 && t.username === void 0 && t.password === void 0 && (e.password = b(n.password, r)), t.protocol === void 0 && t.hostname === void 0 && (e.hostname = b(n.hostname, r)), t.protocol === void 0 && t.hostname === void 0 && t.port === void 0 && (e.port = b(n.port, r)), t.protocol === void 0 && t.hostname === void 0 && t.port === void 0 && t.pathname === void 0 && (e.pathname = b(n.pathname, r)), t.protocol === void 0 && t.hostname === void 0 && t.port === void 0 && t.pathname === void 0 && t.search === void 0 && (e.search = b(n.search.substring(1, n.search.length), r)), t.protocol === void 0 && t.hostname === void 0 && t.port === void 0 && t.pathname === void 0 && t.search === void 0 && t.hash === void 0 && (e.hash = b(n.hash.substring(1, n.hash.length), r));
       } catch {
-        throw new TypeError(`invalid baseURL '${e.baseURL}'.`);
+        throw new TypeError(`invalid baseURL '${t.baseURL}'.`);
       }
-    if (typeof e.protocol == "string" && (t.protocol = lt(e.protocol, s)), typeof e.username == "string" && (t.username = pt(e.username, s)), typeof e.password == "string" && (t.password = ut(e.password, s)), typeof e.hostname == "string" && (t.hostname = ot(e.hostname, s)), typeof e.port == "string" && (t.port = ft(e.port, t.protocol, s)), typeof e.pathname == "string") {
-      if (t.pathname = e.pathname, i && !it(t.pathname, s)) {
-        let o = i.pathname.lastIndexOf("/");
-        o >= 0 && (t.pathname = y(i.pathname.substring(0, o + 1), s) + t.pathname);
+    if (typeof t.protocol == "string" && (e.protocol = ce(t.protocol, r)), typeof t.username == "string" && (e.username = ie(t.username, r)), typeof t.password == "string" && (e.password = se(t.password, r)), typeof t.hostname == "string" && (e.hostname = ne(t.hostname, r)), typeof t.port == "string" && (e.port = oe(t.port, e.protocol, r)), typeof t.pathname == "string") {
+      if (e.pathname = t.pathname, n && !J(e.pathname, r)) {
+        let o = n.pathname.lastIndexOf("/");
+        o >= 0 && (e.pathname = b(n.pathname.substring(0, o + 1), r) + e.pathname);
       }
-      t.pathname = ct(t.pathname, t.protocol, s);
+      e.pathname = ae(e.pathname, e.protocol, r);
     }
-    return typeof e.search == "string" && (t.search = at(e.search, s)), typeof e.hash == "string" && (t.hash = ht(e.hash, s)), t;
+    return typeof t.search == "string" && (e.search = re(t.search, r)), typeof t.hash == "string" && (e.hash = te(t.hash, r)), e;
   }
-  function A(t) {
-    return t.replace(/([+*?:{}()\\])/g, "\\$1");
+  function C(e) {
+    return e.replace(/([+*?:{}()\\])/g, "\\$1");
   }
-  function $t(t) {
-    return t.replace(/([.+*?^${}()[\]|/\\])/g, "\\$1");
+  function Oe(e) {
+    return e.replace(/([.+*?^${}()[\]|/\\])/g, "\\$1");
   }
-  function Et(t, e) {
-    e.delimiter ??= "/#?", e.prefixes ??= "./", e.sensitive ??= false, e.strict ??= false, e.end ??= true, e.start ??= true, e.endsWith = "";
-    let s = ".*", i = `[^${$t(e.delimiter)}]+?`, o = /[$_\u200C\u200D\p{ID_Continue}]/u, u = "";
-    for (let h = 0; h < t.length; ++h) {
-      let r = t[h];
-      if (r.type === 3) {
-        if (r.modifier === 3) {
-          u += A(r.value);
+  function ke(e, t) {
+    t.delimiter ??= "/#?", t.prefixes ??= "./", t.sensitive ??= false, t.strict ??= false, t.end ??= true, t.start ??= true, t.endsWith = "";
+    let r = ".*", n = `[^${Oe(t.delimiter)}]+?`, o = /[$_\u200C\u200D\p{ID_Continue}]/u, c = "";
+    for (let l = 0; l < e.length; ++l) {
+      let s = e[l];
+      if (s.type === 3) {
+        if (s.modifier === 3) {
+          c += C(s.value);
           continue;
         }
-        u += `{${A(r.value)}}${k(r.modifier)}`;
+        c += `{${C(s.value)}}${k(s.modifier)}`;
         continue;
       }
-      let a = r.hasCustomName(), n = !!r.suffix.length || !!r.prefix.length && (r.prefix.length !== 1 || !e.prefixes.includes(r.prefix)), f = h > 0 ? t[h - 1] : null, w = h < t.length - 1 ? t[h + 1] : null;
-      if (!n && a && r.type === 1 && r.modifier === 3 && w && !w.prefix.length && !w.suffix.length)
-        if (w.type === 3) {
-          let v = w.value.length > 0 ? w.value[0] : "";
-          n = o.test(v);
+      let i = s.hasCustomName(), a = !!s.suffix.length || !!s.prefix.length && (s.prefix.length !== 1 || !t.prefixes.includes(s.prefix)), f = l > 0 ? e[l - 1] : null, d = l < e.length - 1 ? e[l + 1] : null;
+      if (!a && i && s.type === 1 && s.modifier === 3 && d && !d.prefix.length && !d.suffix.length)
+        if (d.type === 3) {
+          let T = d.value.length > 0 ? d.value[0] : "";
+          a = o.test(T);
         } else
-          n = !w.hasCustomName();
-      if (!n && !r.prefix.length && f && f.type === 3) {
-        let v = f.value[f.value.length - 1];
-        n = e.prefixes.includes(v);
+          a = !d.hasCustomName();
+      if (!a && !s.prefix.length && f && f.type === 3) {
+        let T = f.value[f.value.length - 1];
+        a = t.prefixes.includes(T);
       }
-      n && (u += "{"), u += A(r.prefix), a && (u += `:${r.name}`), r.type === 2 ? u += `(${r.value})` : r.type === 1 ? a || (u += `(${i})`) : r.type === 0 && (!a && (!f || f.type === 3 || f.modifier !== 3 || n || r.prefix !== "") ? u += "*" : u += `(${s})`), r.type === 1 && a && r.suffix.length && o.test(r.suffix[0]) && (u += "\\"), u += A(r.suffix), n && (u += "}"), r.modifier !== 3 && (u += k(r.modifier));
+      a && (c += "{"), c += C(s.prefix), i && (c += `:${s.name}`), s.type === 2 ? c += `(${s.value})` : s.type === 1 ? i || (c += `(${n})`) : s.type === 0 && (!i && (!f || f.type === 3 || f.modifier !== 3 || a || s.prefix !== "") ? c += "*" : c += `(${r})`), s.type === 1 && i && s.suffix.length && o.test(s.suffix[0]) && (c += "\\"), c += C(s.suffix), a && (c += "}"), s.modifier !== 3 && (c += k(s.modifier));
     }
-    return u;
+    return c;
   }
-  var vt = class {
-    #n;
-    #r = {};
-    #e = {};
+  var me = class {
+    #i;
+    #n = {};
     #t = {};
-    #i = {};
-    constructor(t = {}, e, s) {
+    #e = {};
+    #s = {};
+    #l = false;
+    constructor(t = {}, r, n) {
       try {
-        let i;
-        if (typeof e == "string" ? i = e : s = e, typeof t == "string") {
-          let r = new xt(t);
-          if (r.parse(), t = r.result, i === void 0 && typeof t.protocol != "string")
+        let o;
+        if (typeof r == "string" ? o = r : n = r, typeof t == "string") {
+          let i = new H(t);
+          if (i.parse(), t = i.result, o === void 0 && typeof t.protocol != "string")
             throw new TypeError("A base URL must be provided for a relative constructor string.");
-          t.baseURL = i;
+          t.baseURL = o;
         } else {
           if (!t || typeof t != "object")
             throw new TypeError("parameter 1 is not of type 'string' and cannot convert to dictionary.");
-          if (i)
+          if (o)
             throw new TypeError("parameter 1 is not of type 'string'.");
         }
-        typeof s > "u" && (s = { ignoreCase: false });
-        let o = { ignoreCase: s.ignoreCase === true }, u = { pathname: $, protocol: $, username: $, password: $, hostname: $, port: $, search: $, hash: $ };
-        this.#n = L(u, t, true), z(this.#n.protocol) === this.#n.port && (this.#n.port = "");
-        let h;
-        for (h of S) {
-          if (!(h in this.#n))
+        typeof n > "u" && (n = { ignoreCase: false });
+        let c = { ignoreCase: n.ignoreCase === true }, l = { pathname: E, protocol: E, username: E, password: E, hostname: E, port: E, search: E, hash: E };
+        this.#i = w(l, t, true), _(this.#i.protocol) === this.#i.port && (this.#i.port = "");
+        let s;
+        for (s of G) {
+          if (!(s in this.#i))
             continue;
-          let r = {}, a = this.#n[h];
-          switch (this.#e[h] = [], h) {
+          let i = {}, a = this.#i[s];
+          switch (this.#t[s] = [], s) {
             case "protocol":
-              Object.assign(r, E), r.encodePart = N;
+              Object.assign(i, x), i.encodePart = y;
               break;
             case "username":
-              Object.assign(r, E), r.encodePart = mt;
+              Object.assign(i, x), i.encodePart = le;
               break;
             case "password":
-              Object.assign(r, E), r.encodePart = gt;
+              Object.assign(i, x), i.encodePart = fe;
               break;
             case "hostname":
-              Object.assign(r, st), G(a) ? r.encodePart = q : r.encodePart = Z;
+              Object.assign(i, B), W(a) ? i.encodePart = j : i.encodePart = z;
               break;
             case "port":
-              Object.assign(r, E), r.encodePart = B;
+              Object.assign(i, x), i.encodePart = K;
               break;
             case "pathname":
-              V(this.#r.protocol) ? (Object.assign(r, rt, o), r.encodePart = dt) : (Object.assign(r, E, o), r.encodePart = wt);
+              N(this.#n.protocol) ? (Object.assign(i, q, c), i.encodePart = he) : (Object.assign(i, x, c), i.encodePart = ue);
               break;
             case "search":
-              Object.assign(r, E, o), r.encodePart = yt;
+              Object.assign(i, x, c), i.encodePart = de;
               break;
             case "hash":
-              Object.assign(r, E, o), r.encodePart = bt;
+              Object.assign(i, x, c), i.encodePart = pe;
               break;
           }
           try {
-            this.#i[h] = F(a, r), this.#r[h] = W(this.#i[h], this.#e[h], r), this.#t[h] = Et(this.#i[h], r);
+            this.#s[s] = D(a, i), this.#n[s] = F(this.#s[s], this.#t[s], i), this.#e[s] = ke(this.#s[s], i), this.#l = this.#l || this.#s[s].some((f) => f.type === 2);
           } catch {
-            throw new TypeError(`invalid ${h} pattern '${this.#n[h]}'.`);
+            throw new TypeError(`invalid ${s} pattern '${this.#i[s]}'.`);
           }
         }
-      } catch (i) {
-        throw new TypeError(`Failed to construct 'URLPattern': ${i.message}`);
+      } catch (o) {
+        throw new TypeError(`Failed to construct 'URLPattern': ${o.message}`);
       }
     }
-    test(t = {}, e) {
-      let s = { pathname: "", protocol: "", username: "", password: "", hostname: "", port: "", search: "", hash: "" };
-      if (typeof t != "string" && e)
+    test(t = {}, r) {
+      let n = { pathname: "", protocol: "", username: "", password: "", hostname: "", port: "", search: "", hash: "" };
+      if (typeof t != "string" && r)
         throw new TypeError("parameter 1 is not of type 'string'.");
       if (typeof t > "u")
         return false;
       try {
-        typeof t == "object" ? s = L(s, t, false) : s = L(s, H(t, e), false);
+        typeof t == "object" ? n = w(n, t, false) : n = w(n, ge(t, r), false);
       } catch {
         return false;
       }
-      let i;
-      for (i of S)
-        if (!this.#r[i].exec(s[i]))
+      let o;
+      for (o of G)
+        if (!this.#n[o].exec(n[o]))
           return false;
       return true;
     }
-    exec(t = {}, e) {
-      let s = { pathname: "", protocol: "", username: "", password: "", hostname: "", port: "", search: "", hash: "" };
-      if (typeof t != "string" && e)
+    exec(t = {}, r) {
+      let n = { pathname: "", protocol: "", username: "", password: "", hostname: "", port: "", search: "", hash: "" };
+      if (typeof t != "string" && r)
         throw new TypeError("parameter 1 is not of type 'string'.");
       if (typeof t > "u")
         return;
       try {
-        typeof t == "object" ? s = L(s, t, false) : s = L(s, H(t, e), false);
+        typeof t == "object" ? n = w(n, t, false) : n = w(n, ge(t, r), false);
       } catch {
         return null;
       }
-      let i = {};
-      e ? i.inputs = [t, e] : i.inputs = [t];
-      let o;
-      for (o of S) {
-        let u = this.#r[o].exec(s[o]);
-        if (!u)
+      let o = {};
+      r ? o.inputs = [t, r] : o.inputs = [t];
+      let c;
+      for (c of G) {
+        let l = this.#n[c].exec(n[c]);
+        if (!l)
           return null;
-        let h = {};
-        for (let [r, a] of this.#e[o].entries())
+        let s = {};
+        for (let [i, a] of this.#t[c].entries())
           if (typeof a == "string" || typeof a == "number") {
-            let n = u[r + 1];
-            h[a] = n;
+            let f = l[i + 1];
+            s[a] = f;
           }
-        i[o] = { input: s[o] ?? "", groups: h };
+        o[c] = { input: n[c] ?? "", groups: s };
       }
-      return i;
+      return o;
     }
-    static compareComponent(t, e, s) {
-      let i = (r, a) => {
-        for (let n of ["type", "modifier", "prefix", "value", "suffix"]) {
-          if (r[n] < a[n])
+    static compareComponent(t, r, n) {
+      let o = (i, a) => {
+        for (let f of ["type", "modifier", "prefix", "value", "suffix"]) {
+          if (i[f] < a[f])
             return -1;
-          if (r[n] !== a[n])
-            return 1;
+          if (i[f] === a[f])
+            continue;
+          return 1;
         }
         return 0;
-      }, o = new O(3, "", "", "", "", 3), u = new O(0, "", "", "", "", 3), h = (r, a) => {
-        let n = 0;
-        for (; n < Math.min(r.length, a.length); ++n) {
-          let f = i(r[n], a[n]);
-          if (f)
-            return f;
+      }, c = new R(3, "", "", "", "", 3), l = new R(0, "", "", "", "", 3), s = (i, a) => {
+        let f = 0;
+        for (; f < Math.min(i.length, a.length); ++f) {
+          let d = o(i[f], a[f]);
+          if (d)
+            return d;
         }
-        return r.length === a.length ? 0 : i(r[n] ?? o, a[n] ?? o);
+        return i.length === a.length ? 0 : o(i[f] ?? c, a[f] ?? c);
       };
-      return !e.#t[t] && !s.#t[t] ? 0 : e.#t[t] && !s.#t[t] ? h(e.#i[t], [u]) : !e.#t[t] && s.#t[t] ? h([u], s.#i[t]) : h(e.#i[t], s.#i[t]);
+      return !r.#e[t] && !n.#e[t] ? 0 : r.#e[t] && !n.#e[t] ? s(r.#s[t], [l]) : !r.#e[t] && n.#e[t] ? s([l], n.#s[t]) : s(r.#s[t], n.#s[t]);
     }
     get protocol() {
-      return this.#t.protocol;
+      return this.#e.protocol;
     }
     get username() {
-      return this.#t.username;
+      return this.#e.username;
     }
     get password() {
-      return this.#t.password;
+      return this.#e.password;
     }
     get hostname() {
-      return this.#t.hostname;
+      return this.#e.hostname;
     }
     get port() {
-      return this.#t.port;
+      return this.#e.port;
     }
     get pathname() {
-      return this.#t.pathname;
+      return this.#e.pathname;
     }
     get search() {
-      return this.#t.search;
+      return this.#e.search;
     }
     get hash() {
-      return this.#t.hash;
+      return this.#e.hash;
+    }
+    get hasRegExpGroups() {
+      return this.#l;
     }
   };
 
-  // https://esm.sh/v135/urlpattern-polyfill@9.0.0/denonext/urlpattern-polyfill.mjs
-  globalThis.URLPattern || (globalThis.URLPattern = vt);
+  // ../../Library/Caches/deno/deno_esbuild/urlpattern-polyfill@10.0.0/node_modules/urlpattern-polyfill/index.js
+  if (!globalThis.URLPattern) {
+    globalThis.URLPattern = me;
+  }
 
-  // https://deno.land/x/http_fns@v0.1.0/lib/as_url_pattern.ts
+  // https://jsr.io/@http/fns/0.6.3/lib/as_url_pattern.ts
   function asURLPattern(pattern) {
     return typeof pattern === "string" ? new URLPattern({ pathname: pattern }) : pattern instanceof URLPattern ? pattern : new URLPattern(pattern);
   }
+  function asURLPatterns(pattern) {
+    return Array.isArray(pattern) ? pattern.map(asURLPattern) : [asURLPattern(pattern)];
+  }
 
-  // https://deno.land/x/http_fns@v0.1.0/lib/by_pattern.ts
+  // https://jsr.io/@http/fns/0.6.3/lib/by_pattern.ts
   function byPattern(pattern, handler) {
+    const patterns = asURLPatterns(pattern);
     return async (req, ...args) => {
-      const patterns = Array.isArray(pattern) ? pattern : [pattern];
-      const url = new URL(req.url);
       for (const pattern2 of patterns) {
-        const match = asURLPattern(pattern2).exec(url);
+        const match = pattern2.exec(req.url);
         if (match) {
           const res = await handler(req, match, ...args);
           if (res) {
@@ -803,7 +813,7 @@
     };
   }
 
-  // https://deno.land/x/http_fns@v0.1.0/lib/cascade.ts
+  // https://jsr.io/@http/fns/0.6.3/lib/cascade.ts
   function cascade(...handlers) {
     return async (req, ...args) => {
       for (const handler of handlers) {
@@ -816,7 +826,125 @@
     };
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.13/_internal/readable_stream_from_iterable.ts
+  // https://jsr.io/@http/fns/0.6.3/lib/response/plain_error.ts
+  function plainError(status, statusText, message) {
+    return new Response(message ?? statusText, {
+      status,
+      statusText,
+      headers: {
+        "Content-Type": "text/plain"
+      }
+    });
+  }
+
+  // https://jsr.io/@http/fns/0.6.3/lib/response/method_not_allowed.ts
+  function methodNotAllowed(message) {
+    return plainError(405, "Method Not Allowed", message);
+  }
+
+  // https://jsr.io/@http/fns/0.6.3/lib/response/no_content.ts
+  function noContent(headers) {
+    return new Response(null, {
+      status: 204,
+      statusText: "No Content",
+      headers
+    });
+  }
+
+  // https://jsr.io/@http/fns/0.6.3/lib/response/replace_body.ts
+  function replaceBody(res, body) {
+    return res.body === body ? res : new Response(body, {
+      status: res.status,
+      statusText: res.statusText,
+      headers: res.headers
+    });
+  }
+
+  // https://jsr.io/@http/fns/0.6.3/lib/by_method.ts
+  function byMethod(handlers, fallback = () => methodNotAllowed()) {
+    const defaultHandlers = {
+      OPTIONS: optionsHandler(handlers)
+    };
+    if (handlers.GET) {
+      defaultHandlers.HEAD = headHandler(handlers.GET);
+    }
+    return (req, ...args) => {
+      const method = req.method;
+      const handler = handlers[method] ?? defaultHandlers[method];
+      if (handler) {
+        return handler(req, ...args);
+      }
+      return fallback(req, ...args);
+    };
+  }
+  function optionsHandler(handlers) {
+    const methods = Object.keys(handlers);
+    if ("GET" in handlers && !("HEAD" in handlers)) {
+      methods.push("HEAD");
+    }
+    if (!("OPTIONS" in handlers)) {
+      methods.push("OPTIONS");
+    }
+    const allow = methods.join(", ");
+    return () => noContent({ allow });
+  }
+  var headHandler = (handler) => async (req, ...args) => {
+    const response = await handler(req, ...args);
+    return response ? replaceBody(response, null) : response;
+  };
+
+  // config_fragment.ts
+  var FRAGMENT_RENDER_OPTIONS = {
+    deferredTimeout: false
+  };
+
+  // https://jsr.io/@http/fns/0.6.3/lib/response/html.ts
+  function html(body, headersInit) {
+    const headers = new Headers(headersInit);
+    headers.set("Content-Type", "text/html");
+    return new Response(body, {
+      status: 200,
+      statusText: "OK",
+      headers
+    });
+  }
+
+  // https://jsr.io/@http/fns/0.6.3/lib/response/prepend_doctype.ts
+  var DOCTYPE = "<!DOCTYPE html>\n";
+  var ENCODED_DOCTYPE = new TextEncoder().encode(DOCTYPE);
+  function prependDocType(bodyInit) {
+    if (isData(bodyInit)) {
+      return bodyInit;
+    } else if (isStream(bodyInit)) {
+      const reader = bodyInit.getReader();
+      return new ReadableStream({
+        start(controller) {
+          controller.enqueue(ENCODED_DOCTYPE);
+        },
+        async pull(controller) {
+          const { value, done } = await reader.read();
+          if (done) {
+            controller.close();
+          } else {
+            controller.enqueue(value);
+          }
+        }
+      });
+    } else {
+      return new Blob([
+        DOCTYPE,
+        bodyInit
+      ]);
+    }
+  }
+  function isStream(bodyInit) {
+    return !!bodyInit && typeof bodyInit === "object" && "getReader" in bodyInit && typeof bodyInit.getReader === "function";
+  }
+  function isData(bodyInit) {
+    return bodyInit instanceof FormData || bodyInit instanceof URLSearchParams;
+  }
+
+  // https://jsr.io/@http/jsx-stream/0.1.1/_internal/readable_stream_from_iterable.ts
   function readableStreamFromIterable(iterable) {
     if ("from" in ReadableStream && typeof ReadableStream.from === "function") {
       return ReadableStream.from(iterable);
@@ -842,7 +970,7 @@
     });
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.13/guards.ts
+  // https://jsr.io/@http/jsx-stream/0.1.1/guards.ts
   function isPrimitiveValue(value) {
     return typeof value === "string" || typeof value === "number" || typeof value === "boolean" || typeof value === "bigint";
   }
@@ -856,7 +984,7 @@
     return typeof value?.[Symbol.asyncIterator] === "function";
   }
 
-  // https://deno.land/std@0.208.0/html/entities.ts
+  // https://jsr.io/@std/html/0.219.1/entities.ts
   var rawToEntityEntries = [
     ["&", "&amp;"],
     ["<", "&lt;"],
@@ -875,7 +1003,7 @@
     return str.replaceAll(rawRe, (m) => rawToEntity.get(m));
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.13/_internal/util.ts
+  // https://jsr.io/@http/jsx-stream/0.1.1/_internal/util.ts
   var VOID_ELEMENTS = /* @__PURE__ */ new Set([
     "area",
     "base",
@@ -907,7 +1035,7 @@
     /^[^\u0000-\u001F\u007F-\u009F\s"'>/=\uFDD0-\uFDEF\p{NChar}]+$/u.test(name);
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.13/_internal/token.ts
+  // https://jsr.io/@http/jsx-stream/0.1.1/_internal/token.ts
   var _Token = class extends String {
     kind;
     tagName;
@@ -954,7 +1082,7 @@
     return token;
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.13/_internal/stream_node_sw.ts
+  // https://jsr.io/@http/jsx-stream/0.1.1/_internal/stream_node_sw.ts
   async function* streamNode(node, options) {
     const tagStack = [];
     const context = {
@@ -1038,19 +1166,19 @@
     return typeof fn === "function" ? fn : void 0;
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.13/serialize_sw.ts
+  // https://jsr.io/@http/jsx-stream/0.1.1/serialize_sw.ts
   function renderBody(node, options) {
     return readableStreamFromIterable(streamNode(node, options)).pipeThrough(
       new TextEncoderStream()
     );
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.13/_internal/stream_component.ts
+  // https://jsr.io/@http/jsx-stream/0.1.1/_internal/stream_component.ts
   function streamComponent(component, props) {
     return component(props);
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.13/_internal/awaited_props.ts
+  // https://jsr.io/@http/jsx-stream/0.1.1/_internal/awaited_props.ts
   function awaitedProps(props) {
     const promisedEntries = [];
     for (const [name, value] of Object.entries(props)) {
@@ -1068,7 +1196,7 @@
     }
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.13/_internal/stream_fragment.ts
+  // https://jsr.io/@http/jsx-stream/0.1.1/_internal/stream_fragment.ts
   function* streamFragment(children) {
     if (isSafe(children)) {
       yield children;
@@ -1089,7 +1217,7 @@
     }
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.13/_internal/stream_element.ts
+  // https://jsr.io/@http/jsx-stream/0.1.1/_internal/stream_element.ts
   function* streamElement(tagName, props) {
     const { children, ...attrs } = props && typeof props === "object" ? props : {};
     const awaitedAttrs = awaitedProps(attrs);
@@ -1113,12 +1241,12 @@
     }
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.13/_internal/stream_unknown.ts
+  // https://jsr.io/@http/jsx-stream/0.1.1/_internal/stream_unknown.ts
   async function* streamUnknown(type) {
     console.warn(`Unknown JSX type: ${type}`);
   }
 
-  // https://deno.land/x/jsx_stream@v0.0.13/jsx-runtime.ts
+  // https://jsr.io/@http/jsx-stream/0.1.1/jsx-runtime.ts
   function jsx(type, props) {
     try {
       if (typeof type === "function") {
@@ -1134,158 +1262,20 @@
     }
   }
 
-  // https://deno.land/x/http_render_fns@v0.1.0/lib/render_html.tsx
-  var DOCTYPE = "<!DOCTYPE html>\n";
-  var ENCODED_DOCTYPE = new TextEncoder().encode(DOCTYPE);
-  var streamDelay = 0;
-  function renderHTML(Component, headers, options) {
-    return async (_req, props) => {
-      const start = performance.now();
-      const vnode = /* @__PURE__ */ jsx(Component, { ...props });
-      let bodyInit = await renderBody(vnode, options);
-      if (isData(bodyInit)) {
-        return new Response(bodyInit, {
-          status: 200,
-          statusText: "OK",
-          headers
-        });
-      } else if (isStream(bodyInit)) {
-        const reader = bodyInit.getReader();
-        bodyInit = new ReadableStream({
-          start(controller) {
-            controller.enqueue(ENCODED_DOCTYPE);
-          },
-          async pull(controller) {
-            const { value, done } = await reader.read();
-            if (done) {
-              controller.close();
-              logTiming("Stream");
-            } else {
-              controller.enqueue(value);
-              if (streamDelay) {
-                await new Promise((resolve) => setTimeout(resolve, streamDelay));
-              }
-            }
-          }
-        });
-      } else {
-        bodyInit = new Blob([
-          DOCTYPE,
-          bodyInit
-        ]);
-        logTiming("Blob");
-      }
-      const headersWithType = new Headers(headers);
-      if (!headersWithType.has("Content-Type")) {
-        headersWithType.set("Content-Type", "text/html; charset=utf-8");
-      }
-      return new Response(bodyInit, {
-        status: 200,
-        statusText: "OK",
-        headers: headersWithType
-      });
-      function logTiming(note) {
-        const end = performance.now();
-        console.debug("Render took:", end - start, "ms", note);
-      }
-    };
-  }
-  function isStream(bodyInit) {
-    return !!bodyInit && typeof bodyInit === "object" && "getReader" in bodyInit && typeof bodyInit.getReader === "function";
-  }
-  function isData(bodyInit) {
-    return bodyInit instanceof FormData || bodyInit instanceof URLSearchParams;
-  }
-
-  // https://deno.land/x/http_fns@v0.1.0/lib/response/plain_error.ts
-  function plainError(status, statusText, message) {
-    return new Response(message ?? statusText, {
-      status,
-      statusText,
-      headers: {
-        "Content-Type": "text/plain"
-      }
-    });
-  }
-
-  // https://deno.land/x/http_fns@v0.1.0/lib/response/method_not_allowed.ts
-  function methodNotAllowed(message) {
-    return plainError(405, "Method Not Allowed", message);
-  }
-
-  // https://deno.land/x/http_fns@v0.1.0/lib/response/no_content.ts
-  function noContent(headers) {
-    return new Response(null, {
-      status: 204,
-      statusText: "No Content",
+  // lib/render_html.tsx
+  function renderHTML(Component, props, headers, options) {
+    return html(
+      prependDocType(
+        renderBody(/* @__PURE__ */ jsx(Component, { ...props }), options)
+      ),
       headers
-    });
-  }
-
-  // https://deno.land/x/http_fns@v0.1.0/lib/response/replace_body.ts
-  function replaceBody(res, body) {
-    return res.body === body ? res : new Response(body, {
-      status: res.status,
-      statusText: res.statusText,
-      headers: res.headers
-    });
-  }
-
-  // https://deno.land/x/http_fns@v0.1.0/lib/by_method.ts
-  function byMethod(handlers, fallback = () => methodNotAllowed()) {
-    const defaultHandlers = {
-      OPTIONS: optionsHandler(handlers)
-    };
-    if (handlers.GET) {
-      defaultHandlers.HEAD = headHandler(handlers.GET);
-    }
-    return (req, ...args) => {
-      const method = req.method;
-      const handler = handlers[method] ?? defaultHandlers[method];
-      if (handler) {
-        return handler(req, ...args);
-      }
-      return fallback(req, ...args);
-    };
-  }
-  function optionsHandler(handlers) {
-    const methods = Object.keys(handlers);
-    if ("GET" in handlers && !("HEAD" in handlers)) {
-      methods.push("HEAD");
-    }
-    if (!("OPTIONS" in handlers)) {
-      methods.push("OPTIONS");
-    }
-    const allow = methods.join(", ");
-    return () => noContent({ allow });
-  }
-  var headHandler = (handler) => async (req, ...args) => {
-    const response = await handler(req, ...args);
-    return response ? replaceBody(response, null) : response;
-  };
-
-  // https://deno.land/x/http_fns@v0.1.0/lib/map_data.ts
-  function mapData(mapper, handler) {
-    return async (req, data) => handler(req, await mapper(req, data));
-  }
-
-  // config_fragment.ts
-  var FRAGMENT_RENDER_OPTIONS = {
-    deferredTimeout: false
-  };
-
-  // lib/route.ts
-  function asRouteProps(req, match) {
-    return { req, match };
+    );
   }
 
   // lib/handle_fragment.ts
   function handleFragment(Component, headers) {
     return byMethod({
-      GET: mapData(
-        asRouteProps,
-        renderHTML(Component, headers, FRAGMENT_RENDER_OPTIONS)
-      )
+      GET: (req, match) => renderHTML(Component, { req, match }, headers, FRAGMENT_RENDER_OPTIONS)
     });
   }
 
@@ -1373,18 +1363,18 @@
   }
   function operate(operator, stack) {
     const a = stack.pop();
-    const b = stack.pop();
+    const b2 = stack.pop();
     switch (operator) {
       case "+":
-        return b + a;
+        return b2 + a;
       case "-":
-        return b - a;
+        return b2 - a;
       case "*":
-        return b * a;
+        return b2 * a;
       case "/":
-        return b / a;
+        return b2 / a;
       case "^":
-        return Math.pow(b, a);
+        return Math.pow(b2, a);
       default:
         throw new Error(`Invalid operator: ${operator}`);
     }
@@ -1393,14 +1383,12 @@
     return evalRPN(toRPN(tokenize(input)));
   }
 
-  // https://deno.land/x/http_fns@v0.1.0/lib/request/search_values.ts
+  // https://jsr.io/@http/fns/0.6.3/lib/request/search_values.ts
   function getSearchValues(input) {
     const searchParams = input instanceof Request ? new URL(input.url).searchParams : input instanceof URL ? input.searchParams : input instanceof URLSearchParams ? input : input && "search" in input && "input" in input.search ? new URLSearchParams(input.search.input) : void 0;
-    return (param, separator) => {
-      return searchParams ? separator ? searchParams.getAll(param).join(separator).split(separator).filter(
-        (v) => v !== ""
-      ) : searchParams.getAll(param) : [];
-    };
+    return (param, separator) => searchParams ? separator ? searchParams.getAll(param).join(separator).split(separator).filter(
+      (v2) => v2 !== ""
+    ) : searchParams.getAll(param) : [];
   }
 
   // components/Evaluate.tsx

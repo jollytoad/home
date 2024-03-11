@@ -1,9 +1,8 @@
-import { renderHTML } from "$http_render_fns/render_html.tsx";
-import { byMethod } from "$http_fns/by_method.ts";
-import { mapData } from "$http_fns/map_data.ts";
-import { FRAGMENT_RENDER_OPTIONS } from "@/config_fragment.ts";
-import type { ComponentType } from "$jsx/types.ts";
-import { asRouteProps, type RouteProps } from "@/lib/route.ts";
+import { byMethod } from "@http/fns/by_method";
+import { FRAGMENT_RENDER_OPTIONS } from "../config_fragment.ts";
+import type { ComponentType } from "$jsx/types";
+import type { RouteProps } from "../lib/route.ts";
+import { renderHTML } from "./render_html.tsx";
 
 /**
  * Basic GET request handler that renders a HTML fragment component,
@@ -14,9 +13,7 @@ export function handleFragment(
   headers?: HeadersInit,
 ) {
   return byMethod({
-    GET: mapData(
-      asRouteProps,
-      renderHTML(Component, headers, FRAGMENT_RENDER_OPTIONS),
-    ),
+    GET: (req: Request, match: URLPatternResult) =>
+      renderHTML(Component, { req, match }, headers, FRAGMENT_RENDER_OPTIONS),
   });
 }

@@ -1,5 +1,5 @@
-import { badRequest } from "$http_fns/response/bad_request.ts";
-import { notFound } from "$http_fns/response/not_found.ts";
+import { badRequest } from "@http/fns/response/bad_request";
+import { notFound } from "@http/fns/response/not_found";
 import {
   getOAuthClientScope,
   getOAuthConfigFn,

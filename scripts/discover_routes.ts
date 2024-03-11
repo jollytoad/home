@@ -1,8 +1,8 @@
-import { discoverRoutes } from "$http_fns/discover_routes.ts";
-import freshPathMapper from "$http_fns/fresh/path_mapper.ts";
+import { discoverRoutes } from "@http/fns/discover_routes";
+import freshPathMapper from "@http/fns/fresh/path_mapper";
 
 await discoverRoutes({
-  fileRootUrl: import.meta.resolve("@/routes"),
+  fileRootUrl: import.meta.resolve("../routes"),
   pathMapper: freshPathMapper,
   verbose: true,
 });

@@ -1,5 +1,5 @@
-import { Page } from "@/components/Page.tsx";
-import { handlePage } from "@/lib/handle_page.ts";
+import { Page } from "../components/Page.tsx";
+import { handlePage } from "../lib/handle_page.ts";
 
 export default handlePage(({ req }) => {
   return (

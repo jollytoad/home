@@ -1,5 +1,5 @@
-import type { TagHandlers } from "$jsx/types.ts";
-import { inject, recordScript } from "@/lib/tag_hooks/inject.tsx";
+import type { TagHandlers } from "$jsx/types";
+import { inject, recordScript } from "./inject.tsx";
 
 const mdComponents: Record<string, string> = {
   "md-tab": "tabs/tab",

@@ -1,10 +1,10 @@
-import { renderHTML } from "$http_render_fns/render_html.tsx";
-import { byMethod } from "$http_fns/by_method.ts";
-import type { ComponentType } from "$jsx/types.ts";
-import type { RouteProps } from "@/lib/route.ts";
-import { PAGE_RENDER_OPTIONS } from "@/config_page.ts";
-import { FRAGMENT_RENDER_OPTIONS } from "@/config_fragment.ts";
-import { getDeferredTimeout } from "@/lib/deferrred_timeout.ts";
+import { byMethod } from "@http/fns/by_method";
+import type { ComponentType } from "$jsx/types";
+import type { RouteProps } from "./route.ts";
+import { PAGE_RENDER_OPTIONS } from "../config_page.ts";
+import { FRAGMENT_RENDER_OPTIONS } from "../config_fragment.ts";
+import { getDeferredTimeout } from "./deferred_timeout.ts";
+import { renderHTML } from "./render_html.tsx";
 
 /**
  * Basic GET request handler that renders a HTML full page component,
@@ -33,6 +33,6 @@ export function renderPage(
       options = { ...options, deferredTimeout };
     }
 
-    return renderHTML(Component, headers, options)(req, { req, match });
+    return renderHTML(Component, { req, match }, headers, options);
   };
 }

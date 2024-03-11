@@ -1,6 +1,6 @@
-import { handleFragment } from "@/lib/handle_fragment.ts";
+import { handleFragment } from "../../../../lib/handle_fragment.ts";
 import { QuizAnswer } from "../../_components/QuizAnswer.tsx";
-import { notFound } from "$http_fns/response/not_found.ts";
+import { notFound } from "@http/fns/response/not_found";
 import { getQuizSession, updateQuizScore } from "../../_lib/session.ts";
 import { QuizScore } from "../../_components/QuizScore.tsx";
 

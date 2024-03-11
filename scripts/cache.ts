@@ -1,10 +1,10 @@
-import { ensureDir } from "$std/fs/ensure_dir.ts";
-import { emptyDir } from "$std/fs/empty_dir.ts";
-import { dirname } from "$std/path/mod.ts";
-import { pooledMap } from "$std/async/pool.ts";
-import { withFallback } from "$http_fns/with_fallback.ts";
-import routes from "@/routes.ts";
-import cached_routes from "@/cached_routes.ts";
+import { ensureDir } from "@std/fs/ensure_dir";
+import { emptyDir } from "@std/fs/empty_dir";
+import { dirname } from "@std/path/dirname";
+import { pooledMap } from "@std/async/pool";
+import { withFallback } from "@http/fns/with_fallback";
+import routes from "../routes.ts";
+import cached_routes from "../cached_routes.ts";
 
 const handler = withFallback(routes);
 

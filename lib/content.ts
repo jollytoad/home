@@ -1,4 +1,4 @@
-import { notFound } from "$http_fns/response/not_found.ts";
+import { notFound } from "@http/fns/response/not_found";
 import type { RequestProps } from "./route.ts";
 
 export async function fetchContent(

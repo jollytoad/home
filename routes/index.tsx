@@ -1,6 +1,6 @@
-import { Page } from "@/components/Page.tsx";
-import { Markdown } from "@/components/Markdown.tsx";
-import { handlePage } from "@/lib/handle_page.ts";
+import { Page } from "../components/Page.tsx";
+import { Markdown } from "../components/Markdown.tsx";
+import { handlePage } from "../lib/handle_page.ts";
 
 export default handlePage(({ req }) => {
   return (
@@ -18,12 +18,16 @@ export default handlePage(({ req }) => {
 `}
       </Markdown>
 
-      <Markdown url="@/routes/blog/index.md" />
+      <Markdown url={import.meta.resolve("./blog/index.md")} />
 
-      <Markdown url="@/routes/blog/links.md" />
+      <Markdown url={import.meta.resolve("./blog/links.md")} />
 
       <div id="wcb" class="carbonbadge"></div>
-      <script src="https://unpkg.com/website-carbon-badges@1.1.3/b.min.js" defer></script>
+      <script
+        src="https://unpkg.com/website-carbon-badges@1.1.3/b.min.js"
+        defer
+      >
+      </script>
     </Page>
   );
 });

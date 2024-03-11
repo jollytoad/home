@@ -1,5 +1,5 @@
-import type { Children } from "$jsx/types.ts";
-import { delay } from "$std/async/delay.ts";
+import type { Children } from "$jsx/types";
+import { delay } from "@std/async/delay";
 
 export interface DelayedProps {
   delay: number;

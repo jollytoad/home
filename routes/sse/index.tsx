@@ -1,6 +1,6 @@
-import { Page } from "@/components/Page.tsx";
-import { handlePage } from "@/lib/handle_page.ts";
-import { Markdown } from "@/components/Markdown.tsx";
+import { Page } from "../../components/Page.tsx";
+import { handlePage } from "../../lib/handle_page.ts";
+import { Markdown } from "../../components/Markdown.tsx";
 
 export default handlePage(({ req }) => (
   <Page req={req} module={import.meta.url}>
@@ -8,7 +8,7 @@ export default handlePage(({ req }) => (
 
     <details open>
       <summary>What is this?</summary>
-      <Markdown url="@/routes/sse/_doc.md" />
+      <Markdown url={import.meta.resolve("./_doc.md")} />
     </details>
 
     <h3>Control:</h3>

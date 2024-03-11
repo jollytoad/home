@@ -1,4 +1,4 @@
-import { Delayed } from "@/components/Delayed.tsx";
+import { Delayed } from "../../../components/Delayed.tsx";
 import { QuizAnswer } from "./QuizAnswer.tsx";
 import { QuizScore } from "./QuizScore.tsx";
 

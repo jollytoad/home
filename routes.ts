@@ -1,8 +1,8 @@
 // IMPORTANT: This file has been automatically generated, DO NOT edit by hand.
 
-import { byPattern } from "$http_fns/by_pattern.ts";
-import { cascade } from "$http_fns/cascade.ts";
-import { lazy } from "$http_fns/lazy.ts";
+import { byPattern } from "@http/fns/by_pattern";
+import { cascade } from "@http/fns/cascade";
+import { lazy } from "@http/fns/lazy";
 
 export default cascade(
   byPattern("/todo/:listId/:itemId", lazy(() => import("./routes/todo/:listId/:itemId.tsx"))),

@@ -1,7 +1,7 @@
 import {
   type GenerateOptions,
   generateRoutesModule,
-} from "$http_fns/generate_routes_module.ts";
+} from "@http/fns/generate_routes_module";
 
 type Opts = Pick<
   GenerateOptions,
@@ -19,11 +19,12 @@ function generateRoutes(opts: Opts = defaultOpts) {
 
   return generateRoutesModule({
     pattern: "/",
-    fileRootUrl: import.meta.resolve("@/routes"),
-    moduleOutUrl: import.meta.resolve("@/routes.ts"),
-    pathMapper: "$http_fns/fresh/path_mapper.ts",
-    routeMapper: "@/lib/route_mapper.ts",
-    httpFns: "$http_fns/",
+    fileRootUrl: import.meta.resolve("../routes"),
+    moduleOutUrl: import.meta.resolve("../routes.ts"),
+    pathMapper: "@http/fns/fresh/path_mapper",
+    routeMapper: import.meta.resolve("../lib/route_mapper.ts"),
+    httpFns: "@http/fns/",
+    jsr: true,
     ...opts,
   });
 }

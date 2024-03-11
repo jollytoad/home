@@ -1,6 +1,6 @@
 import * as esbuild from "esbuild";
-import { denoPlugins } from "esbuild_deno_loader";
-import { fromFileUrl } from "$std/path/mod.ts";
+import { denoPlugins } from "esbuild-deno-loader";
+import { fromFileUrl } from "@std/path/from_file_url";
 
 /**
  * Build the ServiceWorker script
@@ -13,11 +13,14 @@ export async function buildServiceWorker() {
 
   await esbuild.build({
     plugins: denoPlugins({
-      configPath: fromFileUrl(import.meta.resolve("@/deno.json")),
-      importMapURL: import.meta.resolve("@/import_map_sw.json"),
+      configPath: fromFileUrl(import.meta.resolve("../deno.json")),
+      importMapURL: import.meta.resolve("../import_map_sw.json"),
     }),
-    entryPoints: ["@/service_worker/sw.js", "@/service_worker/sw_compat.js"],
-    outdir: fromFileUrl(import.meta.resolve("@/static")),
+    entryPoints: [
+      fromFileUrl(import.meta.resolve("../service_worker/sw.js")),
+      fromFileUrl(import.meta.resolve("../service_worker/sw_compat.js")),
+    ],
+    outdir: fromFileUrl(import.meta.resolve("../static")),
     bundle: true,
     platform: "browser",
     format: "iife",

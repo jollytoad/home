@@ -1,6 +1,6 @@
-import { delay } from "$std/async/delay.ts";
-import { ok } from "$http_fns/response/ok.ts";
-import { renderString } from "$jsx/serialize.ts";
+import { delay } from "@std/async/delay";
+import { ok } from "@http/fns/response/ok";
+import { renderString } from "$jsx";
 import type { JSX } from "$jsx/jsx-runtime";
 
 export default function (_req: Request) {
