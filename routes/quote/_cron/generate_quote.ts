@@ -1,3 +1,4 @@
+import { isQuoteUnseen } from "../_lib/quote_store.ts";
 import { setQuote } from "../_lib/quote_store.ts";
 import OpenAI from "npm:openai";
 
@@ -6,6 +7,11 @@ export const name = "Generate a new quote of the moment";
 export const schedule = Deno.env.get("QUOTE_SCHEDULE") ?? "*/30 * * * *";
 
 export default async function generateQuote() {
+  if (await isQuoteUnseen()) {
+    console.log("Skipping quote generation");
+    return;
+  }
+
   console.log("Generating a new quote...");
 
   const openai = new OpenAI();
@@ -24,6 +30,7 @@ export default async function generateQuote() {
   const content = completion?.choices[0]?.message.content;
 
   if (content) {
+    console.log(content);
     await setQuote(content);
   }
 }
