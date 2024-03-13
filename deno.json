@@ -1,6 +1,7 @@
 {
   "unstable": [
-    "kv"
+    "kv",
+    "cron"
   ],
   "tasks": {
     "build": "deno run --allow-all scripts/build.ts",
