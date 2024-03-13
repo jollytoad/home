@@ -2,6 +2,7 @@ import {
   type GenerateOptions,
   generateRoutesModule,
 } from "@http/fns/generate_routes_module";
+import { generateCronModule } from "../lib/generate_cron_module.ts";
 
 type Opts = Pick<
   GenerateOptions,
@@ -14,8 +15,8 @@ const defaultOpts: Opts = {
   verbose: true,
 };
 
-function generateRoutes(opts: Opts = defaultOpts) {
-  console.debug("Generating routes:", opts);
+export function generateRoutes(opts: Opts = defaultOpts) {
+  console.debug("\nGenerating routes:", opts);
 
   return generateRoutesModule({
     pattern: "/",
@@ -29,8 +30,17 @@ function generateRoutes(opts: Opts = defaultOpts) {
   });
 }
 
-export default generateRoutes;
+export function generateCron() {
+  console.debug("\nGenerating cron module:");
+
+  return generateCronModule({
+    fileRootUrl: import.meta.resolve("../routes"),
+    moduleOutUrl: import.meta.resolve("../cron.ts"),
+    verbose: true,
+  });
+}
 
 if (import.meta.main) {
   await generateRoutes();
+  await generateCron();
 }

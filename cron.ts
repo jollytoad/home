@@ -1,7 +1,7 @@
-import * as quote_cron from "./routes/quote/_cron/generate_quote.ts";
+// IMPORTANT: This file has been automatically generated, DO NOT edit by hand.
 
-// TODO: discover all _cron modules and generate this function
+import * as cron_1 from "./routes/quote/_cron/generate_quote.ts";
 
-export default function initCron() {
-  Deno.cron(quote_cron.name, quote_cron.schedule, quote_cron.default);
+export default function () {
+  Deno.cron(cron_1.name, cron_1.schedule, cron_1.default);
 }

@@ -4,7 +4,7 @@ import OpenAI from "npm:openai";
 
 export const name = "Generate a new quote of the moment";
 
-export const schedule = Deno.env.get("QUOTE_SCHEDULE") ?? "*/30 * * * *";
+export const schedule = Deno.env.get("QUOTE_SCHEDULE") ?? "*/15 * * * *";
 
 export default async function generateQuote() {
   if (await isQuoteUnseen()) {
