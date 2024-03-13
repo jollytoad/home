@@ -1,0 +1,28 @@
+html {
+  background: black;
+  color: white;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  height: 100%;
+}
+
+blockquote {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+blockquote p {
+  font-size: xxx-large;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+  padding: 1em;
+}
+
+blockquote footer {
+  text-align: end;
+}
