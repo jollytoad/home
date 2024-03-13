@@ -1,4 +1,5 @@
 import { Delayed } from "../../../components/Delayed.tsx";
+import type { TextChoiceQuestion } from "../_trivia_api_types.ts";
 import { QuizAnswer } from "./QuizAnswer.tsx";
 import { QuizScore } from "./QuizScore.tsx";
 
@@ -25,7 +26,7 @@ async function Question() {
     );
 
     if (response.ok) {
-      const questions = await response.json();
+      const questions = await response.json() as TextChoiceQuestion[];
 
       const { id, question: { text }, correctAnswer, incorrectAnswers } =
         questions[0];

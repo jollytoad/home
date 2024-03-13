@@ -3,6 +3,7 @@ import { QuizAnswer } from "../../_components/QuizAnswer.tsx";
 import { notFound } from "@http/fns/response/not_found";
 import { getQuizSession, updateQuizScore } from "../../_lib/session.ts";
 import { QuizScore } from "../../_components/QuizScore.tsx";
+import type { TextChoiceQuestion } from "../../_trivia_api_types.ts";
 
 export default handleFragment(
   async function AnswerResult({ req, match }) {
@@ -24,7 +25,7 @@ export default handleFragment(
           "Content-Type": "application/json",
         },
       },
-    )).json();
+    )).json() as TextChoiceQuestion;
 
     const correct = answer === question.correctAnswer;
 
