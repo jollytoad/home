@@ -3,6 +3,7 @@
     "@std/async/": "jsr:/@std/async@^0.219.1/",
     "@std/http/": "jsr:/@std/http@^0.219.1/",
     "@std/collections/": "jsr:/@std/collections@^0.219.1/",
+    "@std/path/": "jsr:/@std/path@^0.219.1/",
     "@std/ulid": "jsr:@std/ulid@^0.219.1",
     "@http/fns/": "jsr:/@http/fns@^0.6.3/",
     "$jsx": "jsr:@http/jsx-stream@^0.1.1",
