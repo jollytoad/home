@@ -1,0 +1,50 @@
+html {
+  background: black;
+  color: white;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 3s ease;
+}
+
+body.ready {
+  opacity: 1;
+}
+
+blockquote {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+blockquote p {
+  font-size: xxx-large;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+  padding: 1em;
+  transform: scale(1);
+  filter: blur(0.8px);
+}
+
+.out blockquote p {
+  transform: scale(5);
+  filter: blur(20px);
+  transition: all 3s ease-in;
+}
+
+blockquote footer {
+  text-align: end;
+  font-family: cursive;
+  font-style: italic;
+  text-shadow: 1px 1px 5px whitesmoke;
+}
+
+.out blockquote footer {
+  filter: blur(20px);
+  transition: all 3s ease-in;
+}

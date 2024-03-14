@@ -9,5 +9,6 @@ export default handle([
     skip(404, 405),
   ),
   routes,
+  // TODO: Migrate /static to a /_static folder instead
   staticRoute("/", import.meta.resolve("./static")),
 ]);

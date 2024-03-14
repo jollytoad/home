@@ -4,7 +4,7 @@ import OpenAI from "npm:openai";
 
 export const name = "Generate a new quote of the moment";
 
-export const schedule = Deno.env.get("QUOTE_SCHEDULE") ?? "*/15 * * * *";
+export const schedule = Deno.env.get("QUOTE_SCHEDULE") ?? "*/5 * * * *";
 
 export default async function generateQuote() {
   if (await isQuoteUnseen()) {
@@ -17,7 +17,7 @@ export default async function generateQuote() {
   const openai = new OpenAI();
 
   const completion = await openai.chat.completions.create({
-    model: "gpt-4",
+    model: "gpt-3.5-turbo",
     messages: [
       {
         role: "user",
