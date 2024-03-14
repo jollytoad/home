@@ -17,12 +17,12 @@ export default async function generateQuote() {
   const openai = new OpenAI();
 
   const completion = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
-    temperature: 1.5,
+    model: Deno.env.get("QUOTE_AI_MODEL") ?? "gpt-3.5-turbo",
+    temperature: parseFloat(Deno.env.get("QUOTE_AI_TEMPERATURE") ?? "") || 1.5,
     messages: [
       {
         role: "user",
-        content:
+        content: Deno.env.get("QUOTE_AI_PROMPT") ??
           "Generate a new obscure inspirational quote of the day. Do not attribute it to anyone.",
       },
     ],

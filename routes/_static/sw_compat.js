@@ -1279,7 +1279,7 @@
     });
   }
 
-  // lib/evaluate.js
+  // routes/calc/_lib/evaluate.js
   function tokenize(input) {
     let scanner = 0;
     const tokens = [];
@@ -1391,7 +1391,7 @@
     ) : searchParams.getAll(param) : [];
   }
 
-  // components/Evaluate.tsx
+  // routes/calc/_components/Evaluate.tsx
   async function Evaluate({ expr }) {
     if (expr) {
       console.log("Calculating...", expr);

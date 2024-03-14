@@ -4,6 +4,7 @@
     "specifiers": {
       "jsr:@http/fns@^0.6.3": "jsr:@http/fns@0.6.4",
       "jsr:@http/fns@^0.6.4": "jsr:@http/fns@0.6.4",
+      "jsr:@http/jsx-stream@0.1.1": "jsr:@http/jsx-stream@0.1.1",
       "jsr:@http/jsx-stream@^0.1.1": "jsr:@http/jsx-stream@0.1.1",
       "jsr:@luca/esbuild-deno-loader@0.9": "jsr:@luca/esbuild-deno-loader@0.9.0",
       "jsr:@std/assert@^0.213.1": "jsr:@std/assert@0.213.1",
@@ -33,7 +34,8 @@
       "npm:mdast-util-gfm@3.0.0": "npm:mdast-util-gfm@3.0.0",
       "npm:mdast-util-to-hast@13.0.2": "npm:mdast-util-to-hast@13.0.2",
       "npm:micromark-extension-gfm@3.0.0": "npm:micromark-extension-gfm@3.0.0",
-      "npm:openai": "npm:openai@4.28.4"
+      "npm:openai": "npm:openai@4.28.4",
+      "npm:urlpattern-polyfill@10.0.0": "npm:urlpattern-polyfill@10.0.0"
     },
     "jsr": {
       "@http/fns@0.6.4": {
@@ -129,7 +131,10 @@
         ]
       },
       "@std/path@0.219.1": {
-        "integrity": "e5c0ffef3a8ef2b48e9e3d88a1489320e8fb2cc7be767b17c91a1424ffb4c8ed"
+        "integrity": "e5c0ffef3a8ef2b48e9e3d88a1489320e8fb2cc7be767b17c91a1424ffb4c8ed",
+        "dependencies": [
+          "jsr:@std/assert@^0.219.1"
+        ]
       },
       "@std/streams@0.219.1": {
         "integrity": "6f5dac5773a4fafdbe7ee612d0a0d5a2cbe465b9c9e2c85d371877dc8a52d1d3"
@@ -1004,6 +1009,10 @@
           "unist-util-is": "unist-util-is@6.0.0",
           "unist-util-visit-parents": "unist-util-visit-parents@6.0.1"
         }
+      },
+      "urlpattern-polyfill@10.0.0": {
+        "integrity": "sha512-H/A06tKD7sS1O1X2SshBVeA5FLycRpjqiBeqGKmBwBDBy28EnRjORxTNe269KSSr5un5qyWi1iL61wLxpd+ZOg==",
+        "dependencies": {}
       },
       "vfile-location@5.0.2": {
         "integrity": "sha512-NXPYyxyBSH7zB5U6+3uDdd6Nybz6o6/od9rk8bp9H8GR3L+cm/fC0uUTbqBmUTnMCUDslAGBOIKNfvvb+gGlDg==",
