@@ -20,7 +20,7 @@ export async function buildServiceWorker() {
       fromFileUrl(import.meta.resolve("../service_worker/sw.js")),
       fromFileUrl(import.meta.resolve("../service_worker/sw_compat.js")),
     ],
-    outdir: fromFileUrl(import.meta.resolve("../static")),
+    outdir: fromFileUrl(import.meta.resolve("../routes/_static")),
     bundle: true,
     platform: "browser",
     format: "iife",

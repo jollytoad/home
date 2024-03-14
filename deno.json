@@ -21,12 +21,13 @@
     "verbatimModuleSyntax": true
   },
   "exclude": [
-    "static/sw.js",
-    "static/sw_compat.js",
-    "static/prism.*"
+    "routes/_static/sw.js",
+    "routes/_static/sw_compat.js",
+    "routes/_static/prism.*"
   ],
   "fmt": {
     "exclude": [
+      "cache",
       "routes.ts"
     ]
   },
@@ -37,7 +38,7 @@
     "@std/path": "jsr:@std/path@^0.219.1",
     "@std/fs": "jsr:@std/fs@^0.219.1",
     "@std/ulid": "jsr:@std/ulid@^0.219.1",
-    "@http/fns": "jsr:@http/fns@^0.6.3",
+    "@http/fns": "jsr:@http/fns@^0.6.4",
     "$jsx": "jsr:@http/jsx-stream@^0.1.1",
     "$deno_kv_oauth/": "https://deno.land/x/deno_kv_oauth@v0.10.0/lib/",
     "https://deno.land/x/oauth2_client@v1.0.2/mod.ts": "https://cdn.jsdelivr.net/gh/jollytoad/deno-oauth2-client@oidc-2/mod.ts",

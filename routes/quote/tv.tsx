@@ -6,7 +6,8 @@ import { getSearchValues } from "jsr:@http/fns@^0.6.3/request/search_values";
 
 export default byMethod({
   GET: (req, match: URLPatternResult) => {
-    const refresh = getSearchValues(req)("refresh")[0] ?? "420";
+    const refresh = getSearchValues(req)("refresh")[0] ??
+      Deno.env.get("QUOTE_TV_REFRESH") ?? "420";
     return renderPage(() => (
       <html lang="en-GB">
         <head>

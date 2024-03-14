@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-GB"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Jollytoad</title><link rel="stylesheet" href="https://unpkg.com/missing.css@1.0.13/dist/missing.min.css"/><link rel="stylesheet" href="/prism.css"/><link rel="stylesheet" href="/index.css"/><script src="https://unpkg.com/htmx.org@1.9.4" integrity="sha384-zUfuhFKKZCbHTY6aRR46gxiqszMk5tcHjsVFxnUo8VMus4kHGVdIYVbOYYNlKmHV" crossorigin="anonymous"></script><script src="https://unpkg.com/htmx.org@1.9.4/dist/ext/sse.js" integrity="sha384-9sPcBiA9fhU9fq7gfjFF29VlQp6vyoGP5skQ99zfpnpCEUZ2+9f+XmIk/DGE+ndH" crossorigin="anonymous"></script><script src="/app.js" type="module"></script></head><body><header><h1><a href="/">The home of Jollytoad</a></h1><div class="user-widget" hx-get="/auth/widget" hx-trigger="load" hx-swap="outerHTML"></div></header><main><h2>Demos and Experiments</h2>
+<html lang="en-GB"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Jollytoad</title><link rel="stylesheet" href="https://unpkg.com/missing.css@1.1.1/dist/missing.min.css" integrity="sha384-se/UYQCQ0CMlLo1I5DcMmgR8t9hjCEpTpjPu7JWzT6M4wbxzI078hgX0pxTLyyMm" crossorigin="anonymous"/><link rel="stylesheet" href="/prism.css"/><link rel="stylesheet" href="/main.css"/><script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script><script src="https://unpkg.com/htmx.org@1.9.10/dist/ext/sse.js" integrity="sha384-jlVlI/i5K5APUIz8cxowC1/FsCEZgsrg126wue89Np9N75pQdAzqkYYP+jsUi43W" crossorigin="anonymous"></script><script src="/app.js" type="module"></script></head><body><header><h1><a href="/">The home of Jollytoad</a></h1><div class="user-widget" hx-get="/auth/widget" hx-trigger="load" hx-swap="outerHTML"></div></header><main><h2>Demos and Experiments</h2>
 <ul>
 <li><a href="/quiz">Quiz</a></li>
 <li><a href="/async">Async component streaming demo</a></li>
@@ -16,13 +16,16 @@
 <p>This site is powered by...</p>
 <ul>
 <li><a href="https://deno.land">Deno</a> - the JS/TS runtime that isn&#39;t Node</li>
-<li><a href="https://jsr.io/">JSR</a> - the new registry that supplies many of the dependencies</li>
+<li><a href="https://jsr.io/">JSR</a> - the new registry that supplies many of the
+dependencies</li>
 <li><a href="https://deno.com/deploy">Deno Deploy</a> - the Deno based serverless hosting
 service</li>
 <li><a href="https://htmx.org">htmx</a> - used for many of the interactive demos</li>
 <li><a href="https://missing.style">missing.css</a> - css library</li>
-<li><a href="https://jsr.io/@http/fns">@http/fns</a> - my HTTP server functions library (for routing etc)</li>
-<li><a href="https://jsr.io/@http/jsx-stream">@http/jsx-stream</a> - my JSX streaming serializer</li>
+<li><a href="https://jsr.io/@http/fns">@http/fns</a> - my HTTP server functions library (for
+routing etc)</li>
+<li><a href="https://jsr.io/@http/jsx-stream">@http/jsx-stream</a> - my JSX streaming
+serializer</li>
 <li><a href="https://remark.js.org">remark</a> - the markdown processor (although I use
 <a href="https://github.com/syntax-tree/mdast">mdast</a> and it&#39;s utilities directly)</li>
 <li><a href="https://esbuild.github.io/">esbuild</a> - to build the service worker, as not

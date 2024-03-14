@@ -18,11 +18,12 @@ export default async function generateQuote() {
 
   const completion = await openai.chat.completions.create({
     model: "gpt-3.5-turbo",
+    temperature: 1.5,
     messages: [
       {
         role: "user",
         content:
-          "Generate a new unique inspirational quote of the day. Do not attribute it to anyone",
+          "Generate a new obscure inspirational quote of the day. Do not attribute it to anyone.",
       },
     ],
   });

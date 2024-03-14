@@ -1,5 +1,4 @@
 import { notFound } from "@http/fns/response/not_found";
-import type { RequestProps } from "./route.ts";
 
 export async function fetchContent(
   name: string,
@@ -13,28 +12,4 @@ export async function fetchContent(
   } catch {
     return notFound();
   }
-}
-
-export interface ContentProps extends RequestProps {
-  content: Response;
-}
-
-export function fetchContentForPath(prefix: string, ext = "md") {
-  return async function (
-    req: Request,
-    match: URLPatternResult,
-  ): Promise<ContentProps> {
-    const content = await fetchContent(
-      `${prefix}/${match.pathname.groups.path || "index"}.${ext}`,
-    );
-    if (content.ok) {
-      return { req, content };
-    } else {
-      throw content;
-    }
-  };
-}
-
-export function rawContent(_req: Request, { content }: ContentProps) {
-  return content;
 }

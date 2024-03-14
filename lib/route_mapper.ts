@@ -3,11 +3,10 @@ import type {
   DiscoveredRoute,
 } from "@http/fns/discover_routes";
 
-// TODO: Fix generateRoutesModule to remove duplicate routes
-
 export default function routeMapper(
   { parentPath, name, ext, pattern, module }: DiscoveredPath,
 ): DiscoveredRoute[] {
+  // Treat any route under a `_static` dir as static content
   if (/[/\\]_static/.test(parentPath)) {
     return [{
       pattern: pattern.replace(/_static\/.*/, ":path+"),
@@ -16,7 +15,7 @@ export default function routeMapper(
   }
 
   // Skip any route that has a path segment that starts with an underscore
-  if (name.startsWith("_") || /[/\\]_/.test(parentPath)) {
+  if (name.startsWith("_") || /(^|[/\\])_/.test(parentPath)) {
     return [];
   }
 
@@ -33,13 +32,6 @@ export default function routeMapper(
           ? [pattern, `${pattern}/index{.:ext}`]
           : `${pattern}{.:ext}?`,
         module: import.meta.resolve("./handle_route_md.tsx"),
-      }];
-    // TODO: Migrate png/svg files into _static folders
-    case ".png":
-    case ".svg":
-      return [{
-        pattern: `${pattern}${ext}`,
-        module: import.meta.resolve("./handle_route_static.ts"),
       }];
   }
   return [];

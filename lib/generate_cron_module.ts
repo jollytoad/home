@@ -57,7 +57,7 @@ export async function generateCronModule({
     "// IMPORTANT: This file has been automatically generated, DO NOT edit by hand.\n\n",
   );
 
-  body.push("export default function() {\n");
+  body.push("export default function initCron() {\n");
 
   const routes = await discoverRoutes({
     fileRootUrl,
@@ -90,7 +90,7 @@ export async function generateCronModule({
     i++;
   }
 
-  body.push(`};\n`);
+  body.push(`}\n`);
 
   head.push(`\n`);
 
