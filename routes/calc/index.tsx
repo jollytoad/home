@@ -1,6 +1,6 @@
 import { Page } from "../../components/Page.tsx";
 import { handlePage } from "../../lib/handle_page.ts";
-import { Evaluate, evaluatePropsFrom } from "../../components/Evaluate.tsx";
+import { Evaluate, evaluatePropsFrom } from "./_components/Evaluate.tsx";
 
 export default handlePage(({ req }) => {
   const evaluateProps = evaluatePropsFrom(req);

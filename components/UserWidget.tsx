@@ -1,4 +1,4 @@
-import type { RequestProps } from "../lib/route.ts";
+import type { RequestProps } from "../lib/types.ts";
 import { getSessionId } from "$deno_kv_oauth/get_session_id.ts";
 import {
   getOAuthClientNames,
