@@ -1,10 +1,13 @@
+import { getQuoteConfig } from "../_lib/quote_config.ts";
 import { isQuoteUnseen } from "../_lib/quote_store.ts";
 import { setQuote } from "../_lib/quote_store.ts";
 import OpenAI from "npm:openai";
 
 export const name = "Generate a new quote of the moment";
 
-export const schedule = Deno.env.get("QUOTE_SCHEDULE") ?? "*/5 * * * *";
+const config = getQuoteConfig();
+
+export const schedule = config.schedule;
 
 export default async function generateQuote() {
   if (await isQuoteUnseen()) {
@@ -17,13 +20,12 @@ export default async function generateQuote() {
   const openai = new OpenAI();
 
   const completion = await openai.chat.completions.create({
-    model: Deno.env.get("QUOTE_AI_MODEL") ?? "gpt-3.5-turbo",
-    temperature: parseFloat(Deno.env.get("QUOTE_AI_TEMPERATURE") ?? "") || 1.5,
+    model: config.model,
+    temperature: config.temperature,
     messages: [
       {
         role: "user",
-        content: Deno.env.get("QUOTE_AI_PROMPT") ??
-          "Generate a new obscure inspirational quote of the day. Do not attribute it to anyone.",
+        content: config.prompt,
       },
     ],
   });

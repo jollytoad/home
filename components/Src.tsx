@@ -4,12 +4,11 @@ interface Props {
 }
 
 export function Src({ module, children }: Props) {
-  const [, path] = module?.split("/routes/") ?? [];
-  const href = path
-    ? `https://github.com/jollytoad/home/blob/main/routes/${path}`
-    : undefined;
+  const root = import.meta.resolve("./..");
+  const path = module?.replace(root, "");
 
-  if (href) {
+  if (path) {
+    const href = `https://github.com/jollytoad/home/blob/main/${path}`;
     return (
       <div class="src">
         <a href={href} target="_blank">{children ?? "View source on GitHub"}</a>

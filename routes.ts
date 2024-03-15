@@ -14,7 +14,7 @@ export default cascade(
   byPattern("/sse/feed", lazy(() => import("./routes/sse/feed.tsx"))),
   byPattern("/sse", lazy(() => import("./routes/sse/index.tsx"))),
   byPattern("/sleep", lazy(() => import("./routes/sleep.ts"))),
-  byPattern("/quote/tv", lazy(() => import("./routes/quote/tv.tsx"))),
+  byPattern("/quote/tv", lazy(() => import("./routes/quote/tv.ts"))),
   byPattern("/quote/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
   byPattern("/quote", lazy(() => import("./routes/quote/index.tsx"))),
   byPattern("/quiz/answer/:id/:answer", lazy(() => import("./routes/quiz/answer/:id/:answer.tsx"))),

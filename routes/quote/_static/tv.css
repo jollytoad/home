@@ -1,19 +1,25 @@
-html {
-  background: black;
-  color: white;
+html, body {
   height: 100%;
+  margin: 0;
+  padding: 0;
   overflow: hidden;
 }
 
-body {
-  margin: 0;
-  height: 100%;
-  opacity: 0;
-  transition: opacity 3s ease;
+html {
+  background: black;
+  color: white;
 }
 
-body.ready {
-  opacity: 1;
+@media (orientation: landscape)  {
+  html {
+    font-size: 1vw;
+  }
+}
+
+@media (orientation: portrait)  {
+  html {
+    font-size: 0.8vh;
+  }
 }
 
 blockquote {
@@ -24,28 +30,47 @@ blockquote {
 }
 
 blockquote p {
-  font-size: xxx-large;
+  font-size: 4rem;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   text-align: center;
   padding: 1em;
-  transform: scale(1);
-  filter: blur(0.8px);
-}
-
-.out blockquote p {
-  transform: scale(5);
-  filter: blur(20px);
-  transition: all 3s ease-in;
+  transform: scale(0);
+  filter: blur(40px);
+  opacity: 0;
 }
 
 blockquote footer {
-  text-align: end;
+  display: block;
+  position: absolute;
+  bottom: 1em;
+  right: 2em;
   font-family: cursive;
   font-style: italic;
   text-shadow: 1px 1px 5px whitesmoke;
+  opacity: 0;
+}
+
+.in blockquote p {
+  transition: all 3s ease-out;
+  transform: scale(1);
+  filter: blur(1px);
+  opacity: 1;
+}
+
+.in blockquote footer {
+  transition: all 6s ease-out;
+  opacity: 0.8;
+}
+
+.out blockquote p {
+  transition: all 3s ease-in;
+  transform: scale(5);
+  filter: blur(20px);
+  opacity: 0;
 }
 
 .out blockquote footer {
-  filter: blur(20px);
   transition: all 3s ease-in;
+  filter: blur(20px);
+  opacity: 0;
 }

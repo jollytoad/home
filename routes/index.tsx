@@ -15,6 +15,7 @@ export default handlePage(({ req }) => {
 * [Web Components demo](/tabs)
 * [Todo List demo](/todo)
 * [Server Sent Events demo](/sse)
+* [Quote of the Moment](/quote)
 `}
       </Markdown>
 

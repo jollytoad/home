@@ -1,14 +1,16 @@
-document.body.classList.add("ready");
+document.body.classList.add("in");
 
-const refresh =
-  document.head.querySelector('meta[name="refresh"]')?.getAttribute(
+const refresh = document.head.querySelector('meta[name="refresh"]')
+  ?.getAttribute(
     "content",
-  ) ?? 1;
+  );
 
-setTimeout(() => {
-  document.body.classList.remove("ready");
-  document.body.classList.add("out");
-  document.body.addEventListener("transitionend", () => {
-    location.reload();
-  });
-}, refresh * 1000);
+if (refresh) {
+  setTimeout(() => {
+    document.body.classList.remove("in");
+    document.body.classList.add("out");
+    document.body.addEventListener("transitionend", () => {
+      location.reload();
+    });
+  }, refresh * 1000);
+}
