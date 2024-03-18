@@ -1,7 +1,8 @@
 {
   "unstable": [
     "kv",
-    "cron"
+    "cron",
+    "temporal"
   ],
   "tasks": {
     "build": "deno run --allow-all scripts/build.ts",
@@ -11,6 +12,7 @@
     "start": "deno run --allow-net --allow-read --allow-env --env --allow-sys --allow-run --allow-write --allow-hrtime --watch scripts/dev.ts",
     "start:prod": "deno run --allow-net --allow-env main.ts",
     "mkcert": "mkcert -install -key-file localhost-key.pem -cert-file localhost-cert.pem localhost",
+    "deployctl": "deno run --allow-sys --allow-net --allow-read --allow-write --allow-env jsr:@deno/deployctl@1.12.0",
     "deploy": "deno run --allow-sys --allow-net --allow-read --allow-write --allow-env jsr:@deno/deployctl deploy --import-map=import_map_deploy.json",
     "check": "deno fmt && deno lint && deno check **/*.ts",
     "lock": "rm -f deno.lock && deno check **/*.ts"

@@ -26,6 +26,7 @@
       "jsr:@std/path@0.213": "jsr:@std/path@0.213.1",
       "jsr:@std/path@^0.219.1": "jsr:@std/path@0.219.1",
       "jsr:@std/streams@^0.219.1": "jsr:@std/streams@0.219.1",
+      "jsr:@std/ulid": "jsr:@std/ulid@0.219.1",
       "jsr:@std/ulid@^0.219.1": "jsr:@std/ulid@0.219.1",
       "npm:esbuild@0.20": "npm:esbuild@0.20.0",
       "npm:hast-util-raw@9.0.1": "npm:hast-util-raw@9.0.1",
