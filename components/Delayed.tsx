@@ -1,4 +1,4 @@
-import type { Children } from "$jsx/types";
+import type { Children } from "@http/jsx-stream/types";
 import { delay } from "@std/async/delay";
 
 export interface DelayedProps {

@@ -5,17 +5,15 @@
     "@std/collections/": "jsr:/@std/collections@^0.219.1/",
     "@std/path/": "jsr:/@std/path@^0.219.1/",
     "@std/ulid": "jsr:@std/ulid@^0.219.1",
-    "@http/fns/": "jsr:/@http/fns@^0.6.3/",
-    "$jsx": "jsr:@http/jsx-stream@^0.1.1",
-    "$jsx/": "jsr:/@http/jsx-stream@^0.1.1/",
-    "$deno_kv_oauth/": "https://deno.land/x/deno_kv_oauth@v0.10.0/lib/",
-    "https://deno.land/x/oauth2_client@v1.0.2/mod.ts": "https://cdn.jsdelivr.net/gh/jollytoad/deno-oauth2-client@oidc-2/mod.ts",
+    "@http/fns/": "jsr:/@http/fns@^0.7.0/",
+    "@http/jsx-stream": "jsr:@http/jsx-stream@^0.1.1",
+    "@http/jsx-stream/": "jsr:/@http/jsx-stream@^0.1.1/",
     "$store": "https://deno.land/x/storage_modules@v0.1.0/deno_kv.ts",
     "mdast-util-from-markdown": "npm:mdast-util-from-markdown@2.0.0",
     "micromark-extension-gfm": "npm:micromark-extension-gfm@3.0.0",
     "mdast-util-gfm": "npm:mdast-util-gfm@3.0.0",
-    "mdast-util-to-hast": "npm:mdast-util-to-hast@13.0.2",
-    "hast-util-to-jsx-runtime": "npm:hast-util-to-jsx-runtime@2.2.0",
-    "hast-util-raw": "npm:hast-util-raw@9.0.1"
+    "mdast-util-to-hast": "npm:mdast-util-to-hast@13.1.0",
+    "hast-util-to-jsx-runtime": "npm:hast-util-to-jsx-runtime@2.3.0",
+    "hast-util-raw": "npm:hast-util-raw@9.0.2"
   }
 }

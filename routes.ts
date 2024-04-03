@@ -1,8 +1,8 @@
 // IMPORTANT: This file has been automatically generated, DO NOT edit by hand.
 
+import { lazy } from "@http/fns/lazy";
 import { byPattern } from "@http/fns/by_pattern";
 import { cascade } from "@http/fns/cascade";
-import { lazy } from "@http/fns/lazy";
 
 export default cascade(
   byPattern("/todo/:listId/:itemId", lazy(() => import("./routes/todo/:listId/:itemId.tsx"))),
@@ -26,10 +26,6 @@ export default cascade(
   byPattern(["/blog/md{.:ext}?","/blog/links{.:ext}?","/blog/jsx_streaming{.:ext}?","/blog/index{.:ext}","/blog/http_fns{.:ext}?","/blog/dependency_hell{.:ext}?"], lazy(() => import("./lib/handle_route_md.tsx"))),
   byPattern("/blog/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
   byPattern("/blog", lazy(() => import("./lib/handle_route_md.tsx"))),
-  byPattern("/auth/widget", lazy(() => import("./routes/auth/widget.tsx"))),
-  byPattern("/auth/signout", lazy(() => import("./routes/auth/signout.ts"))),
-  byPattern("/auth/:provider/signin", lazy(() => import("./routes/auth/:provider/signin.ts"))),
-  byPattern("/auth/:provider/callback", lazy(() => import("./routes/auth/:provider/callback.ts"))),
   byPattern("/async", lazy(() => import("./routes/async.tsx"))),
   byPattern("/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
   byPattern("/", lazy(() => import("./routes/index.tsx"))),

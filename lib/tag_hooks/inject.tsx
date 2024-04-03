@@ -4,7 +4,7 @@ import type {
   Tag,
   TagHandlers,
   TagHooks,
-} from "$jsx/types";
+} from "@http/jsx-stream/types";
 
 export interface Injections {
   module?: string | string[];

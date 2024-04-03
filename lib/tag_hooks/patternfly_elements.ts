@@ -1,4 +1,4 @@
-import type { TagHandlers } from "$jsx/types";
+import type { TagHandlers } from "@http/jsx-stream/types";
 import { inject, recordScript } from "./inject.tsx";
 
 export function patternFlyElements(): TagHandlers {

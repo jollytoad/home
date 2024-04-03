@@ -1,4 +1,4 @@
-import type { RenderOptions } from "$jsx/types";
+import type { RenderOptions } from "@http/jsx-stream/types";
 import { materialDesignElements } from "./lib/tag_hooks/material_design.ts";
 import { shoelaceElements } from "./lib/tag_hooks/shoelace.ts";
 import { vaadinElements } from "./lib/tag_hooks/vaadin.ts";

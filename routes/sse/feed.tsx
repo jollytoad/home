@@ -1,7 +1,7 @@
 import { delay } from "@std/async/delay";
 import { ok } from "@http/fns/response/ok";
-import { renderString } from "$jsx";
-import type { JSX } from "$jsx/jsx-runtime";
+import { renderString } from "@http/jsx-stream";
+import type { JSX } from "@http/jsx-stream/jsx-runtime";
 
 export default function (_req: Request) {
   const body = ReadableStream.from(streamEvents())

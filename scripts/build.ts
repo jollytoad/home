@@ -26,7 +26,7 @@ export async function buildServiceWorker() {
     format: "iife",
     treeShaking: true,
     jsx: "automatic",
-    jsxImportSource: "$jsx",
+    jsxImportSource: "@http/jsx-stream",
     // minify: true
   });
 

@@ -4,9 +4,9 @@ import { gfmFromMarkdown } from "mdast-util-gfm";
 import { toHast } from "mdast-util-to-hast";
 import { type Options, toJsxRuntime } from "hast-util-to-jsx-runtime";
 import { raw } from "hast-util-raw";
-import { Fragment, jsx, jsxDEV, jsxs } from "$jsx/jsx-runtime";
+import { Fragment, jsx, jsxDEV, jsxs } from "@http/jsx-stream/jsx-runtime";
 import { fetchContent } from "../lib/content.ts";
-import type { Promisable } from "$jsx/types";
+import type { Promisable } from "@http/jsx-stream/types";
 
 interface Props {
   url?: string;

@@ -1,5 +1,5 @@
 import { byMethod } from "@http/fns/by_method";
-import type { ComponentType } from "$jsx/types";
+import type { ComponentType } from "@http/jsx-stream/types";
 import type { RouteProps } from "./types.ts";
 import { PAGE_RENDER_OPTIONS } from "../config_page.ts";
 import { FRAGMENT_RENDER_OPTIONS } from "../config_fragment.ts";

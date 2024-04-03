@@ -1,5 +1,5 @@
 (() => {
-  // https://jsr.io/@http/fns/0.6.4/lib/as_url_pattern.ts
+  // https://jsr.io/@http/fns/0.7.0/lib/as_url_pattern.ts
   function asURLPattern(pattern) {
     return typeof pattern === "string" ? new URLPattern({ pathname: pattern }) : pattern instanceof URLPattern ? pattern : new URLPattern(pattern);
   }
@@ -7,7 +7,7 @@
     return Array.isArray(pattern) ? pattern.map(asURLPattern) : [asURLPattern(pattern)];
   }
 
-  // https://jsr.io/@http/fns/0.6.4/lib/by_pattern.ts
+  // https://jsr.io/@http/fns/0.7.0/lib/by_pattern.ts
   function byPattern(pattern, handler) {
     const patterns = asURLPatterns(pattern);
     return async (req, ...args) => {
@@ -24,7 +24,7 @@
     };
   }
 
-  // https://jsr.io/@http/fns/0.6.4/lib/cascade.ts
+  // https://jsr.io/@http/fns/0.7.0/lib/cascade.ts
   function cascade(...handlers) {
     return async (req, ...args) => {
       for (const handler of handlers) {
@@ -37,7 +37,7 @@
     };
   }
 
-  // https://jsr.io/@http/fns/0.6.4/lib/response/plain_error.ts
+  // https://jsr.io/@http/fns/0.7.0/lib/response/plain_error.ts
   function plainError(status, statusText, message) {
     return new Response(message ?? statusText, {
       status,
@@ -48,12 +48,12 @@
     });
   }
 
-  // https://jsr.io/@http/fns/0.6.4/lib/response/method_not_allowed.ts
+  // https://jsr.io/@http/fns/0.7.0/lib/response/method_not_allowed.ts
   function methodNotAllowed(message) {
     return plainError(405, "Method Not Allowed", message);
   }
 
-  // https://jsr.io/@http/fns/0.6.4/lib/response/no_content.ts
+  // https://jsr.io/@http/fns/0.7.0/lib/response/no_content.ts
   function noContent(headers) {
     return new Response(null, {
       status: 204,
@@ -62,7 +62,7 @@
     });
   }
 
-  // https://jsr.io/@http/fns/0.6.4/lib/response/replace_body.ts
+  // https://jsr.io/@http/fns/0.7.0/lib/response/replace_body.ts
   function replaceBody(res, body) {
     return res.body === body ? res : new Response(body, {
       status: res.status,
@@ -71,7 +71,7 @@
     });
   }
 
-  // https://jsr.io/@http/fns/0.6.4/lib/by_method.ts
+  // https://jsr.io/@http/fns/0.7.0/lib/by_method.ts
   function byMethod(handlers, fallback = () => methodNotAllowed()) {
     const defaultHandlers = {
       OPTIONS: optionsHandler(handlers)
@@ -109,7 +109,7 @@
     deferredTimeout: false
   };
 
-  // https://jsr.io/@http/fns/0.6.4/lib/response/html.ts
+  // https://jsr.io/@http/fns/0.7.0/lib/response/html.ts
   function html(body, headersInit) {
     const headers = new Headers(headersInit);
     headers.set("Content-Type", "text/html");
@@ -120,7 +120,7 @@
     });
   }
 
-  // https://jsr.io/@http/fns/0.6.4/lib/response/prepend_doctype.ts
+  // https://jsr.io/@http/fns/0.7.0/lib/response/prepend_doctype.ts
   var DOCTYPE = "<!DOCTYPE html>\n";
   var ENCODED_DOCTYPE = new TextEncoder().encode(DOCTYPE);
   function prependDocType(bodyInit) {
@@ -594,7 +594,7 @@
     return evalRPN(toRPN(tokenize(input)));
   }
 
-  // https://jsr.io/@http/fns/0.6.4/lib/request/search_values.ts
+  // https://jsr.io/@http/fns/0.7.0/lib/request/search_values.ts
   function getSearchValues(input) {
     const searchParams = input instanceof Request ? new URL(input.url).searchParams : input instanceof URL ? input.searchParams : input instanceof URLSearchParams ? input : input && "search" in input && "input" in input.search ? new URLSearchParams(input.search.input) : void 0;
     return (param, separator) => searchParams ? separator ? searchParams.getAll(param).join(separator).split(separator).filter(

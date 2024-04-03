@@ -4,7 +4,7 @@ import { QuoteTvPage } from "./_components/QuoteTvPage.tsx";
 import { getQuoteConfig } from "./_lib/quote_config.ts";
 
 export default byMethod({
-  GET: (req) => {
+  GET: (req, _match) => {
     return renderHTML(QuoteTvPage, { refresh: getRefresh(req) });
   },
 });
