@@ -20,4 +20,3 @@ jobs:
           project: jollytoad
           entrypoint: main.ts
           exclude: scripts
-          import-map: import_map_deploy.json

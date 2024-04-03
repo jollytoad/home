@@ -1,7 +1,7 @@
 import { getQuoteConfig } from "../_lib/quote_config.ts";
 import { isQuoteUnseen } from "../_lib/quote_store.ts";
 import { setQuote } from "../_lib/quote_store.ts";
-import OpenAI from "npm:openai";
+import OpenAI from "openai";
 
 export const name = "Generate a new quote of the moment";
 

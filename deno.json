@@ -11,7 +11,7 @@
     "start": "deno run --allow-net --allow-read --allow-env --env --allow-sys --allow-run --allow-write --allow-hrtime --watch scripts/dev.ts",
     "start:prod": "deno run --allow-net --allow-env main.ts",
     "mkcert": "mkcert -install -key-file localhost-key.pem -cert-file localhost-cert.pem localhost",
-    "deploy": "deno run --allow-sys --allow-net --allow-read --allow-write --allow-env jsr:@deno/deployctl deploy --import-map=import_map_deploy.json",
+    "deploy": "deno run --allow-sys --allow-net --allow-read --allow-write --allow-env jsr:@deno/deployctl deploy",
     "check": "deno fmt && deno lint && deno check **/*.ts",
     "lock": "rm -f deno.lock && deno check **/*.ts",
     "outdated": "deno run --allow-read=. --allow-net=jsr.io,registry.npmjs.org jsr:@check/deps"
@@ -33,16 +33,22 @@
     ]
   },
   "imports": {
-    "$jsx": "jsr:@http/jsx-stream@^0.1.1",
     "$store": "https://deno.land/x/storage_modules@v0.1.0/deno_kv.ts",
     "@cross/env": "jsr:@cross/env@^1.0.0",
     "@http/fns": "jsr:@http/fns@^0.7.0",
+    "@http/fns/": "jsr:/@http/fns@^0.7.0/",
     "@http/jsx-stream": "jsr:@http/jsx-stream@^0.1.1",
+    "@http/jsx-stream/": "jsr:/@http/jsx-stream@^0.1.1/",
     "@std/async": "jsr:@std/async@^0.219.1",
+    "@std/async/": "jsr:/@std/async@^0.219.1/",
     "@std/collections": "jsr:@std/collections@^0.219.1",
+    "@std/collections/": "jsr:/@std/collections@^0.219.1/",
     "@std/fs": "jsr:@std/fs@^0.219.1",
+    "@std/fs/": "jsr:/@std/fs@^0.219.1/",
     "@std/http": "jsr:@std/http@^0.219.1",
+    "@std/http/": "jsr:/@std/http@^0.219.1/",
     "@std/path": "jsr:@std/path@^0.219.1",
+    "@std/path/": "jsr:/@std/path@^0.219.1/",
     "@std/ulid": "jsr:@std/ulid@^0.219.1",
     "esbuild": "npm:esbuild@0.20",
     "esbuild-deno-loader": "jsr:@luca/esbuild-deno-loader@^0.10.3",
@@ -52,6 +58,7 @@
     "mdast-util-gfm": "npm:mdast-util-gfm@3.0.0",
     "mdast-util-to-hast": "npm:mdast-util-to-hast@13.1.0",
     "micromark-extension-gfm": "npm:micromark-extension-gfm@3.0.0",
+    "openai": "npm:openai@^4.32.1",
     "urlpattern-polyfill": "npm:urlpattern-polyfill@10.0.0"
   },
   "deploy": {
