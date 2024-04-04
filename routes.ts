@@ -1,13 +1,14 @@
 // IMPORTANT: This file has been automatically generated, DO NOT edit by hand.
 
+import { byMethod } from "@http/fns/by_method";
 import { lazy } from "@http/fns/lazy";
 import { byPattern } from "@http/fns/by_pattern";
 import { cascade } from "@http/fns/cascade";
 
 export default cascade(
-  byPattern("/todo/:listId/:itemId", lazy(() => import("./routes/todo/:listId/:itemId.tsx"))),
-  byPattern("/todo/:listId", lazy(() => import("./routes/todo/:listId/index.tsx"))),
-  byPattern("/todo", lazy(() => import("./routes/todo/index.ts"))),
+  byPattern("/todo/:listId/:itemId", lazy(async () => byMethod(await import("./routes/todo/:listId/:itemId.tsx")))),
+  byPattern("/todo/:listId", lazy(async () => byMethod(await import("./routes/todo/:listId/index.tsx")))),
+  byPattern("/todo", lazy(async () => byMethod(await import("./routes/todo/index.ts")))),
   byPattern("/tabs", lazy(() => import("./routes/tabs.tsx"))),
   byPattern("/sse/stop", lazy(() => import("./routes/sse/stop.tsx"))),
   byPattern("/sse/start", lazy(() => import("./routes/sse/start.tsx"))),

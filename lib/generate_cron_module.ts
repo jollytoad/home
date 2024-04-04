@@ -6,7 +6,7 @@ import { dirname } from "@std/path/posix/dirname";
 import { relative } from "@std/path/posix/relative";
 import { fromFileUrl } from "@std/path/posix/from_file_url";
 import cronRouteMapper from "./cron_route_mapper.ts";
-import { asSerializablePattern } from "jsr:@http/fns@^0.6.3/as_serializable_pattern";
+import { asSerializablePattern } from "@http/fns/as_serializable_pattern";
 
 export interface GenerateCronOptions extends
   Omit<
