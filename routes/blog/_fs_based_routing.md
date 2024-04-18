@@ -19,8 +19,8 @@ module with code using my [http_fns], so given the files:
 I'd get a module something like this:
 
 ```ts
-import { byPattern } from "@http/fns/by_pattern";
-import { cascade } from "@http/fns/cascade";
+import { byPattern } from "@http/route/by-pattern";
+import { cascade } from "@http/route/cascade";
 import route_1 from "./routes/quiz.tsx";
 import route_2 from "./routes/answer/:id/:answer.tsx";
 
@@ -34,7 +34,7 @@ Which I could then import and combine in a server:
 
 ```ts
 import routes from "./routes.ts";
-import { withFallback } from "@http/fns/with_fallback";
+import { withFallback } from "@http/route/with-fallback";
 
 Deno.serve(withFallback(routes));
 ```
@@ -60,7 +60,7 @@ First I'll describe the more generic function...
 `discoverRoutes(options): Promise<DiscoveredRoute[]>`
 
 ```ts
-import { discoverRoutes } from "@http/fns/discover_routes";
+import { discoverRoutes } from "@http/discovery/discover-routes";
 
 await discoverRoutes({
   fileRouteUrl: import.meta.resolve("./routes"),
@@ -83,8 +83,8 @@ If you want to customize the path format, to support Fresh style naming for
 example, you can pass a `PathMapper` function as an option.
 
 ```ts
-import { discoverRoutes } from "@http/fns/discover_routes";
-import freshPathMapper from "@http/fns/fresh/path_mapper";
+import { discoverRoutes } from "@http/discovery/discover-routes";
+import freshPathMapper from "@http/discovery/fresh-path-mapper";
 
 await discoverRoutes({
   fileRootUrl: import.meta.resolve("../routes"),
@@ -104,7 +104,7 @@ For example: `/routes/answer/:id/:answer.tsx`, this is an actual route on my
 home site, which is part of my Quiz example.
 
 ```ts
-import { discoverRoutes } from "@http/fns/discover_routes";
+import { discoverRoutes } from "@http/discovery/discover-routes";
 
 const routes = await discoverRoutes();
 ```

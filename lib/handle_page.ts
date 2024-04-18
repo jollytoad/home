@@ -1,4 +1,4 @@
-import { byMethod } from "@http/fns/by_method";
+import { byMethod } from "@http/route/by-method";
 import type { ComponentType } from "@http/jsx-stream/types";
 import type { RouteProps } from "./types.ts";
 import { PAGE_RENDER_OPTIONS } from "../config_page.ts";

@@ -1,7 +1,7 @@
 import {
   type GenerateOptions,
   generateRoutesModule,
-} from "@http/fns/generate_routes_module";
+} from "@http/generate/generate-routes-module";
 import { generateCronModule } from "../lib/generate_cron_module.ts";
 
 type Opts = Pick<
@@ -22,10 +22,8 @@ export function generateRoutes(opts: Opts = defaultOpts) {
     pattern: "/",
     fileRootUrl: import.meta.resolve("../routes"),
     moduleOutUrl: import.meta.resolve("../routes.ts"),
-    pathMapper: "@http/fns/fresh/path_mapper",
+    pathMapper: "@http/discovery/fresh-path-mapper",
     routeMapper: import.meta.resolve("../lib/route_mapper.ts"),
-    httpFns: "@http/fns/",
-    jsr: true,
     ...opts,
   });
 }

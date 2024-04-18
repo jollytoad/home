@@ -2,10 +2,10 @@ import { deleteItem, writeItem } from "../_lib/data.ts";
 import type { TodoListItem } from "../_lib/types.ts";
 import { TodoItemView } from "../_components/TodoItemView.tsx";
 import { FRAGMENT_RENDER_OPTIONS } from "../../../config_fragment.ts";
-import { badRequest } from "@http/fns/response/bad_request";
-import { seeOther } from "@http/fns/response/see_other";
-import { ok } from "@http/fns/response/ok";
-import { notFound } from "@http/fns/response/not_found";
+import { badRequest } from "@http/response/bad-request";
+import { seeOther } from "@http/response/see-other";
+import { ok } from "@http/response/ok";
+import { notFound } from "@http/response/not-found";
 import { renderHTML } from "../../../lib/render_html.tsx";
 
 export async function POST(req: Request, match: URLPatternResult) {

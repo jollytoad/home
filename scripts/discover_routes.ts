@@ -1,5 +1,5 @@
-import { discoverRoutes } from "@http/fns/discover_routes";
-import freshPathMapper from "@http/fns/fresh/path_mapper";
+import { discoverRoutes } from "@http/discovery/discover-routes";
+import freshPathMapper from "@http/discovery/fresh-path-mapper";
 
 await discoverRoutes({
   fileRootUrl: import.meta.resolve("../routes"),

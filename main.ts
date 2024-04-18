@@ -1,5 +1,5 @@
 import handler from "./handler.ts";
-import init from "@http/fns/hosting/init_deploy";
+import init from "@http/host-deno-deploy/init";
 import initCron from "./cron.ts";
 
 await initCron();

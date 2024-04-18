@@ -1,6 +1,6 @@
 import { handleFragment } from "../../../../lib/handle_fragment.ts";
 import { QuizAnswer } from "../../_components/QuizAnswer.tsx";
-import { notFound } from "@http/fns/response/not_found";
+import { notFound } from "@http/response/not-found";
 import { getQuizSession, updateQuizScore } from "../../_lib/session.ts";
 import { QuizScore } from "../../_components/QuizScore.tsx";
 import type { TextChoiceQuestion } from "../../_trivia_api_types.ts";

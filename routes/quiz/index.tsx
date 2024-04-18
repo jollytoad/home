@@ -1,7 +1,7 @@
 import { Page } from "../../components/Page.tsx";
 import { Quiz } from "./_components/Quiz.tsx";
 import { renderPage } from "../../lib/handle_page.ts";
-import { byMethod } from "@http/fns/by_method";
+import { byMethod } from "@http/route/by-method";
 import { getQuizSession } from "../../routes/quiz/_lib/session.ts";
 
 export default byMethod({

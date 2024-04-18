@@ -1,8 +1,8 @@
-import { ensureDir } from "@std/fs/ensure_dir";
-import { emptyDir } from "@std/fs/empty_dir";
+import { ensureDir } from "@std/fs/ensure-dir";
+import { emptyDir } from "@std/fs/empty-dir";
 import { dirname } from "@std/path/dirname";
 import { pooledMap } from "@std/async/pool";
-import { withFallback } from "@http/fns/with_fallback";
+import { withFallback } from "@http/route/with-fallback";
 import routes from "../routes.ts";
 import cached_routes from "../cached_routes.ts";
 

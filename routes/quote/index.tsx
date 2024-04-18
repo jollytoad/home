@@ -1,6 +1,6 @@
 import { Page } from "../../components/Page.tsx";
 import { renderPage } from "../../lib/handle_page.ts";
-import { byMethod } from "@http/fns/by_method";
+import { byMethod } from "@http/route/by-method";
 import { Quote } from "./_components/Quote.tsx";
 import { getQuoteConfig } from "./_lib/quote_config.ts";
 import { Src } from "../../components/Src.tsx";

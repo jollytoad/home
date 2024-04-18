@@ -1,6 +1,6 @@
-import { byMethod } from "@http/fns/by_method";
-import { serveDir } from "@std/http/file_server";
-import { fromFileUrl } from "@std/path/from_file_url";
+import { byMethod } from "@http/route/by-method";
+import { serveDir } from "@std/http/file-server";
+import { fromFileUrl } from "@std/path/from-file-url";
 
 export default byMethod({
   GET(req, match: URLPatternResult) {

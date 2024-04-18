@@ -19,4 +19,4 @@ jobs:
         with:
           project: jollytoad
           entrypoint: main.ts
-          exclude: scripts
+          exclude: scripts, dev.ts, import_map_sw.json, README.md

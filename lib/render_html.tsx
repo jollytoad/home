@@ -1,5 +1,5 @@
-import { html } from "@http/fns/response/html";
-import { prependDocType } from "@http/fns/response/prepend_doctype";
+import { html } from "@http/response/html";
+import { prependDocType } from "@http/response/prepend-doctype";
 import {
   type ComponentType,
   renderBody,

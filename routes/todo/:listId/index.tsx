@@ -5,9 +5,9 @@ import { writeItem } from "../_lib/data.ts";
 import { TodoListView } from "../_components/TodoListView.tsx";
 import { TodoItemAdded } from "../_components/TodoItemView.tsx";
 import { FRAGMENT_RENDER_OPTIONS } from "../../../config_fragment.ts";
-import { badRequest } from "@http/fns/response/bad_request";
-import { seeOther } from "@http/fns/response/see_other";
-import { forbidden } from "@http/fns/response/forbidden";
+import { badRequest } from "@http/response/bad-request";
+import { seeOther } from "@http/response/see-other";
+import { forbidden } from "@http/response/forbidden";
 import { renderHTML } from "../../../lib/render_html.tsx";
 
 export const GET = renderPage(({ req, match }) => (

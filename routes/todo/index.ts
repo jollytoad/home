@@ -1,4 +1,4 @@
-import { seeOther } from "@http/fns/response/see_other";
+import { seeOther } from "@http/response/see-other";
 import { newId } from "./_lib/id.ts";
 
 export function GET(_req: Request, match: URLPatternResult) {

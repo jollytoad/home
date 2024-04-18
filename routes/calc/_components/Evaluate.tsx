@@ -1,5 +1,5 @@
 import { evaluate } from "../_lib/evaluate.js";
-import { getSearchValues } from "@http/fns/request/search_values";
+import { getSearchValues } from "@http/request/search-values";
 
 interface Props {
   expr: string;

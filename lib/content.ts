@@ -1,4 +1,4 @@
-import { notFound } from "@http/fns/response/not_found";
+import { notFound } from "@http/response/not-found";
 
 export async function fetchContent(
   name: string,

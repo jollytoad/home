@@ -1,6 +1,6 @@
 import * as esbuild from "esbuild";
 import { denoPlugins } from "esbuild-deno-loader";
-import { fromFileUrl } from "@std/path/from_file_url";
+import { fromFileUrl } from "@std/path/from-file-url";
 
 /**
  * Build the ServiceWorker script

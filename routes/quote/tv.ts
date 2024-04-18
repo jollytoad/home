@@ -1,4 +1,4 @@
-import { byMethod } from "@http/fns/by_method";
+import { byMethod } from "@http/route/by-method";
 import { renderHTML } from "../../lib/render_html.tsx";
 import { QuoteTvPage } from "./_components/QuoteTvPage.tsx";
 import { getQuoteConfig } from "./_lib/quote_config.ts";
