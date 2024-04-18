@@ -7,6 +7,8 @@ export default handlePage(({ req }) => {
 
   return (
     <Page req={req} module={import.meta.url}>
+      <link rel="stylesheet" href="/calc/calc.css" />
+
       <h1>Service Worker Calculator</h1>
       <form
         action="/calc"

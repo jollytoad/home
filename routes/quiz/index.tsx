@@ -10,7 +10,10 @@ export default byMethod({
 
     return renderPage(() => (
       <Page req={req} module={import.meta.url}>
+        <link rel="stylesheet" href="/quiz/quiz.css" />
+
         <Quiz score={score} />
+
         <a href="/quiz">Next Question</a>
       </Page>
     ), headers)(req, match);

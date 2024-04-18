@@ -56,6 +56,8 @@ export function Page({ req, children, reqURL, module, ...props }: Props) {
           <Src module={module} />
           <div>©️ {new Date().getFullYear()} Mark Gibson</div>
         </footer>
+
+        <script src="/ready.js" defer />
       </body>
     </html>
   );

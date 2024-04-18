@@ -1,0 +1,12 @@
+
+.ex-swap {
+  font-size: small;
+  font-weight: normal;
+}
+
+.result {
+  color: green;
+}
+.error {
+  color: red;
+}

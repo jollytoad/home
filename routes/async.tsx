@@ -5,6 +5,14 @@ import { handlePage } from "../lib/handle_page.ts";
 
 export default handlePage(({ req }) => (
   <Page req={req} module={import.meta.url}>
+    <style>
+      {`
+      .red {
+        color: red
+      }
+    `}
+    </style>
+
     <p>This is a demo of streaming of asynchronous components.</p>
 
     <hr />

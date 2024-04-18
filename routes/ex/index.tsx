@@ -12,6 +12,8 @@ export default handlePage(({ req, match }) => {
     const swapUrl = `/ex/${toCurr}/${fromCurr}`;
     return (
       <Page>
+        <link rel="stylesheet" href="/ex/ex.css" />
+
         <h1>
           {fromCurr} to {toCurr} <a href={swapUrl} class="ex-swap">swap</a>
         </h1>

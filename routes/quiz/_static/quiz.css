@@ -1,0 +1,69 @@
+
+.quiz {
+  border-style: solid;
+  border-width: 2px 1ex 1ex 2px;
+  border-color: blueviolet;
+  border-radius: 2em;
+  padding: 1em 2em;
+  margin: 1em 0;
+}
+
+.quiz .question {
+  font-weight: bold;
+}
+
+.quiz .attribution {
+  font-size: smaller;
+  font-style: italic;
+}
+
+.quiz .answer button {
+  border-style: solid;
+  border-width: 1px 3px 3px 1px;
+  border-color: darkcyan;
+  background-color: lightblue;
+  border-radius: 1em;
+  padding: 0.5em 1em;
+  margin: 1ex 0;
+  font-size: inherit;
+}
+
+.quiz .answer button.correct {
+  border-color: darkseagreen;
+  background-color: lightgreen;
+}
+
+.quiz .answer button.incorrect {
+  border-color: salmon;
+  background-color: lightpink;
+}
+
+.quiz .answer button {
+  opacity: 0;
+  transform: scale(0);
+  filter: blur(5px);
+  transition-property: all;
+  transition-duration: 1s;
+}
+
+.ready .quiz .answer button {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+}
+
+.quiz .answer:nth-of-type(1) button {
+  transition-delay: 0.5s;
+}
+
+.quiz .answer:nth-of-type(2) button {
+  transition-delay: 1s;
+}
+
+.quiz .answer:nth-of-type(3) button {
+  transition-delay: 1.5s;
+}
+
+.quiz .answer:nth-of-type(4) button {
+  transition-delay: 2s;
+}

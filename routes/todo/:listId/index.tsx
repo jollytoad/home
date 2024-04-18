@@ -12,7 +12,10 @@ import { renderHTML } from "../../../lib/render_html.tsx";
 
 export const GET = renderPage(({ req, match }) => (
   <Page req={req} module={import.meta.url}>
+    <link rel="stylesheet" href="/todo/todo.css" />
+
     <h1>Todo List demo (work in progress)</h1>
+
     <TodoListView listId={match.pathname.groups.listId!} />
   </Page>
 ));

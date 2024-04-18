@@ -1,4 +1,6 @@
-document.body.classList.add("in");
+setTimeout(() => {
+  document.body.classList.add("in");
+}, 100);
 
 const refresh = document.head.querySelector('meta[name="refresh"]')
   ?.getAttribute(

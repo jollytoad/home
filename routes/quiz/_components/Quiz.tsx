@@ -39,11 +39,9 @@ async function Question() {
           <p class="question">{text}</p>
           <ol class="answers">
             {answers.map((answer, i) => (
-              <Delayed delay={(i + 1) * 300}>
-                <li class="answer">
-                  <QuizAnswer id={id} answer={answer} />
-                </li>
-              </Delayed>
+              <li class="answer">
+                <QuizAnswer id={id} answer={answer} />
+              </li>
             ))}
           </ol>
           <p class="attribution">
