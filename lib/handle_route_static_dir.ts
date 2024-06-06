@@ -1,7 +1,8 @@
 import { byMethod } from "@http/route/by-method";
 import { serveDir } from "@std/http/file-server";
 import { fromFileUrl } from "@std/path/from-file-url";
-import { interceptResponse, skip } from "@http/interceptor/intercept";
+import { interceptResponse } from "@http/interceptor/intercept-response";
+import { skip } from "@http/interceptor/skip";
 
 export default interceptResponse(
   byMethod({

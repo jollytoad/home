@@ -31,6 +31,6 @@ export async function Evaluate({ expr }: Props) {
 
 export function evaluatePropsFrom(req?: Request): Props {
   return {
-    expr: req && getSearchValues(req)("expr")[0] || "",
+    expr: req && getSearchValues(req, "expr")[0] || "",
   };
 }

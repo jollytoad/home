@@ -1,4 +1,3 @@
-import { Delayed } from "../../../components/Delayed.tsx";
 import type { TextChoiceQuestion } from "../_trivia_api_types.ts";
 import { QuizAnswer } from "./QuizAnswer.tsx";
 import { QuizScore } from "./QuizScore.tsx";
@@ -28,30 +27,34 @@ async function Question() {
     if (response.ok) {
       const questions = await response.json() as TextChoiceQuestion[];
 
-      const { id, question: { text }, correctAnswer, incorrectAnswers } =
-        questions[0];
+      if (questions[0]) {
+        const { id, question: { text }, correctAnswer, incorrectAnswers } =
+          questions[0];
 
-      const answers = [correctAnswer, ...incorrectAnswers];
-      answers.forEach(() => answers.sort(() => 0.5 - Math.random()));
+        const answers = [correctAnswer, ...incorrectAnswers];
+        answers.forEach(() => answers.sort(() => 0.5 - Math.random()));
 
-      return (
-        <div>
-          <p class="question">{text}</p>
-          <ol class="answers">
-            {answers.map((answer, i) => (
-              <li class="answer">
-                <QuizAnswer id={id} answer={answer} />
-              </li>
-            ))}
-          </ol>
-          <p class="attribution">
-            powered by{" "}
-            <a href="https://the-trivia-api.com" target="_blank">
-              The Trivia API
-            </a>
-          </p>
-        </div>
-      );
+        return (
+          <div>
+            <p class="question">{text}</p>
+            <ol class="answers">
+              {answers.map((answer) => (
+                <li class="answer">
+                  <QuizAnswer id={id} answer={answer} />
+                </li>
+              ))}
+            </ol>
+            <p class="attribution">
+              powered by{" "}
+              <a href="https://the-trivia-api.com" target="_blank">
+                The Trivia API
+              </a>
+            </p>
+          </div>
+        );
+      } else {
+        console.error("no questions returned from trivia api!");
+      }
     } else {
       console.error("trivia api failed", response.status);
     }

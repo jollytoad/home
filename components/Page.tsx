@@ -1,6 +1,5 @@
 import type { Children } from "@http/jsx-stream/types";
 import { Src } from "../components/Src.tsx";
-import { getDeferredTimeout } from "../lib/deferred_timeout.ts";
 
 interface Props {
   req?: Request;
@@ -9,9 +8,7 @@ interface Props {
   module?: string;
 }
 
-export function Page({ req, children, reqURL, module, ...props }: Props) {
-  const deferredTimeout = req ? getDeferredTimeout(req) : false;
-
+export function Page({ children, reqURL, module }: Props) {
   return reqURL ? <>{children}</> : (
     <html lang="en-GB">
       <head>

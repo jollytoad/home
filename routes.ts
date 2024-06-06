@@ -1,9 +1,9 @@
 // IMPORTANT: This file has been automatically generated, DO NOT edit by hand.
 
 import { byMethod } from "@http/route/by-method";
-import { lazy } from "@http/handler/lazy";
 import { byPattern } from "@http/route/by-pattern";
 import { cascade } from "@http/route/cascade";
+import { lazy } from "@http/route/lazy";
 
 export default cascade(
   byPattern("/todo/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
@@ -28,7 +28,14 @@ export default cascade(
   byPattern("/calc/eval", lazy(() => import("./routes/calc/eval.tsx"))),
   byPattern("/calc/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
   byPattern("/calc", lazy(() => import("./routes/calc/index.tsx"))),
-  byPattern(["/blog/md{.:ext}?","/blog/links{.:ext}?","/blog/jsx_streaming{.:ext}?","/blog/index{.:ext}","/blog/http_fns{.:ext}?","/blog/dependency_hell{.:ext}?"], lazy(() => import("./lib/handle_route_md.tsx"))),
+  byPattern([
+    "/blog/md{.:ext}?",
+    "/blog/links{.:ext}?",
+    "/blog/jsx_streaming{.:ext}?",
+    "/blog/index{.:ext}",
+    "/blog/http_fns{.:ext}?",
+    "/blog/dependency_hell{.:ext}?",
+  ], lazy(() => import("./lib/handle_route_md.tsx"))),
   byPattern("/blog/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
   byPattern("/blog", lazy(() => import("./lib/handle_route_md.tsx"))),
   byPattern("/async", lazy(() => import("./routes/async.tsx"))),

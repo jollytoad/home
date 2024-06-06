@@ -623,7 +623,7 @@
   }
   function evaluatePropsFrom(req) {
     return {
-      expr: req && getSearchValues(req)("expr")[0] || ""
+      expr: req && getSearchValues(req, "expr")[0] || ""
     };
   }
 

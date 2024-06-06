@@ -11,8 +11,6 @@ import { renderHTML } from "../../../lib/render_html.tsx";
 export async function POST(req: Request, match: URLPatternResult) {
   const { listId, itemId } = match.pathname.groups;
 
-  console.log(match);
-
   if (!listId || !itemId) {
     return badRequest();
   }
@@ -53,7 +51,7 @@ export async function POST(req: Request, match: URLPatternResult) {
   return ok();
 }
 
-export async function DELETE(req: Request, match: URLPatternResult) {
+export async function DELETE(_req: Request, match: URLPatternResult) {
   const { listId, itemId } = match.pathname.groups;
 
   if (!listId || !itemId) {

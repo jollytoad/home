@@ -62,6 +62,6 @@ export function exchangePropsFrom(
     id: req && req.headers.get("HX-Target") || id,
     fromCurr: match?.pathname.groups.from?.toUpperCase() || "EUR",
     toCurr: match?.pathname.groups.to?.toUpperCase() || "GBP",
-    amount: req && Number.parseFloat(getSearchValues(req)("amount")[0] || ""),
+    amount: req && Number.parseFloat(getSearchValues(req, "amount")[0] || ""),
   };
 }

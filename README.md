@@ -54,3 +54,17 @@ Or, to deploy to production:
 ```sh
 deno task deploy --prod
 ```
+
+## How does it work?
+
+Go ahead, have a browse, take a look at [main.ts](./main.ts) to see how the app
+works in production, you should be able to follow imports and functions to
+understand how it all hangs together.
+
+If you are feeling more adventurous take a look at [dev.ts](./dev.ts) which also
+calls various build scripts to dynamically generate the routing and cron job
+modules.
+
+The project uses and showcases much of my
+[http functions library](https://jsr.io/@http), which is designed to be easy to
+follow and understand (hopefully).

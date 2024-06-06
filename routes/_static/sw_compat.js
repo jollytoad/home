@@ -24,8 +24,7 @@
     let r = [], n = 0;
     for (; n < e.length; ) {
       let o = e[n], c = function(l) {
-        if (!t)
-          throw new TypeError(l);
+        if (!t) throw new TypeError(l);
         r.push({ type: "INVALID_CHAR", index: n, value: e[n++] });
       };
       if (o === "*") {
@@ -91,8 +90,7 @@
           }
           s += e[i++];
         }
-        if (a)
-          continue;
+        if (a) continue;
         if (l) {
           c(`Unbalanced pattern at ${n}`);
           continue;
@@ -112,18 +110,15 @@
     let r = v(e);
     t.delimiter ??= "/#?", t.prefixes ??= "./";
     let n = `[^${S(t.delimiter)}]+?`, o = [], c = 0, l = 0, s = "", i = /* @__PURE__ */ new Set(), a = (h) => {
-      if (l < r.length && r[l].type === h)
-        return r[l++].value;
+      if (l < r.length && r[l].type === h) return r[l++].value;
     }, f = () => a("OTHER_MODIFIER") ?? a("ASTERISK"), d = (h) => {
       let u = a(h);
-      if (u !== void 0)
-        return u;
+      if (u !== void 0) return u;
       let { type: p, index: A } = r[l];
       throw new TypeError(`Unexpected ${p} at ${A}, expected ${h}`);
     }, T = () => {
       let h = "", u;
-      for (; u = a("CHAR") ?? a("ESCAPED_CHAR"); )
-        h += u;
+      for (; u = a("CHAR") ?? a("ESCAPED_CHAR"); ) h += u;
       return h;
     }, Se = (h) => h, L = t.encodePart || Se, I = "", U = (h) => {
       I += h;
@@ -147,8 +142,7 @@
         return;
       }
       if ($(), !u && !p) {
-        if (!h)
-          return;
+        if (!h) return;
         o.push(new R(3, "", "", L(h), "", g));
         return;
       }
@@ -157,8 +151,7 @@
       let O = 2;
       m === n ? (O = 1, m = "") : m === M && (O = 0, m = "");
       let P;
-      if (u ? P = u : p && (P = c++), i.has(P))
-        throw new TypeError(`Duplicate name '${P}'.`);
+      if (u ? P = u : p && (P = c++), i.has(P)) throw new TypeError(`Duplicate name '${P}'.`);
       i.add(P), o.push(new R(O, P, L(h), m, L(A), g));
     };
     for (; l < r.length; ) {
@@ -230,8 +223,7 @@
       n += `(?:${S(s.prefix)}`, n += `((?:${a})(?:`, n += S(s.suffix), n += S(s.prefix), n += `(?:${a}))*)${S(s.suffix)})`, s.modifier === 0 && (n += "?");
     }
     let o = `[${S(r.endsWith)}]|$`, c = `[${S(r.delimiter)}]`;
-    if (r.end)
-      return r.strict || (n += `${c}?`), r.endsWith.length ? n += `(?=${o})` : n += "$", new RegExp(n, X(r));
+    if (r.end) return r.strict || (n += `${c}?`), r.endsWith.length ? n += `(?=${o})` : n += "$", new RegExp(n, X(r));
     r.strict || (n += `(?:${c}(?=${o}))?`);
     let l = false;
     if (e.length) {
@@ -257,22 +249,17 @@
   }
   var ee = ["ftp", "file", "http", "https", "ws", "wss"];
   function N(e) {
-    if (!e)
-      return true;
-    for (let t of ee)
-      if (e.test(t))
-        return true;
+    if (!e) return true;
+    for (let t of ee) if (e.test(t)) return true;
     return false;
   }
   function te(e, t) {
-    if (e = Q(e, "#"), t || e === "")
-      return e;
+    if (e = Q(e, "#"), t || e === "") return e;
     let r = new URL("https://example.com");
     return r.hash = e, r.hash ? r.hash.substring(1, r.hash.length) : "";
   }
   function re(e, t) {
-    if (e = Q(e, "?"), t || e === "")
-      return e;
+    if (e = Q(e, "?"), t || e === "") return e;
     let r = new URL("https://example.com");
     return r.search = e, r.search ? r.search.substring(1, r.search.length) : "";
   }
@@ -280,22 +267,18 @@
     return t || e === "" ? e : W(e) ? j(e) : z(e);
   }
   function se(e, t) {
-    if (t || e === "")
-      return e;
+    if (t || e === "") return e;
     let r = new URL("https://example.com");
     return r.password = e, r.password;
   }
   function ie(e, t) {
-    if (t || e === "")
-      return e;
+    if (t || e === "") return e;
     let r = new URL("https://example.com");
     return r.username = e, r.username;
   }
   function ae(e, t, r) {
-    if (r || e === "")
-      return e;
-    if (t && !ee.includes(t))
-      return new URL(`${t}:${e}`).pathname;
+    if (r || e === "") return e;
+    if (t && !ee.includes(t)) return new URL(`${t}:${e}`).pathname;
     let n = e[0] == "/";
     return e = new URL(n ? e : "/-" + e, "https://example.com").pathname, n || (e = e.substring(2, e.length)), e;
   }
@@ -320,47 +303,37 @@
     }
   }
   function y(e) {
-    if (e === "")
-      return e;
-    if (/^[-+.A-Za-z0-9]*$/.test(e))
-      return e.toLowerCase();
+    if (e === "") return e;
+    if (/^[-+.A-Za-z0-9]*$/.test(e)) return e.toLowerCase();
     throw new TypeError(`Invalid protocol '${e}'.`);
   }
   function le(e) {
-    if (e === "")
-      return e;
+    if (e === "") return e;
     let t = new URL("https://example.com");
     return t.username = e, t.username;
   }
   function fe(e) {
-    if (e === "")
-      return e;
+    if (e === "") return e;
     let t = new URL("https://example.com");
     return t.password = e, t.password;
   }
   function z(e) {
-    if (e === "")
-      return e;
-    if (/[\t\n\r #%/:<>?@[\]^\\|]/g.test(e))
-      throw new TypeError(`Invalid hostname '${e}'`);
+    if (e === "") return e;
+    if (/[\t\n\r #%/:<>?@[\]^\\|]/g.test(e)) throw new TypeError(`Invalid hostname '${e}'`);
     let t = new URL("https://example.com");
     return t.hostname = e, t.hostname;
   }
   function j(e) {
-    if (e === "")
-      return e;
-    if (/[^0-9a-fA-F[\]:]/g.test(e))
-      throw new TypeError(`Invalid IPv6 hostname '${e}'`);
+    if (e === "") return e;
+    if (/[^0-9a-fA-F[\]:]/g.test(e)) throw new TypeError(`Invalid IPv6 hostname '${e}'`);
     return e.toLowerCase();
   }
   function K(e) {
-    if (e === "" || /^[0-9]*$/.test(e) && parseInt(e) <= 65535)
-      return e;
+    if (e === "" || /^[0-9]*$/.test(e) && parseInt(e) <= 65535) return e;
     throw new TypeError(`Invalid port '${e}'.`);
   }
   function he(e) {
-    if (e === "")
-      return e;
+    if (e === "") return e;
     let t = new URL("https://example.com");
     return t.pathname = e[0] !== "/" ? "/-" + e : e, e[0] !== "/" ? t.pathname.substring(2, t.pathname.length) : t.pathname;
   }
@@ -368,14 +341,12 @@
     return e === "" ? e : new URL(`data:${e}`).pathname;
   }
   function de(e) {
-    if (e === "")
-      return e;
+    if (e === "") return e;
     let t = new URL("https://example.com");
     return t.search = e, t.search.substring(1, t.search.length);
   }
   function pe(e) {
-    if (e === "")
-      return e;
+    if (e === "") return e;
     let t = new URL("https://example.com");
     return t.hash = e, t.hash.substring(1, t.hash.length);
   }
@@ -409,11 +380,8 @@
           this.#r(10, 0);
           break;
         }
-        if (this.#d > 0)
-          if (this.#A())
-            this.#d -= 1;
-          else
-            continue;
+        if (this.#d > 0) if (this.#A()) this.#d -= 1;
+        else continue;
         if (this.#T()) {
           this.#d += 1;
           continue;
@@ -528,10 +496,8 @@
       return this.#a(this.#e, "/");
     }
     #h() {
-      if (this.#a(this.#e, "?"))
-        return true;
-      if (this.#n[this.#e].value !== "?")
-        return false;
+      if (this.#a(this.#e, "?")) return true;
+      if (this.#n[this.#e].value !== "?") return false;
       let t = this.#m(this.#e - 1);
       return t.type !== "NAME" && t.type !== "REGEX" && t.type !== "CLOSE" && t.type !== "ASTERISK";
     }
@@ -564,8 +530,7 @@
   var G = ["protocol", "username", "password", "hostname", "port", "pathname", "search", "hash"];
   var E = "*";
   function ge(e, t) {
-    if (typeof e != "string")
-      throw new TypeError("parameter 1 is not of type 'string'.");
+    if (typeof e != "string") throw new TypeError("parameter 1 is not of type 'string'.");
     let r = new URL(e, t);
     return { protocol: r.protocol.substring(0, r.protocol.length - 1), username: r.username, password: r.password, hostname: r.hostname, port: r.port, pathname: r.pathname, search: r.search !== "" ? r.search.substring(1, r.search.length) : void 0, hash: r.hash !== "" ? r.hash.substring(1, r.hash.length) : void 0 };
   }
@@ -574,12 +539,11 @@
   }
   function w(e, t, r) {
     let n;
-    if (typeof t.baseURL == "string")
-      try {
-        n = new URL(t.baseURL), t.protocol === void 0 && (e.protocol = b(n.protocol.substring(0, n.protocol.length - 1), r)), !r && t.protocol === void 0 && t.hostname === void 0 && t.port === void 0 && t.username === void 0 && (e.username = b(n.username, r)), !r && t.protocol === void 0 && t.hostname === void 0 && t.port === void 0 && t.username === void 0 && t.password === void 0 && (e.password = b(n.password, r)), t.protocol === void 0 && t.hostname === void 0 && (e.hostname = b(n.hostname, r)), t.protocol === void 0 && t.hostname === void 0 && t.port === void 0 && (e.port = b(n.port, r)), t.protocol === void 0 && t.hostname === void 0 && t.port === void 0 && t.pathname === void 0 && (e.pathname = b(n.pathname, r)), t.protocol === void 0 && t.hostname === void 0 && t.port === void 0 && t.pathname === void 0 && t.search === void 0 && (e.search = b(n.search.substring(1, n.search.length), r)), t.protocol === void 0 && t.hostname === void 0 && t.port === void 0 && t.pathname === void 0 && t.search === void 0 && t.hash === void 0 && (e.hash = b(n.hash.substring(1, n.hash.length), r));
-      } catch {
-        throw new TypeError(`invalid baseURL '${t.baseURL}'.`);
-      }
+    if (typeof t.baseURL == "string") try {
+      n = new URL(t.baseURL), t.protocol === void 0 && (e.protocol = b(n.protocol.substring(0, n.protocol.length - 1), r)), !r && t.protocol === void 0 && t.hostname === void 0 && t.port === void 0 && t.username === void 0 && (e.username = b(n.username, r)), !r && t.protocol === void 0 && t.hostname === void 0 && t.port === void 0 && t.username === void 0 && t.password === void 0 && (e.password = b(n.password, r)), t.protocol === void 0 && t.hostname === void 0 && (e.hostname = b(n.hostname, r)), t.protocol === void 0 && t.hostname === void 0 && t.port === void 0 && (e.port = b(n.port, r)), t.protocol === void 0 && t.hostname === void 0 && t.port === void 0 && t.pathname === void 0 && (e.pathname = b(n.pathname, r)), t.protocol === void 0 && t.hostname === void 0 && t.port === void 0 && t.pathname === void 0 && t.search === void 0 && (e.search = b(n.search.substring(1, n.search.length), r)), t.protocol === void 0 && t.hostname === void 0 && t.port === void 0 && t.pathname === void 0 && t.search === void 0 && t.hash === void 0 && (e.hash = b(n.hash.substring(1, n.hash.length), r));
+    } catch {
+      throw new TypeError(`invalid baseURL '${t.baseURL}'.`);
+    }
     if (typeof t.protocol == "string" && (e.protocol = ce(t.protocol, r)), typeof t.username == "string" && (e.username = ie(t.username, r)), typeof t.password == "string" && (e.password = se(t.password, r)), typeof t.hostname == "string" && (e.hostname = ne(t.hostname, r)), typeof t.port == "string" && (e.port = oe(t.port, e.protocol, r)), typeof t.pathname == "string") {
       if (e.pathname = t.pathname, n && !J(e.pathname, r)) {
         let o = n.pathname.lastIndexOf("/");
@@ -609,12 +573,10 @@
         continue;
       }
       let i = s.hasCustomName(), a = !!s.suffix.length || !!s.prefix.length && (s.prefix.length !== 1 || !t.prefixes.includes(s.prefix)), f = l > 0 ? e[l - 1] : null, d = l < e.length - 1 ? e[l + 1] : null;
-      if (!a && i && s.type === 1 && s.modifier === 3 && d && !d.prefix.length && !d.suffix.length)
-        if (d.type === 3) {
-          let T = d.value.length > 0 ? d.value[0] : "";
-          a = o.test(T);
-        } else
-          a = !d.hasCustomName();
+      if (!a && i && s.type === 1 && s.modifier === 3 && d && !d.prefix.length && !d.suffix.length) if (d.type === 3) {
+        let T = d.value.length > 0 ? d.value[0] : "";
+        a = o.test(T);
+      } else a = !d.hasCustomName();
       if (!a && !s.prefix.length && f && f.type === 3) {
         let T = f.value[f.value.length - 1];
         a = t.prefixes.includes(T);
@@ -635,22 +597,18 @@
         let o;
         if (typeof r == "string" ? o = r : n = r, typeof t == "string") {
           let i = new H(t);
-          if (i.parse(), t = i.result, o === void 0 && typeof t.protocol != "string")
-            throw new TypeError("A base URL must be provided for a relative constructor string.");
+          if (i.parse(), t = i.result, o === void 0 && typeof t.protocol != "string") throw new TypeError("A base URL must be provided for a relative constructor string.");
           t.baseURL = o;
         } else {
-          if (!t || typeof t != "object")
-            throw new TypeError("parameter 1 is not of type 'string' and cannot convert to dictionary.");
-          if (o)
-            throw new TypeError("parameter 1 is not of type 'string'.");
+          if (!t || typeof t != "object") throw new TypeError("parameter 1 is not of type 'string' and cannot convert to dictionary.");
+          if (o) throw new TypeError("parameter 1 is not of type 'string'.");
         }
         typeof n > "u" && (n = { ignoreCase: false });
         let c = { ignoreCase: n.ignoreCase === true }, l = { pathname: E, protocol: E, username: E, password: E, hostname: E, port: E, search: E, hash: E };
         this.#i = w(l, t, true), _(this.#i.protocol) === this.#i.port && (this.#i.port = "");
         let s;
         for (s of G) {
-          if (!(s in this.#i))
-            continue;
+          if (!(s in this.#i)) continue;
           let i = {}, a = this.#i[s];
           switch (this.#t[s] = [], s) {
             case "protocol":
@@ -690,27 +648,21 @@
     }
     test(t = {}, r) {
       let n = { pathname: "", protocol: "", username: "", password: "", hostname: "", port: "", search: "", hash: "" };
-      if (typeof t != "string" && r)
-        throw new TypeError("parameter 1 is not of type 'string'.");
-      if (typeof t > "u")
-        return false;
+      if (typeof t != "string" && r) throw new TypeError("parameter 1 is not of type 'string'.");
+      if (typeof t > "u") return false;
       try {
         typeof t == "object" ? n = w(n, t, false) : n = w(n, ge(t, r), false);
       } catch {
         return false;
       }
       let o;
-      for (o of G)
-        if (!this.#n[o].exec(n[o]))
-          return false;
+      for (o of G) if (!this.#n[o].exec(n[o])) return false;
       return true;
     }
     exec(t = {}, r) {
       let n = { pathname: "", protocol: "", username: "", password: "", hostname: "", port: "", search: "", hash: "" };
-      if (typeof t != "string" && r)
-        throw new TypeError("parameter 1 is not of type 'string'.");
-      if (typeof t > "u")
-        return;
+      if (typeof t != "string" && r) throw new TypeError("parameter 1 is not of type 'string'.");
+      if (typeof t > "u") return;
       try {
         typeof t == "object" ? n = w(n, t, false) : n = w(n, ge(t, r), false);
       } catch {
@@ -721,14 +673,12 @@
       let c;
       for (c of G) {
         let l = this.#n[c].exec(n[c]);
-        if (!l)
-          return null;
+        if (!l) return null;
         let s = {};
-        for (let [i, a] of this.#t[c].entries())
-          if (typeof a == "string" || typeof a == "number") {
-            let f = l[i + 1];
-            s[a] = f;
-          }
+        for (let [i, a] of this.#t[c].entries()) if (typeof a == "string" || typeof a == "number") {
+          let f = l[i + 1];
+          s[a] = f;
+        }
         o[c] = { input: n[c] ?? "", groups: s };
       }
       return o;
@@ -736,10 +686,8 @@
     static compareComponent(t, r, n) {
       let o = (i, a) => {
         for (let f of ["type", "modifier", "prefix", "value", "suffix"]) {
-          if (i[f] < a[f])
-            return -1;
-          if (i[f] === a[f])
-            continue;
+          if (i[f] < a[f]) return -1;
+          if (i[f] === a[f]) continue;
           return 1;
         }
         return 0;
@@ -747,8 +695,7 @@
         let f = 0;
         for (; f < Math.min(i.length, a.length); ++f) {
           let d = o(i[f], a[f]);
-          if (d)
-            return d;
+          if (d) return d;
         }
         return i.length === a.length ? 0 : o(i[f] ?? c, a[f] ?? c);
       };
@@ -1412,7 +1359,7 @@
   }
   function evaluatePropsFrom(req) {
     return {
-      expr: req && getSearchValues(req)("expr")[0] || ""
+      expr: req && getSearchValues(req, "expr")[0] || ""
     };
   }
 
