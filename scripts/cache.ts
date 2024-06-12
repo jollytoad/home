@@ -1,3 +1,5 @@
+#!/usr/bin/env -S deno run --allow-read --allow-write
+
 import { ensureDir } from "@std/fs/ensure-dir";
 import { emptyDir } from "@std/fs/empty-dir";
 import { dirname } from "@std/path/dirname";

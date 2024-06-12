@@ -5,25 +5,25 @@
       "jsr:@cross/deepmerge@^1.0.0": "jsr:@cross/deepmerge@1.0.0",
       "jsr:@cross/env@^1.0.2": "jsr:@cross/env@1.0.2",
       "jsr:@cross/runtime@^1.0.0": "jsr:@cross/runtime@1.0.0",
-      "jsr:@http/discovery@0.14.0": "jsr:@http/discovery@0.14.0",
-      "jsr:@http/discovery@^0.14.0": "jsr:@http/discovery@0.14.0",
-      "jsr:@http/generate@^0.14.0": "jsr:@http/generate@0.14.0",
+      "jsr:@http/discovery@0.15.0": "jsr:@http/discovery@0.15.0",
+      "jsr:@http/discovery@^0.15.0": "jsr:@http/discovery@0.15.0",
+      "jsr:@http/generate@^0.15.0": "jsr:@http/generate@0.15.0",
       "jsr:@http/handler@0.9.0-beta.3": "jsr:@http/handler@0.9.0-beta.3",
-      "jsr:@http/host-deno-deploy@^0.14.0": "jsr:@http/host-deno-deploy@0.14.0",
-      "jsr:@http/host-deno-local@^0.14.0": "jsr:@http/host-deno-local@0.14.0",
-      "jsr:@http/interceptor@0.14.0": "jsr:@http/interceptor@0.14.0",
-      "jsr:@http/interceptor@^0.14.1": "jsr:@http/interceptor@0.14.1",
+      "jsr:@http/host-deno-deploy@^0.15.0": "jsr:@http/host-deno-deploy@0.15.0",
+      "jsr:@http/host-deno-local@^0.15.0": "jsr:@http/host-deno-local@0.15.0",
+      "jsr:@http/interceptor@0.15.0": "jsr:@http/interceptor@0.15.0",
+      "jsr:@http/interceptor@^0.15.0": "jsr:@http/interceptor@0.15.0",
       "jsr:@http/jsx-stream@^0.1.1": "jsr:@http/jsx-stream@0.1.1",
       "jsr:@http/jsx-stream@^0.2.2": "jsr:@http/jsx-stream@0.2.2",
-      "jsr:@http/request@^0.14.0": "jsr:@http/request@0.14.0",
+      "jsr:@http/request@^0.15.0": "jsr:@http/request@0.15.0",
       "jsr:@http/request@^0.9.0-beta.3": "jsr:@http/request@0.9.0-beta.3",
-      "jsr:@http/response@0.14.0": "jsr:@http/response@0.14.0",
+      "jsr:@http/response@0.15.0": "jsr:@http/response@0.15.0",
       "jsr:@http/response@0.9.0-beta.3": "jsr:@http/response@0.9.0-beta.3",
-      "jsr:@http/response@^0.14.0": "jsr:@http/response@0.14.0",
+      "jsr:@http/response@^0.15.0": "jsr:@http/response@0.15.0",
       "jsr:@http/response@^0.9.0-beta.3": "jsr:@http/response@0.9.0-beta.3",
-      "jsr:@http/route-deno@^0.14.0": "jsr:@http/route-deno@0.14.0",
-      "jsr:@http/route@0.14.0": "jsr:@http/route@0.14.0",
-      "jsr:@http/route@^0.14.0": "jsr:@http/route@0.14.0",
+      "jsr:@http/route-deno@^0.15.0": "jsr:@http/route-deno@0.15.0",
+      "jsr:@http/route@0.15.0": "jsr:@http/route@0.15.0",
+      "jsr:@http/route@^0.15.0": "jsr:@http/route@0.15.0",
       "jsr:@http/route@^0.9.0-beta.3": "jsr:@http/route@0.9.0-beta.3",
       "jsr:@luca/esbuild-deno-loader@^0.10.3": "jsr:@luca/esbuild-deno-loader@0.10.3",
       "jsr:@std/assert@^0.213.1": "jsr:@std/assert@0.213.1",
@@ -34,7 +34,7 @@
       "jsr:@std/encoding@0.213": "jsr:@std/encoding@0.213.1",
       "jsr:@std/encoding@1.0.0-rc.2": "jsr:@std/encoding@1.0.0-rc.2",
       "jsr:@std/fmt@^0.225.4": "jsr:@std/fmt@0.225.4",
-      "jsr:@std/fs@^0.229.2": "jsr:@std/fs@0.229.2",
+      "jsr:@std/fs@^0.229.2": "jsr:@std/fs@0.229.3",
       "jsr:@std/html@0.219": "jsr:@std/html@0.219.1",
       "jsr:@std/html@^0.224.2": "jsr:@std/html@0.224.2",
       "jsr:@std/http@^0.224.3": "jsr:@std/http@0.224.4",
@@ -42,7 +42,7 @@
       "jsr:@std/json@^0.213.1": "jsr:@std/json@0.213.1",
       "jsr:@std/jsonc@0.213": "jsr:@std/jsonc@0.213.1",
       "jsr:@std/media-types@^1.0.0-rc.1": "jsr:@std/media-types@1.0.0-rc.1",
-      "jsr:@std/net@^0.224.2": "jsr:@std/net@0.224.2",
+      "jsr:@std/net@^0.224.2": "jsr:@std/net@0.224.3",
       "jsr:@std/path@0.213": "jsr:@std/path@0.213.1",
       "jsr:@std/path@1.0.0-rc.1": "jsr:@std/path@1.0.0-rc.1",
       "jsr:@std/path@^0.225.2": "jsr:@std/path@0.225.2",
@@ -75,44 +75,41 @@
       "@cross/runtime@1.0.0": {
         "integrity": "dddecdf99182df13d50279d1e473f715e83d41961c5c22edd7bb0c4c3cf8a76a"
       },
-      "@http/discovery@0.14.0": {
-        "integrity": "d836666ae61c8d910584b99fbd421b2b61276b022797046e5442961d9e4b66cb",
+      "@http/discovery@0.15.0": {
+        "integrity": "1f52325c38e10e2c49e8dc91bfa55038ae89ca9ca36da74166514da25c71e9c8",
         "dependencies": [
-          "jsr:@http/route@0.14.0",
+          "jsr:@http/route@0.15.0",
           "jsr:@std/path@^0.225.2"
         ]
       },
-      "@http/generate@0.14.0": {
-        "integrity": "2315a13e2d50a246c4b06e19bb6d8ec88374fca1663777476fc3def728814c09",
+      "@http/generate@0.15.0": {
+        "integrity": "b4aded4b021ce797d82c430c0feadf5426fb9217219aa5aebdfadc732500c224",
         "dependencies": [
-          "jsr:@http/discovery@0.14.0",
-          "jsr:@http/route@0.14.0",
+          "jsr:@http/discovery@0.15.0",
+          "jsr:@http/route@0.15.0",
           "npm:ts-poet@^6.9.0"
         ]
       },
       "@http/handler@0.9.0-beta.3": {
         "integrity": "a9475cbb5be067099f7d53e14172572cc1783162fcb3c5e213dd666ced7f6a02"
       },
-      "@http/host-deno-deploy@0.14.0": {
-        "integrity": "351276b6c0ef6ff73d64fbbf4f892c57775d20ffe7798ba0fec2ce60c0751481",
+      "@http/host-deno-deploy@0.15.0": {
+        "integrity": "3b29453478303d202b52f03e999b6c097dbe436c72d29c744b0a79cede4bd59b",
         "dependencies": [
-          "jsr:@http/interceptor@0.14.0",
-          "jsr:@http/route@0.14.0"
+          "jsr:@http/interceptor@0.15.0",
+          "jsr:@http/route@0.15.0"
         ]
       },
-      "@http/host-deno-local@0.14.0": {
-        "integrity": "c26d1fde1a484aa0fb53e3cc6de819513634f49b9227ca0b44be5872a00522c3",
+      "@http/host-deno-local@0.15.0": {
+        "integrity": "b4b05b8ce57669df27953401e89cfe20379ff8ac071468f313a49fa097b8c295",
         "dependencies": [
-          "jsr:@http/interceptor@0.14.0",
-          "jsr:@http/route@0.14.0",
+          "jsr:@http/interceptor@0.15.0",
+          "jsr:@http/route@0.15.0",
           "jsr:@std/net@^0.224.2"
         ]
       },
-      "@http/interceptor@0.14.0": {
-        "integrity": "623ee03f5c46b4df092348b6243cdaa4734f76a73f19a84a99aa3d8fe6a48ff2"
-      },
-      "@http/interceptor@0.14.1": {
-        "integrity": "7e7ffd208d54d44d8f637ca72ed5acb6600a6a635f21ee9bf4f57838ed78f37a"
+      "@http/interceptor@0.15.0": {
+        "integrity": "aad6186afa786be3d597df124ba55f9e1b4ae361114f4f9a6af99d249e75ad15"
       },
       "@http/jsx-stream@0.1.1": {
         "integrity": "570f9ba7e8fad70af0677db686c1e2940b486f736b996e57211fc181d44cecc3",
@@ -127,29 +124,29 @@
           "jsr:@std/html@^0.224.2"
         ]
       },
-      "@http/request@0.14.0": {
-        "integrity": "f1bbfa0565e49a6b7134dff467739ebe9e3e535c2d4a5aa23dc49893c63f0819"
+      "@http/request@0.15.0": {
+        "integrity": "66d66106b1366031bc9d76006ac0512fea76ca39b666089fa12b3ba0efce7c50"
       },
       "@http/request@0.9.0-beta.3": {
         "integrity": "f098206dd4bcb67beaa440d7a5821adabb9655285d593ff21ef2e68044b6b802"
       },
-      "@http/response@0.14.0": {
-        "integrity": "73c9856101066aa2dc7fbcb63015a9e7c567eee5f9db820265a0dd0dd5122e23"
+      "@http/response@0.15.0": {
+        "integrity": "32b1cabf3343ddb4fe1a98bd9f684ed78633d166bfb5255ec87b734ef7b3752d"
       },
       "@http/response@0.9.0-beta.3": {
         "integrity": "2a157eb57640d64ead5e34b032d5a81488b5b7bd6d4599f749109d63945c356b"
       },
-      "@http/route-deno@0.14.0": {
-        "integrity": "c36de0ad2090fac2991db4ea6d8950148a7773106f753ce9a29358d8ad311eab",
+      "@http/route-deno@0.15.0": {
+        "integrity": "eaa9639f6a1936d914f4454712c4c2dc6ac5ae78a474ba072dfc326ddcdd2fe7",
         "dependencies": [
-          "jsr:@http/route@0.14.0",
+          "jsr:@http/route@0.15.0",
           "jsr:@std/http@^0.224.3"
         ]
       },
-      "@http/route@0.14.0": {
-        "integrity": "e0752b6b50a662838ecc676deb453eb103aa4f4571812e9c243c3a2d78ad493b",
+      "@http/route@0.15.0": {
+        "integrity": "f5a0b41d5733d78da911ae5278f7a92b993f0a2a3b2d3d7f60480d80a848e83a",
         "dependencies": [
-          "jsr:@http/response@0.14.0",
+          "jsr:@http/response@0.15.0",
           "jsr:@std/http@^0.224.3",
           "jsr:@std/media-types@^1.0.0-rc.1",
           "jsr:@std/path@^0.225.2"
@@ -194,8 +191,8 @@
       "@std/fmt@0.225.4": {
         "integrity": "584c681cf422b70e28959b57e59012823609c087384cbf12d05f67814797fda3"
       },
-      "@std/fs@0.229.2": {
-        "integrity": "c15dd65678fc3b9e5465b83cfbb1f3bb34d158ef4347f2afa0b759cce8c51bd9",
+      "@std/fs@0.229.3": {
+        "integrity": "783bca21f24da92e04c3893c9e79653227ab016c48e96b3078377ebd5222e6eb",
         "dependencies": [
           "jsr:@std/path@1.0.0-rc.1"
         ]
@@ -231,8 +228,8 @@
       "@std/media-types@1.0.0-rc.1": {
         "integrity": "ff3cc8d5b536be2730fc4d446865007faf69bf4d46e7bea426d5e1d9c6ba9053"
       },
-      "@std/net@0.224.2": {
-        "integrity": "d5b45361e6df59eef9f6a202004fccb0944029f4db524710799d391711fac01f"
+      "@std/net@0.224.3": {
+        "integrity": "a6257b9a35a4f299a0a9d4a4b76aef1f90ad05572374c5267c6c51a2ec41dfba"
       },
       "@std/path@0.213.1": {
         "integrity": "f187bf278a172752e02fcbacf6bd78a335ed320d080a7ed3a5a59c3e88abc673",
@@ -1292,16 +1289,16 @@
   "workspace": {
     "dependencies": [
       "jsr:@cross/env@^1.0.2",
-      "jsr:@http/discovery@^0.14.0",
-      "jsr:@http/generate@^0.14.0",
-      "jsr:@http/host-deno-deploy@^0.14.0",
-      "jsr:@http/host-deno-local@^0.14.0",
-      "jsr:@http/interceptor@^0.14.1",
+      "jsr:@http/discovery@^0.15.0",
+      "jsr:@http/generate@^0.15.0",
+      "jsr:@http/host-deno-deploy@^0.15.0",
+      "jsr:@http/host-deno-local@^0.15.0",
+      "jsr:@http/interceptor@^0.15.0",
       "jsr:@http/jsx-stream@^0.2.2",
-      "jsr:@http/request@^0.14.0",
-      "jsr:@http/response@^0.14.0",
-      "jsr:@http/route-deno@^0.14.0",
-      "jsr:@http/route@^0.14.0",
+      "jsr:@http/request@^0.15.0",
+      "jsr:@http/response@^0.15.0",
+      "jsr:@http/route-deno@^0.15.0",
+      "jsr:@http/route@^0.15.0",
       "jsr:@luca/esbuild-deno-loader@^0.10.3",
       "jsr:@std/async@^0.224.2",
       "jsr:@std/collections@^0.224.2",

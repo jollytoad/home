@@ -1,3 +1,5 @@
+#!/usr/bin/env -S deno run --allow-env --allow-read --allow-write --allow-run
+
 import * as esbuild from "esbuild";
 import { denoPlugins } from "esbuild-deno-loader";
 import { fromFileUrl } from "@std/path/from-file-url";

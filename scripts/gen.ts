@@ -1,3 +1,5 @@
+#!/usr/bin/env -S deno run --allow-net --allow-read --allow-write --allow-env --allow-ffi scripts/gen.ts
+
 import {
   type GenerateOptions,
   generateRoutesModule,

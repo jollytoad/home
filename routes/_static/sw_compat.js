@@ -735,7 +735,7 @@
     globalThis.URLPattern = me;
   }
 
-  // https://jsr.io/@http/route/0.9.0-beta.3/as_url_pattern.ts
+  // https://jsr.io/@http/route/0.15.0/as_url_pattern.ts
   function asURLPattern(pattern) {
     return typeof pattern === "string" ? new URLPattern({ pathname: pattern }) : pattern instanceof URLPattern ? pattern : new URLPattern(pattern);
   }
@@ -743,7 +743,7 @@
     return Array.isArray(pattern) ? pattern.map(asURLPattern) : [asURLPattern(pattern)];
   }
 
-  // https://jsr.io/@http/route/0.9.0-beta.3/by_pattern.ts
+  // https://jsr.io/@http/route/0.15.0/by_pattern.ts
   function byPattern(pattern, handler) {
     const patterns = asURLPatterns(pattern);
     return async (req, ...args) => {
@@ -760,7 +760,7 @@
     };
   }
 
-  // https://jsr.io/@http/route/0.9.0-beta.3/cascade.ts
+  // https://jsr.io/@http/route/0.15.0/cascade.ts
   function cascade(...handlers) {
     return async (req, ...args) => {
       for (const handler of handlers) {
@@ -773,7 +773,7 @@
     };
   }
 
-  // https://jsr.io/@http/response/0.9.0-beta.3/plain_error.ts
+  // https://jsr.io/@http/response/0.15.0/plain_error.ts
   function plainError(status, statusText, message) {
     return new Response(message ?? statusText, {
       status,
@@ -784,12 +784,12 @@
     });
   }
 
-  // https://jsr.io/@http/response/0.9.0-beta.3/method_not_allowed.ts
+  // https://jsr.io/@http/response/0.15.0/method_not_allowed.ts
   function methodNotAllowed(message) {
     return plainError(405, "Method Not Allowed", message);
   }
 
-  // https://jsr.io/@http/response/0.9.0-beta.3/no_content.ts
+  // https://jsr.io/@http/response/0.15.0/no_content.ts
   function noContent(headers) {
     return new Response(null, {
       status: 204,
@@ -798,7 +798,7 @@
     });
   }
 
-  // https://jsr.io/@http/response/0.9.0-beta.3/replace_body.ts
+  // https://jsr.io/@http/response/0.15.0/replace_body.ts
   function replaceBody(res, body) {
     return res.body === body ? res : new Response(body, {
       status: res.status,
@@ -807,7 +807,7 @@
     });
   }
 
-  // https://jsr.io/@http/route/0.9.0-beta.3/by_method.ts
+  // https://jsr.io/@http/route/0.15.0/by_method.ts
   function byMethod(handlers, fallback = () => methodNotAllowed()) {
     const defaultHandlers = {
       OPTIONS: optionsHandler(handlers)
@@ -845,7 +845,7 @@
     deferredTimeout: false
   };
 
-  // https://jsr.io/@http/response/0.9.0-beta.3/html.ts
+  // https://jsr.io/@http/response/0.15.0/html.ts
   function html(body, headersInit) {
     const headers = new Headers(headersInit);
     headers.set("Content-Type", "text/html");
@@ -856,7 +856,7 @@
     });
   }
 
-  // https://jsr.io/@http/response/0.9.0-beta.3/prepend_doctype.ts
+  // https://jsr.io/@http/response/0.15.0/prepend_doctype.ts
   var DOCTYPE = "<!DOCTYPE html>\n";
   var ENCODED_DOCTYPE = new TextEncoder().encode(DOCTYPE);
   function prependDocType(bodyInit) {
@@ -891,7 +891,7 @@
     return bodyInit instanceof FormData || bodyInit instanceof URLSearchParams;
   }
 
-  // https://jsr.io/@http/jsx-stream/0.1.1/_internal/readable_stream_from_iterable.ts
+  // https://jsr.io/@http/jsx-stream/0.2.2/_internal/readable_stream_from_iterable.ts
   function readableStreamFromIterable(iterable) {
     if ("from" in ReadableStream && typeof ReadableStream.from === "function") {
       return ReadableStream.from(iterable);
@@ -917,7 +917,7 @@
     });
   }
 
-  // https://jsr.io/@http/jsx-stream/0.1.1/guards.ts
+  // https://jsr.io/@http/jsx-stream/0.2.2/guards.ts
   function isPrimitiveValue(value) {
     return typeof value === "string" || typeof value === "number" || typeof value === "boolean" || typeof value === "bigint";
   }
@@ -931,7 +931,7 @@
     return typeof value?.[Symbol.asyncIterator] === "function";
   }
 
-  // https://jsr.io/@std/html/0.219.1/entities.ts
+  // https://jsr.io/@std/html/0.224.2/entities.ts
   var rawToEntityEntries = [
     ["&", "&amp;"],
     ["<", "&lt;"],
@@ -950,7 +950,7 @@
     return str.replaceAll(rawRe, (m) => rawToEntity.get(m));
   }
 
-  // https://jsr.io/@http/jsx-stream/0.1.1/_internal/util.ts
+  // https://jsr.io/@http/jsx-stream/0.2.2/_internal/util.ts
   var VOID_ELEMENTS = /* @__PURE__ */ new Set([
     "area",
     "base",
@@ -982,7 +982,7 @@
     /^[^\u0000-\u001F\u007F-\u009F\s"'>/=\uFDD0-\uFDEF\p{NChar}]+$/u.test(name);
   }
 
-  // https://jsr.io/@http/jsx-stream/0.1.1/_internal/token.ts
+  // https://jsr.io/@http/jsx-stream/0.2.2/_internal/token.ts
   var _Token = class extends String {
     kind;
     tagName;
@@ -1029,7 +1029,7 @@
     return token;
   }
 
-  // https://jsr.io/@http/jsx-stream/0.1.1/_internal/stream_node_sw.ts
+  // https://jsr.io/@http/jsx-stream/0.2.2/_internal/stream_node_sw.ts
   async function* streamNode(node, options) {
     const tagStack = [];
     const context = {
@@ -1113,19 +1113,19 @@
     return typeof fn === "function" ? fn : void 0;
   }
 
-  // https://jsr.io/@http/jsx-stream/0.1.1/serialize_sw.ts
+  // https://jsr.io/@http/jsx-stream/0.2.2/serialize_sw.ts
   function renderBody(node, options) {
     return readableStreamFromIterable(streamNode(node, options)).pipeThrough(
       new TextEncoderStream()
     );
   }
 
-  // https://jsr.io/@http/jsx-stream/0.1.1/_internal/stream_component.ts
+  // https://jsr.io/@http/jsx-stream/0.2.2/_internal/stream_component.ts
   function streamComponent(component, props) {
     return component(props);
   }
 
-  // https://jsr.io/@http/jsx-stream/0.1.1/_internal/awaited_props.ts
+  // https://jsr.io/@http/jsx-stream/0.2.2/_internal/awaited_props.ts
   function awaitedProps(props) {
     const promisedEntries = [];
     for (const [name, value] of Object.entries(props)) {
@@ -1143,7 +1143,7 @@
     }
   }
 
-  // https://jsr.io/@http/jsx-stream/0.1.1/_internal/stream_fragment.ts
+  // https://jsr.io/@http/jsx-stream/0.2.2/_internal/stream_fragment.ts
   function* streamFragment(children) {
     if (isSafe(children)) {
       yield children;
@@ -1164,7 +1164,7 @@
     }
   }
 
-  // https://jsr.io/@http/jsx-stream/0.1.1/_internal/stream_element.ts
+  // https://jsr.io/@http/jsx-stream/0.2.2/_internal/stream_element.ts
   function* streamElement(tagName, props) {
     const { children, ...attrs } = props && typeof props === "object" ? props : {};
     const awaitedAttrs = awaitedProps(attrs);
@@ -1188,12 +1188,12 @@
     }
   }
 
-  // https://jsr.io/@http/jsx-stream/0.1.1/_internal/stream_unknown.ts
+  // https://jsr.io/@http/jsx-stream/0.2.2/_internal/stream_unknown.ts
   async function* streamUnknown(type) {
     console.warn(`Unknown JSX type: ${type}`);
   }
 
-  // https://jsr.io/@http/jsx-stream/0.1.1/jsx-runtime.ts
+  // https://jsr.io/@http/jsx-stream/0.2.2/jsx-runtime.ts
   function jsx(type, props) {
     try {
       if (typeof type === "function") {
@@ -1330,10 +1330,10 @@
     return evalRPN(toRPN(tokenize(input)));
   }
 
-  // https://jsr.io/@http/request/0.9.0-beta.3/search_values.ts
-  function getSearchValues(input) {
+  // https://jsr.io/@http/request/0.15.0/search_values.ts
+  function getSearchValues(input, param, separator) {
     const searchParams = input instanceof Request ? new URL(input.url).searchParams : input instanceof URL ? input.searchParams : input instanceof URLSearchParams ? input : input && "search" in input && "input" in input.search ? new URLSearchParams(input.search.input) : void 0;
-    return (param, separator) => searchParams ? separator ? searchParams.getAll(param).join(separator).split(separator).filter(
+    return searchParams ? separator ? searchParams.getAll(param).join(separator).split(separator).filter(
       (v2) => v2 !== ""
     ) : searchParams.getAll(param) : [];
   }

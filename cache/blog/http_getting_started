@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Jollytoad</title><link rel="stylesheet" href="https://unpkg.com/missing.css@1.1.1/dist/missing.min.css" integrity="sha384-se/UYQCQ0CMlLo1I5DcMmgR8t9hjCEpTpjPu7JWzT6M4wbxzI078hgX0pxTLyyMm" crossorigin="anonymous"/><link rel="stylesheet" href="/prism.css"/><link rel="stylesheet" href="/main.css"/><script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script><script src="https://unpkg.com/htmx.org@1.9.10/dist/ext/sse.js" integrity="sha384-jlVlI/i5K5APUIz8cxowC1/FsCEZgsrg126wue89Np9N75pQdAzqkYYP+jsUi43W" crossorigin="anonymous"></script><script src="/app.js" type="module"></script></head><body><header><h1><a href="/">The home of Jollytoad</a></h1></header><main><h1>Getting Started with <strong>@http functions</strong></h1>
+<p><a href="https://jsr.io/@http">@http functions</a> is not a framework, it&#39;s a library of
+functions that work well together, but also with other frameworks (that use
+standard web APIs).</p>
+<p>At present there is no <code>init</code> command to create a template app.</p>
+<p>I feel the main benefit of using <code>@http</code> functions is the transparency of the
+code, it is deliberated designed so that the runtime path is simple and easy to
+follow. Indeed I encourage you to look inside the functions and get a feel for
+what they do and how they work, they should hopefully be clear, and if not
+please feel free to raise an issue to help improve that situation.</p>
+<p>So with this in mind, this guide is a like a
+<a href="https://www.linuxfromscratch.org/">Linux From Scratch</a> but for a web app, using
+this library of <code>@http</code> functions.</p>
+<h2>Assumptions</h2>
+<p>I&#39;m assuming you have <a href="https://docs.deno.com/runtime/manual">Deno installed</a> and
+your favourite IDE ready to work with it.</p>
+<h2>What are we going to do?</h2>
+<ul>
+<li>Create the basic project structure</li>
+<li>Add a request handler for <code>/</code></li>
+<li>Generate a router from filesystem based routing structure</li>
+<li>Add static file routing</li>
+<li>Add production and development entry points</li>
+<li>Add a route with a pattern</li>
+<li>Add a path syntax mapper</li>
+<li>Add JSX support</li>
+</ul>
+<h2>Project structure</h2>
+<p>First create a new folder for your project, and <code>cd</code> into it.</p>
+<p>I put all utility scripts into <code>scripts</code>, and the app itself into <code>app</code>, this is
+just a convention I like, you can structure it however you want.</p>
+<pre><code class="language-sh">mkdir app scripts
+</code></pre>
+<h2>Filesystem based routing</h2>
+<p>This is completely optional when using <code>@http</code> functions, you can manually
+construct a router if you want to, and you can mix fs routing and manual routes
+if you need to.</p>
+<p>I like to put all my routes under <code>app/routes</code>:</p>
+<pre><code class="language-sh">mkdir app/routes
+</code></pre>
+<p>We can then put handlers under there and run a script to generate a module for
+these routes, so that the whole app can be statically checked and deployed from
+a single entrypoint.</p>
+<h3>Root URL handler</h3>
+<p>Let&#39;s create a handler for <code>/</code>...</p>
+<p>I&#39;m making use of the response helpers, so first add that package...</p>
+<pre><code class="language-sh">deno add @http/response
+</code></pre>
+<p>Create <code>app/routes/index.ts</code>:</p>
+<pre><code class="language-ts">import { ok } from &quot;@http/response/ok&quot;;
+
+export function GET() {
+  return ok(&quot;Hello&quot;);
+}
+</code></pre>
+<p>Again, these helpers are completely optional, you can just use <code>new Response()</code>
+if you prefer.</p>
+<h3>Generate the router module</h3>
+<p>Next we&#39;ll want to generate the routes module for this:</p>
+<pre><code class="language-sh">deno add @http/generate
+</code></pre>
+<p>and create a script at <code>scripts/gen.ts</code>:</p>
+<pre><code class="language-ts">#!/usr/bin/env -S deno run --allow-ffi --allow-read=. --allow-write=. --allow-net=jsr.io
+
+import { generateRoutesModule } from &quot;@http/generate/generate-routes-module&quot;;
+
+function generateRoutes() {
+  console.debug(&quot;\nGenerating routes&quot;);
+
+  return generateRoutesModule({
+    fileRootUrl: import.meta.resolve(&quot;../app/routes&quot;),
+    moduleOutUrl: import.meta.resolve(&quot;../app/routes.ts&quot;),
+    moduleImports: &quot;static&quot;,
+    verbose: true,
+  });
+}
+
+export default generateRoutes;
+
+if (import.meta.main) {
+  await generateRoutes();
+}
+</code></pre>
+<p>and add a task into your <code>deno.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;tasks&quot;: {
+    &quot;gen&quot;: &quot;./scripts/gen.ts&quot;
+  }
+}
+</code></pre>
+<p>and run it:</p>
+<pre><code class="language-sh">deno task gen
+</code></pre>
+<p>This should have created a file at <code>app/routes.ts</code>, take a look at this in your
+editor.</p>
+<p>You&#39;ll notice it imports some packages we haven&#39;t yet added...</p>
+<pre><code class="language-sh">deno add @http/route
+</code></pre>
+<p>The default export of this module is a simple Request -&gt; Response handler for
+all the routes in your filesystem.</p>
+<p>Try switching <code>moduleImports</code> to <code>&quot;dynamic&quot;</code> and see what is generated in
+<code>app/routes.ts</code> now, I&#39;ll let you work out what it&#39;s doing.</p>
+<p>Take a look at the
+<a href="https://jsr.io/@http/generate/doc/generate-routes-module/~/generateRoutesModule">generateRoutesModule()</a>
+function for more details along with the possible options you can supply.</p>
+<p>Also, take a look at
+<a href="https://jsr.io/@http/discovery/doc/discover-routes/~/discoverRoutes">discoverRoutes()</a>,
+which is what the generator uses under the covers to discover routes in the
+filesystem.</p>
+<h3>The main application handler</h3>
+<p>Quite often you&#39;ll want to be able to serve up things independently of the
+filesystem based routes (static files for example), and you may want to add
+common behaviour (known as middleware in other routers).</p>
+<p>You may also want to create multiple entry points for various purposes:
+development, production, for deno deploy, for cloudflare, etc.</p>
+<p>I like to create a single main handler that can then be imported into the the
+different entry points.</p>
+<p>And in this example, we&#39;ll add the ability to serve up static files.</p>
+<pre><code class="language-sh">mkdir app/static
+deno add @http/route-deno
+</code></pre>
+<p>(<code>@http/route-deno</code> contains the Deno specific router function <code>staticRoute</code>)</p>
+<p>Create <code>app/handler.ts</code>:</p>
+<pre><code class="language-ts">import routes from &quot;./routes.ts&quot;;
+import { handle } from &quot;@http/route/handle&quot;;
+import { staticRoute } from &quot;@http/route-deno/static-route&quot;;
+
+export default handle([
+  routes,
+  staticRoute(&quot;/&quot;, import.meta.resolve(&quot;./static&quot;)),
+]);
+</code></pre>
+<p>This creates and exports a complete Request -&gt; Response handler for our app,
+serving the filesystem based routes first, and then fallback to static files,
+and eventually falling back to a default <code>Not Found</code> response.</p>
+<p>This <code>handler.ts</code> is module is where I&#39;d add patterns that are too complex for
+filesystem routing.</p>
+<h3>The production entry point</h3>
+<p>For this example I won&#39;t assume any particular production environment.</p>
+<p>Create a <code>app/main.ts</code>:</p>
+<pre><code class="language-ts">#!/usr/bin/env -S deno run --allow-net --allow-read=.
+
+import handler from &quot;./handler.ts&quot;;
+
+await Deno.serve(handler).finished;
+</code></pre>
+<p>or you could use the new <code>deno serve</code> convention instead, and it&#39;s as simple as:</p>
+<pre><code class="language-ts">#!/usr/bin/env -S deno serve --allow-net --allow-read=.
+
+import handler from &quot;./handler.ts&quot;;
+
+export default {
+  fetch: handler,
+};
+</code></pre>
+<p>and add a task to your <code>deno.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;tasks&quot;: {
+    ...
+    &quot;start:prod&quot;: &quot;./app/main.ts&quot;
+  },
+}
+</code></pre>
+<p>You now have a runnable app:</p>
+<pre><code class="language-sh">deno task start:prod
+</code></pre>
+<h3>The development entry point</h3>
+<p>During development we may want to do some additional or alternative
+configuration, so I like to create a separate entry point for that, and use a
+helper function to add logging, read local TLS certs etc.</p>
+<p>We&#39;re also going to rebuild our routes module automatically on restart, so we
+also need to be able to deal with an initially non-existing or modified routes
+module.</p>
+<pre><code class="language-sh">deno add @http/host-deno-local
+</code></pre>
+<p>Create a <code>app/dev.ts</code>:</p>
+<pre><code class="language-ts">!/usr/bin/env -S deno run --allow-ffi --allow-read=. --allow-write=. --allow-net --watch
+
+import generateRoutes from &quot;../scripts/gen.ts&quot;;
+import init from &quot;@http/host-deno-local/init&quot;;
+
+await generateRoutes();
+
+// This allows loading of a new or modified routes.ts module
+const handler = lazy(import.meta.resolve(&quot;./handler.ts&quot;));
+
+await Deno.serve(await init(handler)).finished;
+</code></pre>
+<p>and add a task to your <code>deno.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;tasks&quot;: {
+    ...
+    &quot;start&quot;: &quot;./app/dev.ts&quot;
+  },
+}
+</code></pre>
+<p>You now have a runnable dev server:</p>
+<pre><code class="language-sh">deno task start
+</code></pre>
+<p>BTW, you can name these entry points and tasks whatever you want, so
+<code>deno task dev</code> if you prefer.</p>
+<h3>URL Patterns</h3>
+<p>You can use
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/URLPattern">URLPattern</a>
+conventions in path names to match parameters, for example:</p>
+<p>Create <code>routes/hello-:name.ts</code>:</p>
+<pre><code class="language-ts">import { ok } from &quot;@http/response/ok&quot;;
+
+export function GET(_req: Request, match: URLPatternResult) {
+  return ok(`Hello ${match.pathname.groups.name!}`);
+}
+</code></pre>
+<p>NOTE: The <code>URLPatternResult</code> pattern will be added by the <code>byPattern</code> function
+that wraps this handler inthe generated router.</p>
+<p><em>&quot;Hang on, you can&#39;t use <code>:</code> in a file name!&quot;</em> - I hear the Windows user scream.</p>
+<p>Ok, so this syntax is fine if you are on Linux/Mac etc, but Windows is a bit
+picky about restricted characters in filenames. So to support those users you&#39;ll
+probably want some kind of alternative syntax, and something to map that syntax
+to a valid <code>URLPattern</code>.</p>
+<h3>Path Mappers</h3>
+<p>I don&#39;t want to enforce any particular syntax, so you can provide your own path
+mapper to the route discovery/generator. And we provide a Fresh-like syntax
+mapper out of the box.</p>
+<p>Open your <code>routes/gen.ts</code> file again and add a new option:</p>
+<pre><code class="language-ts">return generateRoutesModule({
+  ...
+  pathMapper: &quot;@http/discovery/fresh-path-mapper&quot;
+});
+</code></pre>
+<p>and add the import mapping for it:</p>
+<pre><code class="language-sh">deno add @http/discovery
+</code></pre>
+<p>You can now rename (or create) the route above as <code>routes/hello-[name].ts</code>.</p>
+<p>Re-start your dev app, or run <code>deno task gen</code>, and take a look at the newly
+generated <code>routes.ts</code> module, to see the mapping from the <code>URLPattern</code> syntax to
+your handler file.</p>
+<p>And hit <a href="http://localhost/hello-bob">http://localhost/hello-bob</a> in your browser, to see it in action.</p>
+<h3>Adding JSX support</h3>
+<p>This is completely optional, you can use whatever templating system you want,
+but I actually like JSX.</p>
+<p>This will give you server-side JSX streaming capability.</p>
+<p>NOTE: This is not React, or Preact, there are no hooks or other React like
+conventions, this is pure JSX to HTML serialization. JSX properties translate
+exactly to HTML attributes.</p>
+<pre><code class="language-sh">deno add @http/jsx-stream
+</code></pre>
+<p>Edit your <code>deno.json</code> to enable JSX compilation...</p>
+<pre><code class="language-json">{
+  &quot;compilerOptions&quot;: {
+    &quot;jsx&quot;: &quot;react-jsx&quot;,
+    &quot;jsxImportSource&quot;: &quot;@http/jsx-stream&quot;
+  }
+}
+</code></pre>
+<p>Create <code>routes/hello-[name].tsx</code> (replacing <code>routes/hello-[name].ts</code>):</p>
+<pre><code class="language-tsx">import { html } from &quot;@http/response/html&quot;;
+import { prependDocType } from &quot;@http/response/prepend-doctype&quot;;
+import { renderBody } from &quot;@http/jsx-stream/serialize&quot;;
+
+export function GET(_req: Request, match: URLPatternResult) {
+  return html(
+    prependDocType(
+      renderBody(&lt;Hello name={match.pathname.groups.name!} /&gt;),
+    ),
+  );
+}
+
+function Hello({ name }: { name: string }) {
+  return (
+    &lt;html&gt;
+      &lt;body&gt;
+        &lt;h1&gt;Hello {name}&lt;/h1&gt;
+      &lt;/body&gt;
+    &lt;/html&gt;
+  );
+}
+</code></pre>
+<p>NOTE: The <code>renderBody</code> will serialize your JSX verbatim as a <code>ReadableStream</code> of
+HTML. So the <code>prependDocType</code> function is required to tag <code>&lt;!DOCTYPE html&gt;</code> to
+the start of your Response body.</p>
+<h3>Now what?</h3>
+<p>Go and start tinkering.</p>
+<p>And/or take a look at my <a href="https://github.com/jollytoad/home">personal homepage</a>,
+which is built using <code>@http</code> functions, and runs on Deno Deploy. It may vary a
+little from the conventions I describe here, but if you find the <code>dev.ts</code> &amp;
+<code>main.ts</code> entrypoints you should be able to follow every path in the entire app
+from there.</p><script src="/prism.js" async></script></main><footer><div class="src"><a href="https://github.com/jollytoad/home/blob/main/routes/blog/http_getting_started.md" target="_blank">View source on GitHub</a></div><div>©️ 2024 Mark Gibson</div></footer><script src="/ready.js" defer></script></body></html>
