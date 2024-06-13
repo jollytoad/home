@@ -61,7 +61,7 @@ if you prefer.</p>
 <pre><code class="language-sh">deno add @http/generate
 </code></pre>
 <p>and create a script at <code>scripts/gen.ts</code>:</p>
-<pre><code class="language-ts">#!/usr/bin/env -S deno run --allow-ffi --allow-read=. --allow-write=. --allow-net=jsr.io
+<pre><code class="language-ts">#!/usr/bin/env -S deno run --allow-ffi --allow-read --allow-write --allow-net=jsr.io
 
 import { generateRoutesModule } from &quot;@http/generate/generate-routes-module&quot;;
 
@@ -139,7 +139,7 @@ filesystem routing.</p>
 <h3>The production entry point</h3>
 <p>For this example I won&#39;t assume any particular production environment.</p>
 <p>Create a <code>app/main.ts</code>:</p>
-<pre><code class="language-ts">#!/usr/bin/env -S deno run --allow-net --allow-read=.
+<pre><code class="language-ts">#!/usr/bin/env -S deno run --allow-net --allow-read
 
 import handler from &quot;./handler.ts&quot;;
 
@@ -175,10 +175,11 @@ module.</p>
 <pre><code class="language-sh">deno add @http/host-deno-local
 </code></pre>
 <p>Create a <code>app/dev.ts</code>:</p>
-<pre><code class="language-ts">!/usr/bin/env -S deno run --allow-ffi --allow-read=. --allow-write=. --allow-net --watch
+<pre><code class="language-ts">#!/usr/bin/env -S deno run --allow-ffi --allow-read --allow-write --allow-net --watch
 
 import generateRoutes from &quot;../scripts/gen.ts&quot;;
 import init from &quot;@http/host-deno-local/init&quot;;
+import { lazy } from &quot;@http/route/lazy&quot;;
 
 await generateRoutes();
 

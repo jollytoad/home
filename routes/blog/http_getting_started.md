@@ -93,7 +93,7 @@ deno add @http/generate
 and create a script at `scripts/gen.ts`:
 
 ```ts
-#!/usr/bin/env -S deno run --allow-ffi --allow-read=. --allow-write=. --allow-net=jsr.io
+#!/usr/bin/env -S deno run --allow-ffi --allow-read --allow-write --allow-net=jsr.io
 
 import { generateRoutesModule } from "@http/generate/generate-routes-module";
 
@@ -203,7 +203,7 @@ For this example I won't assume any particular production environment.
 Create a `app/main.ts`:
 
 ```ts
-#!/usr/bin/env -S deno run --allow-net --allow-read=.
+#!/usr/bin/env -S deno run --allow-net --allow-read
 
 import handler from "./handler.ts";
 
@@ -256,10 +256,11 @@ deno add @http/host-deno-local
 Create a `app/dev.ts`:
 
 ```ts
-!/usr/bin/env -S deno run --allow-ffi --allow-read=. --allow-write=. --allow-net --watch
+#!/usr/bin/env -S deno run --allow-ffi --allow-read --allow-write --allow-net --watch
 
 import generateRoutes from "../scripts/gen.ts";
 import init from "@http/host-deno-local/init";
+import { lazy } from "@http/route/lazy";
 
 await generateRoutes();
 
