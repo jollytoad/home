@@ -1,7 +1,4 @@
-import type {
-  DiscoveredPath,
-  DiscoveredRoute,
-} from "@http/discovery/discover-routes";
+import type { DiscoveredPath, DiscoveredRoute } from "@http/discovery/types";
 
 export default function cronRouteMapper(
   { parentPath, name, ext, pattern, module }: DiscoveredPath,

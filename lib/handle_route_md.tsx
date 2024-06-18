@@ -1,24 +1,21 @@
-import { byMethod } from "@http/route/by-method";
 import { renderPage } from "./handle_page.ts";
 import { Page } from "../components/Page.tsx";
 import { Markdown } from "../components/Markdown.tsx";
 import { byMediaType } from "@http/route/by-media-type";
 import { fetchContent } from "../lib/content.ts";
 
-export default byMethod({
-  GET: byMediaType({
-    "text/html": renderPage(({ match }) => {
-      const url = moduleUrl(match);
-      return (
-        <Page module={url}>
-          <Markdown url={url} />
-          <script src="/prism.js" async></script>
-        </Page>
-      );
-    }),
-    "text/markdown": rawContent,
-    "text/plain": rawContent,
+export const GET = byMediaType({
+  "text/html": renderPage(({ match }) => {
+    const url = moduleUrl(match);
+    return (
+      <Page module={url}>
+        <Markdown url={url} />
+        <script src="/prism.js" async></script>
+      </Page>
+    );
   }),
+  "text/markdown": rawContent,
+  "text/plain": rawContent,
 });
 
 function moduleUrl(match: URLPatternResult): string {
