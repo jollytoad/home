@@ -22,8 +22,8 @@ export function generateRoutes(opts: Opts = defaultOpts) {
 
   return generateRoutesModule({
     pattern: "/",
-    fileRootUrl: import.meta.resolve("../routes"),
-    moduleOutUrl: import.meta.resolve("../routes.ts"),
+    fileRootUrl: import.meta.resolve("../app/routes"),
+    moduleOutUrl: import.meta.resolve("../app/routes.ts"),
     pathMapper: "@http/discovery/fresh-path-mapper",
     routeMapper: [
       import.meta.resolve("./route_mapper/static.ts"),
@@ -39,8 +39,8 @@ export function generateCron() {
   console.debug("\nGenerating cron module:");
 
   return generateCronModule({
-    fileRootUrl: import.meta.resolve("../routes"),
-    moduleOutUrl: import.meta.resolve("../cron.ts"),
+    fileRootUrl: import.meta.resolve("../app/routes"),
+    moduleOutUrl: import.meta.resolve("../app/cron.ts"),
     verbose: true,
   });
 }

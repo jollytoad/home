@@ -104,7 +104,7 @@
     return response ? replaceBody(response, null) : response;
   };
 
-  // config_fragment.ts
+  // app/config_fragment.ts
   var FRAGMENT_RENDER_OPTIONS = {
     deferredTimeout: false
   };
@@ -473,7 +473,7 @@
     }
   }
 
-  // lib/render_html.tsx
+  // app/lib/render_html.tsx
   function renderHTML(Component, props, headers, options) {
     return html(
       prependDocType(
@@ -483,14 +483,14 @@
     );
   }
 
-  // lib/handle_fragment.ts
+  // app/lib/handle_fragment.ts
   function handleFragment(Component, headers) {
     return byMethod({
       GET: (req, match) => renderHTML(Component, { req, match }, headers, FRAGMENT_RENDER_OPTIONS)
     });
   }
 
-  // routes/calc/_lib/evaluate.js
+  // app/routes/calc/_lib/evaluate.js
   function tokenize(input) {
     let scanner = 0;
     const tokens = [];
@@ -602,7 +602,7 @@
     ) : searchParams.getAll(param) : [];
   }
 
-  // routes/calc/_components/Evaluate.tsx
+  // app/routes/calc/_components/Evaluate.tsx
   async function Evaluate({ expr }) {
     if (expr) {
       console.log("Calculating...", expr);
@@ -627,7 +627,7 @@
     };
   }
 
-  // routes/calc/eval.tsx
+  // app/routes/calc/eval.tsx
   var eval_default = handleFragment(({ req }) => {
     return /* @__PURE__ */ jsx(Evaluate, { ...evaluatePropsFrom(req) });
   });

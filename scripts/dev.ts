@@ -1,10 +1,10 @@
 #!/usr/bin/env -S deno run --allow-net --allow-read --allow-env --env --allow-sys --allow-run --allow-write --allow-hrtime --allow-ffi --watch
 
-import { buildServiceWorker } from "./scripts/build.ts";
-import { generateCron, generateRoutes } from "./scripts/gen.ts";
+import { buildServiceWorker } from "./build.ts";
+import { generateCron, generateRoutes } from "./gen.ts";
 import init from "@http/host-deno-local/init";
-import initCron from "./cron.ts";
-import generateQuote from "./routes/quote/_cron/generate_quote.ts";
+import initCron from "../app/cron.ts";
+import generateQuote from "../app/routes/quote/_cron/generate_quote.ts";
 import { lazy } from "@http/route/lazy";
 
 await generateRoutes();
@@ -16,6 +16,6 @@ await generateQuote();
 
 await initCron();
 
-const handler = lazy(import.meta.resolve("./handler.ts"));
+const handler = lazy(import.meta.resolve("../app/handler.ts"));
 
 await Deno.serve(await init(handler)).finished;

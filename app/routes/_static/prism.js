@@ -222,7 +222,7 @@ var _self = "undefined" != typeof window
           },
           run: function (e, n) {
             var t = a.hooks.all[e];
-            if (t && t.length) for (var r, i = 0; r = t[i++];) r(n);
+            if (t && t.length) { for (var r, i = 0; r = t[i++];) r(n); }
           },
         },
         Token: i,

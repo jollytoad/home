@@ -53,6 +53,7 @@
       "npm:micromark-extension-gfm@^3.0.0": "npm:micromark-extension-gfm@3.0.0",
       "npm:openai@^4.48.3": "npm:openai@4.48.3",
       "npm:ts-poet@^6.9.0": "npm:ts-poet@6.9.0",
+      "npm:urlpattern-polyfill@10.0.0": "npm:urlpattern-polyfill@10.0.0",
       "npm:urlpattern-polyfill@^10.0.0": "npm:urlpattern-polyfill@10.0.0"
     },
     "jsr": {
@@ -119,7 +120,8 @@
         "integrity": "16d90ff0608ba9fe9efe761f7646e254309258f002c49fec6bbfc101ca80da5b",
         "dependencies": [
           "jsr:@http/route@0.17.0",
-          "jsr:@std/http@^0.224.3"
+          "jsr:@std/http@^0.224.3",
+          "jsr:@std/path@^0.225.2"
         ]
       },
       "@http/route@0.17.0": {

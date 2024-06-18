@@ -8,7 +8,7 @@ export default function markdownRouteMapper(
       pattern: name === "index"
         ? [pattern, `${pattern}/index{.:ext}`]
         : `${pattern}{.:ext}?`,
-      module: import.meta.resolve("../../lib/handle_route_md.tsx"),
+      module: import.meta.resolve("../../app/lib/handle_route_md.tsx"),
     }]
     : [];
 }

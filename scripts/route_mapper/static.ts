@@ -11,7 +11,7 @@ export default function staticRouteMapper(
   return /[/\\]_static/.test(parentPath)
     ? [{
       pattern: pattern.replace(/_static\/.*/, ":path+"),
-      module: import.meta.resolve("../../lib/handle_route_static_dir.ts"),
+      module: import.meta.resolve("../../app/lib/handle_route_static_dir.ts"),
     }, {
       stop: true,
     }]
