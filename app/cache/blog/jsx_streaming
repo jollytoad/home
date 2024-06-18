@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Jollytoad</title><link rel="stylesheet" href="https://unpkg.com/missing.css@1.1.1/dist/missing.min.css" integrity="sha384-se/UYQCQ0CMlLo1I5DcMmgR8t9hjCEpTpjPu7JWzT6M4wbxzI078hgX0pxTLyyMm" crossorigin="anonymous"/><link rel="stylesheet" href="/prism.css"/><link rel="stylesheet" href="/main.css"/><script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script><script src="https://unpkg.com/htmx.org@1.9.10/dist/ext/sse.js" integrity="sha384-jlVlI/i5K5APUIz8cxowC1/FsCEZgsrg126wue89Np9N75pQdAzqkYYP+jsUi43W" crossorigin="anonymous"></script><script src="/app.js" type="module"></script></head><body><header><h1><a href="/">The home of Jollytoad</a></h1></header><main><h1>JSX Streaming</h1>
+<p>TLDR; This is about using JSX as an async streaming template language in Deno,
+and has very little to do with React.</p>
+<h2>Introduction</h2>
+<p>I quite like <a href="https://facebook.github.io/jsx">JSX</a> as templating language, it&#39;s almost identical to HTML, with a
+few caveats and slightly stricter semantics (more akin to XHTML) and simply
+makes use of JS/TS for all logic. So it&#39;s very familiar and saves having to
+learn new syntax, esp if you put aside all of the <a href="https://react.dev">React</a> specific
+peculiarities. (I remember the days of <a href="https://en.wikipedia.org/wiki/ECMAScript_for_XML">E4X</a>)</p>
+<h2>Experiments</h2>
+<p>Following the release of <a href="https://fresh.deno.dev">Fresh</a> I started to make use of <a href="https://preactjs.com">Preact</a> as my JSX
+runtime for server-side rendering, but I felt I didn&#39;t need the entire
+React-like feature set that came with it. I wanted to just make use of JSX as a
+template language, and ideally streaming the output. So I started experimenting
+using <a href="https://github.com/syntax-tree/hastscript">Hastscript</a> as the runtime, but unfortunately it didn&#39;t stream either.</p>
+<p>I started to think about how I could strip the runtime back to the bare
+essentials necessary for server-side rendering.</p>
+<h2>Synchronous Streaming</h2>
+<p>What if, the <code>jsx</code> function was a generator function, emitting an <code>Iterable</code> of
+strings, along the lines of...</p>
+<p>(NOTE: This is very simplified, unsafe code, just to demonstrate the concept)</p>
+<pre><code class="language-ts">export function* jsx(type: any, props: any): Iterable&lt;string&gt; {
+
+  if (typeof type === &quot;function&quot;) {
+
+    // Call the function component and yield it&#39;s strings
+    yield* type(props);
+
+  } else if (typeof type === &quot;string&quot;) {
+
+    // A html element
+    // render and yield the opening tag
+    const attrs = /* ... build attrs string ... */;
+    yield `&lt;${type} ${attrs}&gt;`;
+
+    // Yield all it&#39;s children
+    yield* props.children;
+
+    // Yield the closing tag
+    yield `&lt;/${type}&gt;`;
+
+  } else if (type === null) {
+
+    // A fragment, just yield all the children
+    yield* props.children;
+
+  }
+}
+</code></pre>
+<p>Along with a serializing function to convert that into a <a href="https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream">ReadableStream</a> which
+can be returned as the body of a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Response">Response</a>.</p>
+<p>This still required a two-stage request handling, similar to Fresh, where you
+have to do all your async work before starting to render. This can become tricky
+if you need to supply data to many components.</p>
+<pre><code class="language-tsx">async function handler(req: Request): Promise&lt;Response&gt; {
+  // Stage 1: fetch data asynchronously
+  const name = await fetchMyName(req);
+
+  // Stage 2: render
+  const element = &lt;MyName name={name} /&gt;;
+  const stream = renderBody(element);
+  return new Response(stream);
+}
+
+function MyName({ name }: { name: string }) {
+  return &lt;div&gt;My name is: {name}&lt;/div&gt;;
+}
+</code></pre>
+<p>I&#39;ve always wondered why components can&#39;t just be asynchronous, and it turns
+out, there is nothing preventing a JSX runtime handling async components.</p>
+<h2>Asynchronous Streaming</h2>
+<p>What if, as well as emitting an synchronous <code>Iterable</code>, the <code>jsx</code> function could
+emit an <code>AsyncIterable</code> of strings, this not only allows a JSX component to be
+an <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function">async function</a>, returning a <code>Promise</code>, but also to be an
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function*">async generator</a>, returning a <code>AsyncIterable</code> too.</p>
+<p>Now any component can perform whatever async task it needs to obtain it&#39;s data,
+including async streaming of data and elements.</p>
+<p>And not a <a href="https://react.dev/reference/react/useEffect">hook</a> in sight.</p>
+<pre><code class="language-tsx">function handler(req: Request): Response {
+  // Single-stage: just render it
+  const element = &lt;MyName req={req} /&gt;;
+  const stream = renderBody(element);
+  return new Response(stream);
+}
+
+async function MyName({ req }: { req: Request }) {
+  const name = await fetchMyName(req);
+
+  return &lt;div&gt;My name is: {name}&lt;/div&gt;;
+}
+</code></pre>
+<p>NOTE: The handler doesn&#39;t even need to be async.</p>
+<p>Async components allows the HTML to be streamed almost immediately, without
+having to wait for all of the first stage async stuff to complete. But, it also
+means that the stream will block as soon as it hits the first async component.</p>
+<h2>Deferred Streaming</h2>
+<p>What if we could skip over slow blocking components, deferring their stream
+until later, allowing faster and sync components to continue streaming their
+content?</p>
+<p>We could drop a placeholder with a unique id into the stream, and later render
+the content once ready with a script to substitute it over the placeholder, and
+do this all within the same streamed response.</p>
+<p>So given a top-level component like this...</p>
+<pre><code class="language-tsx">function Page(req: Request) {
+  return (
+    &lt;body&gt;
+      &lt;h1&gt;Hello&lt;/h1&gt;
+
+      &lt;MyName req={req} /&gt;
+
+      &lt;p&gt;This is not blocked&lt;/p&gt;
+    &lt;/body&gt;
+  );
+}
+</code></pre>
+<p>A placeholder would be rendered something like this...</p>
+<pre><code class="language-html">&lt;body&gt;
+  &lt;h1&gt;Hello&lt;/h1&gt;
+
+  &lt;span id=&quot;deferred_1&quot;&gt;&lt;/span&gt;
+
+  &lt;p&gt;This is not blocked&lt;/p&gt;
+&lt;/body&gt;
+</code></pre>
+<p>Then later in the same stream, once the component has resolved...</p>
+<pre><code class="language-html">&lt;template id=&quot;_deferred_1&quot;&gt;
+  &lt;div&gt;My name is: Mark&lt;/div&gt;
+&lt;/template&gt;
+&lt;script&gt;document.getElementById(&quot;deferred_1&quot;).outerHTML = document.getElementById(&quot;_deferred_1&quot;).innerHTML;&lt;/script&gt;
+</code></pre>
+<p>NOTE: It doesn&#39;t matter that the template and script are rendered outside of the
+body or html element, the HTML5 parser in every browser is designed to handle
+this gracefully and move it into the body within the parsed DOM.</p>
+<h2>Examples</h2>
+<p>The <a href="https://deno.land/x/jsx_stream">JSX streaming module</a> does all of this, and this site includes
+a couple of pages that demonstrate the async streaming and deferral of slow
+components (albeit they are somewhat exaggerated).</p>
+<ul>
+<li><a href="/quiz">Quiz</a></li>
+</ul>
+<p>This async <a href="https://github.com/jollytoad/home/blob/main/components/Quiz.tsx">component</a> fetches a question from <a href="https://the-trivia-api.com/">The Trivia API</a>,
+then renders the question and each option with a slight delay, to give the
+effect of them being revealed one at a time, without blocking the rendering of
+the rest of the page.</p>
+<ul>
+<li><a href="/async">Async example</a></li>
+</ul>
+<p>This <a href="https://github.com/jollytoad/home/blob/main/routes/async.tsx">page</a> demonstrates the <a href="https://github.com/jollytoad/home/blob/main/components/Delayed.tsx"><code>Delayed</code></a> async component
+to delay the rendering of three blocks of text using a promise, and the
+<a href="https://github.com/jollytoad/home/blob/main/components/Trickled.tsx"><code>Trickled</code></a> component which is a async generator component, that
+introduces a delay before each child is rendered.</p>
+<p>Take a look at the raw source of the page in the browser, and the DOM in the
+browser dev tools.</p>
+<ul>
+<li>Blog</li>
+</ul>
+<p>Even this blog makes use of an async <a href="https://github.com/jollytoad/home/blob/main/components/Markdown.tsx"><code>Markdown</code></a> component that
+fetches the raw markdown before converting to HTML. Unfortunately the parsing of
+markdown itself isn&#39;t streamed yet, but it&#39;s something I&#39;d like to do in the
+future.</p>
+<h2>Deno Module</h2>
+<p><a href="https://deno.land/x/jsx_stream">jsx_stream</a> is available as a Deno module, you can find the source on
+<a href="https://github.com/jollytoad/deno_jsx_stream">GitHub</a>.</p>
+<p>NOTE: It&#39;s still fairly experimental, lacking docs, and hasn&#39;t been tested for
+many edge cases, but it does power this website.</p>
+<p>Now also available via <a href="https://jsr.io/@http/jsx-stream">JSR</a>.</p>
+<h2>Discussion</h2>
+<p>If you&#39;d like to ask a question or discuss this blog further please use the
+GitHub <a href="https://github.com/jollytoad/home/discussions/1">discussion</a>.</p><script src="/prism.js" async></script></main><footer><div class="src"><a href="https://github.com/jollytoad/home/blob/main/routes/blog/jsx_streaming.md" target="_blank">View source on GitHub</a></div><div>©️ 2024 Mark Gibson</div></footer><script src="/ready.js" defer></script></body></html>

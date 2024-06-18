@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Jollytoad</title><link rel="stylesheet" href="https://unpkg.com/missing.css@1.1.1/dist/missing.min.css" integrity="sha384-se/UYQCQ0CMlLo1I5DcMmgR8t9hjCEpTpjPu7JWzT6M4wbxzI078hgX0pxTLyyMm" crossorigin="anonymous"/><link rel="stylesheet" href="/prism.css"/><link rel="stylesheet" href="/main.css"/><script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script><script src="https://unpkg.com/htmx.org@1.9.10/dist/ext/sse.js" integrity="sha384-jlVlI/i5K5APUIz8cxowC1/FsCEZgsrg126wue89Np9N75pQdAzqkYYP+jsUi43W" crossorigin="anonymous"></script><script src="/app.js" type="module"></script></head><body><header><h1><a href="/">The home of Jollytoad</a></h1></header><main><h1>Dependency Hell or Heaven</h1>
+<p>TLDR; Is Deno heading down the same dependency hell path as Node, due to the use
+of the <code>deps.ts</code> &amp; <code>mod.ts</code> conventions?</p>
+<h2>Introduction</h2>
+<p>Node.js, or rather the conventions introduced by the npm ecosystem, is infamous
+for it&#39;s dependency hell problems.</p>
+<p>When Deno came along, with it&#39;s <em>import just what you need</em> approach, there
+seemed to be some light at the end of this tunnel.</p>
+<p>I believe though, that some unfortunate conventions and advice has emerged
+within the Deno ecosystem that could lead us back into this dependency hell
+situation, although probably not to the extent of npm.</p>
+<p><em>What am I talking about?</em></p>
+<h2>deps.ts</h2>
+<p>It&#39;s commonly suggested to put all your dependencies into a <code>deps.ts</code> module so
+you don&#39;t need to maintain absolute URLs in your imports everywhere.</p>
+<p>This means that all your modules that have a dependency actually depend on ALL
+of your dependencies not just what that module needs.</p>
+<p>I know import maps are probably a better solution for an app, but they aren&#39;t
+suitable for use inside library modules.</p>
+<p>(I&#39;m using the term <em>library</em> loosely to mean a collection of associated
+modules, generally within a common repo, and deployed together somewhere like
+deno.land/x/<em>library</em>. I know these are also known as modules, but I use
+<em>library</em> to make the distinction for the sake of this discussion).</p>
+<h2>mod.ts</h2>
+<p>Another suggestion for library authors is to expose all modules via a <code>mod.ts</code>.</p>
+<p>This leads to consumers of your library depending on everything in your library
+rather than just the parts they actually need.</p>
+<h2>Dependency Hell</h2>
+<p>If the whole Deno ecosystem followed both of these patterns everywhere
+(thankfully it doesn&#39;t), we&#39;d spiral into a similar dependency hell as npm.</p>
+<p>Here&#39;s an illustration of my point:</p>
+<p><img src="dep_hell.excalidraw.png" alt="dependency hell graph"/></p>
+<p>The Application only wants <code>fn1</code>, and only it&#39;s necessary transitive deps (in
+green/bold), but by following the <code>deps.ts</code> &amp; <code>mod.ts</code> pattern, it&#39;s getting
+everything else (in red/dashed) regardless that it doesn&#39;t need it.</p>
+<h2>Dependency Heaven</h2>
+<p>So how can we fix this?</p>
+<p>The app could import the <code>fn1</code> directly from the <code>fn1.ts</code> module, and that in
+turn just imports the specific modules directly from another library.</p>
+<p><img src="dep_heaven.excalidraw.png" alt="dependency heaven graph"/></p>
+<h2>The elephant in the room</h2>
+<p>Ok, but this means libraries need to have absolute URL imports throughout rather
+than centralised in a single <code>deps.ts</code>.</p>
+<p>What exactly is wrong with that?</p>
+<p>You have to find and replace URLs?</p>
+<p>Is that so bad when weighed up against dependency armageddon?</p>
+<p>Maybe all we really need is a little extra tooling to aid maintenance of these
+imports. To find and replace with a bit more context.</p>
+<p>As for <code>mod.ts</code>, I&#39;ll admit it is very convenient to just import <code>mod.ts</code> and
+have all things available, but it doesn&#39;t foster a healthy ecosystem.</p>
+<p>Maybe what we need there is better module discovery within the IDEs, or a de-mod
+tool that allows you to start off using a <code>mod.ts</code> import and then it expands
+that out into direct imports.</p>
+<h2>Put your money where your mouth is</h2>
+<p>I know I&#39;ve pointed out problems, and only presented a half-arsed solution, and
+I&#39;m keen to rectify that. I&#39;m hoping to actually get some time to work on the
+tools I talk of. In the meantime, I hope this stirs up some ideas and healthy
+discussion.</p>
+<p>If you&#39;d like to discuss this subject further please use the GitHub
+<a href="https://github.com/jollytoad/home/discussions/3">discussion</a>.</p><script src="/prism.js" async></script></main><footer><div class="src"><a href="https://github.com/jollytoad/home/blob/main/routes/blog/dependency_hell.md" target="_blank">View source on GitHub</a></div><div>©️ 2024 Mark Gibson</div></footer><script src="/ready.js" defer></script></body></html>
