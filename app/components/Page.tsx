@@ -17,22 +17,22 @@ export function Page({ children, reqURL, module }: Props) {
         <title>Jollytoad</title>
         <link
           rel="stylesheet"
-          href="https://unpkg.com/missing.css@1.1.1/dist/missing.min.css"
-          integrity="sha384-se/UYQCQ0CMlLo1I5DcMmgR8t9hjCEpTpjPu7JWzT6M4wbxzI078hgX0pxTLyyMm"
+          href="https://unpkg.com/missing.css@1.1.2/dist/missing.min.css"
+          integrity="sha384-fZrde2RUAJaQbjI1/XiJmfPWyrv5awDSR64gM3lJz73T3B1Up8lhRsjemC337rRP"
           crossorigin="anonymous"
         />
         <link rel="stylesheet" href="/prism.css" />
         <link rel="stylesheet" href="/main.css" />
 
         <script
-          src="https://unpkg.com/htmx.org@1.9.10"
-          integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
+          src="https://unpkg.com/htmx.org@2.0.0/dist/htmx.min.js"
+          integrity="sha384-wS5l5IKJBvK6sPTKa2WZ1js3d947pvWXbPJ1OmWfEuxLgeHcEbjUUA5i9V5ZkpCw"
           crossorigin="anonymous"
         />
 
         <script
-          src="https://unpkg.com/htmx.org@1.9.10/dist/ext/sse.js"
-          integrity="sha384-jlVlI/i5K5APUIz8cxowC1/FsCEZgsrg126wue89Np9N75pQdAzqkYYP+jsUi43W"
+          src="https://unpkg.com/htmx-ext-sse@2.1.0/sse.js"
+          integrity="sha384-CDYsGxdhlGy3oWbMF4VDUFJhjkVnh7gXN/mmG3smuZLFzha5fMAvoACJFQrSF38W"
           crossorigin="anonymous"
         />
 
