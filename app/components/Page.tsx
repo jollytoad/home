@@ -5,7 +5,7 @@ interface Props {
   req?: Request;
   children?: Children;
   reqURL?: string;
-  module?: string;
+  module?: string | URL;
 }
 
 export function Page({ children, reqURL, module }: Props) {

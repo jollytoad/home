@@ -31,6 +31,11 @@ export function generateRoutes(opts: Opts = defaultOpts) {
       "@http/discovery/ts-route-mapper",
       import.meta.resolve("./route_mapper/markdown.ts"),
     ],
+    handlerGenerator: [
+      import("./handler_generator/component.ts"),
+      import("@http/generate/default-handler-generator"),
+      import("@http/generate/methods-handler-generator"),
+    ],
     ...opts,
   });
 }

@@ -5,20 +5,24 @@
       "jsr:@cross/deepmerge@^1.0.0": "jsr:@cross/deepmerge@1.0.0",
       "jsr:@cross/env@^1.0.2": "jsr:@cross/env@1.0.2",
       "jsr:@cross/runtime@^1.0.0": "jsr:@cross/runtime@1.0.0",
-      "jsr:@http/discovery@0.17.0": "jsr:@http/discovery@0.17.0",
-      "jsr:@http/discovery@^0.17.0": "jsr:@http/discovery@0.17.0",
-      "jsr:@http/generate@^0.17.0": "jsr:@http/generate@0.17.0",
-      "jsr:@http/host-deno-deploy@^0.17.0": "jsr:@http/host-deno-deploy@0.17.0",
-      "jsr:@http/host-deno-local@^0.17.0": "jsr:@http/host-deno-local@0.17.0",
-      "jsr:@http/interceptor@0.17.0": "jsr:@http/interceptor@0.17.0",
-      "jsr:@http/interceptor@^0.17.0": "jsr:@http/interceptor@0.17.0",
+      "jsr:@http/discovery@0.18.0": "jsr:@http/discovery@0.18.0",
+      "jsr:@http/discovery@^0.18.0": "jsr:@http/discovery@0.18.0",
+      "jsr:@http/generate@^0.18.0": "jsr:@http/generate@0.18.0",
+      "jsr:@http/host-deno-deploy@^0.18.0": "jsr:@http/host-deno-deploy@0.18.0",
+      "jsr:@http/host-deno-local@^0.18.0": "jsr:@http/host-deno-local@0.18.0",
+      "jsr:@http/interceptor@0.18.0": "jsr:@http/interceptor@0.18.0",
+      "jsr:@http/interceptor@^0.18.0": "jsr:@http/interceptor@0.18.0",
       "jsr:@http/jsx-stream@^0.2.2": "jsr:@http/jsx-stream@0.2.2",
       "jsr:@http/request@^0.17.0": "jsr:@http/request@0.17.0",
+      "jsr:@http/request@^0.18.0": "jsr:@http/request@0.18.0",
       "jsr:@http/response@0.17.0": "jsr:@http/response@0.17.0",
+      "jsr:@http/response@0.18.0": "jsr:@http/response@0.18.0",
       "jsr:@http/response@^0.17.0": "jsr:@http/response@0.17.0",
-      "jsr:@http/route-deno@^0.17.0": "jsr:@http/route-deno@0.17.0",
-      "jsr:@http/route@0.17.0": "jsr:@http/route@0.17.0",
+      "jsr:@http/response@^0.18.0": "jsr:@http/response@0.18.0",
+      "jsr:@http/route-deno@^0.18.0": "jsr:@http/route-deno@0.18.0",
+      "jsr:@http/route@0.18.0": "jsr:@http/route@0.18.0",
       "jsr:@http/route@^0.17.0": "jsr:@http/route@0.17.0",
+      "jsr:@http/route@^0.18.0": "jsr:@http/route@0.18.0",
       "jsr:@luca/esbuild-deno-loader@^0.10.3": "jsr:@luca/esbuild-deno-loader@0.10.3",
       "jsr:@std/assert@^0.213.1": "jsr:@std/assert@0.213.1",
       "jsr:@std/assert@^0.226.0": "jsr:@std/assert@0.226.0",
@@ -70,38 +74,37 @@
       "@cross/runtime@1.0.0": {
         "integrity": "dddecdf99182df13d50279d1e473f715e83d41961c5c22edd7bb0c4c3cf8a76a"
       },
-      "@http/discovery@0.17.0": {
-        "integrity": "0ff677d68838bdb337b1d3cb5c899bd9fa85772124c6c913844abc9c7bc2fdb3",
+      "@http/discovery@0.18.0": {
+        "integrity": "72392966f154e33a79ce7dd0b0422140d1e626048f66522e3d36b1b115869353",
         "dependencies": [
-          "jsr:@http/route@0.17.0",
+          "jsr:@http/route@0.18.0",
           "jsr:@std/path@^0.225.2"
         ]
       },
-      "@http/generate@0.17.0": {
-        "integrity": "5999a668b5453e0779d3612af1355a8d5ac2a2b226d45101244bff15ea895d05",
+      "@http/generate@0.18.0": {
+        "integrity": "8bf22fe24caedc90a98a6dd603039a2638939829351b58b58bae243272224328",
         "dependencies": [
-          "jsr:@http/discovery@0.17.0",
-          "jsr:@http/route@0.17.0",
+          "jsr:@http/discovery@0.18.0",
           "npm:ts-poet@^6.9.0"
         ]
       },
-      "@http/host-deno-deploy@0.17.0": {
-        "integrity": "904ec7d6fc642add434b5c6935059ba1b83548a620817d820489f6a9fdd294ef",
+      "@http/host-deno-deploy@0.18.0": {
+        "integrity": "ced627658e8806da82066c4c4363d1acf6625bac2dbe73097a766f5379e41197",
         "dependencies": [
-          "jsr:@http/interceptor@0.17.0",
-          "jsr:@http/route@0.17.0"
+          "jsr:@http/interceptor@0.18.0",
+          "jsr:@http/route@0.18.0"
         ]
       },
-      "@http/host-deno-local@0.17.0": {
-        "integrity": "1c8e9a024080c1dc9ee6d7173d4d4abe3906f931146e8f7c03e24066c748bc02",
+      "@http/host-deno-local@0.18.0": {
+        "integrity": "2d493914ca19df226680cab2d15891212294b70f24ca256d9f4cc245cdfe5a4e",
         "dependencies": [
-          "jsr:@http/interceptor@0.17.0",
-          "jsr:@http/route@0.17.0",
+          "jsr:@http/interceptor@0.18.0",
+          "jsr:@http/route@0.18.0",
           "jsr:@std/net@^0.224.2"
         ]
       },
-      "@http/interceptor@0.17.0": {
-        "integrity": "ae0afd57820e6b9421206a12c7c4ee11d1035bbe6db2c1abd8b32fcf56a124d5"
+      "@http/interceptor@0.18.0": {
+        "integrity": "8be4a0f9616bff812c08e86b8c52cf89764833cc646f9699d6dcc2320f772bb7"
       },
       "@http/jsx-stream@0.2.2": {
         "integrity": "d5faa9aaef03b5c6a0bd094afe10b88af9d9b6d06b66e67a672000489fc6eef1",
@@ -113,21 +116,32 @@
       "@http/request@0.17.0": {
         "integrity": "614ba9331b8fc36bc179c64a29e45ebf4f9c1c53af173695019f022a9275ac23"
       },
+      "@http/request@0.18.0": {
+        "integrity": "17aea54503e34b70cad5c9656eec956697befc3c061d403ed5b2f43f0a922de5"
+      },
       "@http/response@0.17.0": {
         "integrity": "6a5ab0e3ddc6e43b9b1d459fec609b2c107340c10ed421d4af4c67623215a203"
       },
-      "@http/route-deno@0.17.0": {
-        "integrity": "16d90ff0608ba9fe9efe761f7646e254309258f002c49fec6bbfc101ca80da5b",
+      "@http/response@0.18.0": {
+        "integrity": "3d754caac7466b5d09555a9761119feb8bbe610fc210a9939ab88818911778bb"
+      },
+      "@http/route-deno@0.18.0": {
+        "integrity": "d671e222267b73e1dcc1565c11220caa8892180d28c1a5081de897acba7ca4be",
         "dependencies": [
-          "jsr:@http/route@0.17.0",
-          "jsr:@std/http@^0.224.3",
-          "jsr:@std/path@^0.225.2"
+          "jsr:@http/route@0.18.0",
+          "jsr:@std/http@^0.224.3"
         ]
       },
       "@http/route@0.17.0": {
         "integrity": "143c6037f9a30dedcd14f24e8c6ce91b406e68180ea1c8b1332d2b0cffdff997",
         "dependencies": [
-          "jsr:@http/response@0.17.0",
+          "jsr:@http/response@0.17.0"
+        ]
+      },
+      "@http/route@0.18.0": {
+        "integrity": "d9cf0419a0292c886d0fa05ed2d3d04ac4e37345a5af5a220b3f82bfd80f6047",
+        "dependencies": [
+          "jsr:@http/response@0.18.0",
           "jsr:@std/http@^0.224.3",
           "jsr:@std/media-types@^1.0.0-rc.1",
           "jsr:@std/path@^0.225.2"
@@ -1263,16 +1277,16 @@
   "workspace": {
     "dependencies": [
       "jsr:@cross/env@^1.0.2",
-      "jsr:@http/discovery@^0.17.0",
-      "jsr:@http/generate@^0.17.0",
-      "jsr:@http/host-deno-deploy@^0.17.0",
-      "jsr:@http/host-deno-local@^0.17.0",
-      "jsr:@http/interceptor@^0.17.0",
+      "jsr:@http/discovery@^0.18.0",
+      "jsr:@http/generate@^0.18.0",
+      "jsr:@http/host-deno-deploy@^0.18.0",
+      "jsr:@http/host-deno-local@^0.18.0",
+      "jsr:@http/interceptor@^0.18.0",
       "jsr:@http/jsx-stream@^0.2.2",
-      "jsr:@http/request@^0.17.0",
-      "jsr:@http/response@^0.17.0",
-      "jsr:@http/route-deno@^0.17.0",
-      "jsr:@http/route@^0.17.0",
+      "jsr:@http/request@^0.18.0",
+      "jsr:@http/response@^0.18.0",
+      "jsr:@http/route-deno@^0.18.0",
+      "jsr:@http/route@^0.18.0",
       "jsr:@luca/esbuild-deno-loader@^0.10.3",
       "jsr:@std/async@^0.224.2",
       "jsr:@std/collections@^0.224.2",

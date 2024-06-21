@@ -1,10 +1,8 @@
-import { Page } from "../components/Page.tsx";
 import { Markdown } from "../components/Markdown.tsx";
-import { handlePage } from "../lib/handle_page.ts";
 
-export default handlePage(({ req }) => {
+export function Home() {
   return (
-    <Page req={req} module={import.meta.url}>
+    <>
       <Markdown>
         {`
 ## Demos and Experiments
@@ -29,6 +27,6 @@ export default handlePage(({ req }) => {
         defer
       >
       </script>
-    </Page>
+    </>
   );
-});
+}

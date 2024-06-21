@@ -1,11 +1,11 @@
 interface Props {
-  module?: string;
+  module?: string | URL;
   children?: string;
 }
 
 export function Src({ module, children }: Props) {
-  const root = import.meta.resolve("./..");
-  const path = module?.replace(root, "");
+  const root = import.meta.resolve("../..");
+  const path = module?.toString().replace(root, "");
 
   if (path) {
     const href = `https://github.com/jollytoad/home/blob/main/${path}`;

@@ -286,4 +286,4 @@ the start of your Response body.</p>
 which is built using <code>@http</code> functions, and runs on Deno Deploy. It may vary a
 little from the conventions I describe here, but if you find the <code>dev.ts</code> &amp;
 <code>main.ts</code> entrypoints you should be able to follow every path in the entire app
-from there.</p><script src="/prism.js" async></script></main><footer><div class="src"><a href="https://github.com/jollytoad/home/blob/main/routes/blog/http_getting_started.md" target="_blank">View source on GitHub</a></div><div>©️ 2024 Mark Gibson</div></footer><script src="/ready.js" defer></script></body></html>
+from there.</p><script src="/prism.js" async></script></main><footer><div class="src"><a href="https://github.com/jollytoad/home/blob/main/app/routes/blog/http_getting_started.md" target="_blank">View source on GitHub</a></div><div>©️ 2024 Mark Gibson</div></footer><script src="/ready.js" defer></script></body></html>

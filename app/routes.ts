@@ -4,13 +4,17 @@ import { byMethod } from "@http/route/by-method";
 import { byPattern } from "@http/route/by-pattern";
 import { cascade } from "@http/route/cascade";
 import { lazy } from "@http/route/lazy";
+import { handleComponent } from "./lib/handle_component.tsx";
 
 export default cascade(
   byPattern("/todo/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
   byPattern("/todo/:listId/:itemId", lazy(async () => byMethod(await import("./routes/todo/[listId]/[itemId].tsx")))),
   byPattern("/todo/:listId", lazy(async () => byMethod(await import("./routes/todo/[listId]/index.tsx")))),
   byPattern("/todo", lazy(async () => byMethod(await import("./routes/todo/index.ts")))),
-  byPattern("/tabs", lazy(() => import("./routes/tabs.tsx"))),
+  byPattern(
+    "/tabs",
+    lazy(async () => handleComponent((await import("./routes/tabs.tsx")).TabsExample, "./app/routes/tabs.tsx")),
+  ),
   byPattern("/sse/stop", lazy(() => import("./routes/sse/stop.tsx"))),
   byPattern("/sse/start", lazy(() => import("./routes/sse/start.tsx"))),
   byPattern("/sse/feed", lazy(() => import("./routes/sse/feed.tsx"))),
@@ -39,7 +43,15 @@ export default cascade(
   ], lazy(async () => byMethod(await import("./lib/handle_route_md.tsx")))),
   byPattern("/blog/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
   byPattern("/blog", lazy(async () => byMethod(await import("./lib/handle_route_md.tsx")))),
-  byPattern("/async", lazy(() => import("./routes/async.tsx"))),
+  byPattern(
+    "/async",
+    lazy(async () =>
+      handleComponent((await import("./routes/async.tsx")).AsyncStreamingExample, "./app/routes/async.tsx")
+    ),
+  ),
   byPattern("/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
-  byPattern("/", lazy(() => import("./routes/index.tsx"))),
+  byPattern(
+    "/",
+    lazy(async () => handleComponent((await import("./routes/index.tsx")).Home, "./app/routes/index.tsx")),
+  ),
 );

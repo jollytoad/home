@@ -1,9 +1,6 @@
-import { Page } from "../components/Page.tsx";
-import { handlePage } from "../lib/handle_page.ts";
-
-export default handlePage(({ req }) => {
+export function TabsExample() {
   return (
-    <Page req={req} module={import.meta.url}>
+    <>
       <h1>Web Components</h1>
 
       <p>Demo of using web components from various libraries.</p>
@@ -118,6 +115,6 @@ export default handlePage(({ req }) => {
         <vaadin-tab>Tab 2</vaadin-tab>
         <vaadin-tab>Tab 3</vaadin-tab>
       </vaadin-tabs>
-    </Page>
+    </>
   );
-});
+}

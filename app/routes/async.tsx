@@ -1,55 +1,55 @@
-import { Page } from "../components/Page.tsx";
 import { Delayed } from "../components/Delayed.tsx";
 import { Trickled } from "../components/Trickled.tsx";
-import { handlePage } from "../lib/handle_page.ts";
 
-export default handlePage(({ req }) => (
-  <Page req={req} module={import.meta.url}>
-    <style>
-      {`
-      .red {
-        color: red
-      }
-    `}
-    </style>
+export function AsyncStreamingExample() {
+  return (
+    <>
+      <style>
+        {`
+        .red {
+          color: red
+        }
+      `}
+      </style>
 
-    <p>This is a demo of streaming of asynchronous components.</p>
+      <p>This is a demo of streaming of asynchronous components.</p>
 
-    <hr />
+      <hr />
 
-    <p>
-      The following component returns an AsyncIterable of it's children, adding
-      a 1 second delay before each child.
-    </p>
-    <ol>
-      <Trickled delay={1000}>
-        <li>one</li>
-        <li>two</li>
-        <li>three</li>
-        <li>four</li>
-      </Trickled>
-    </ol>
+      <p>
+        The following component returns an AsyncIterable of it's children,
+        adding a 1 second delay before each child.
+      </p>
+      <ol>
+        <Trickled delay={1000}>
+          <li>one</li>
+          <li>two</li>
+          <li>three</li>
+          <li>four</li>
+        </Trickled>
+      </ol>
 
-    <Delayed delay={2000}>
-      <div class="red">
-        This component returns a Promise that delays for 2 seconds
-      </div>
-    </Delayed>
+      <Delayed delay={2000}>
+        <div class="red">
+          This component returns a Promise that delays for 2 seconds
+        </div>
+      </Delayed>
 
-    <hr />
+      <hr />
 
-    <Delayed delay={3000}>
-      <div class="red">
-        This component returns a Promise that delays for 3 seconds
-      </div>
-    </Delayed>
+      <Delayed delay={3000}>
+        <div class="red">
+          This component returns a Promise that delays for 3 seconds
+        </div>
+      </Delayed>
 
-    <hr />
+      <hr />
 
-    <Delayed delay={1000}>
-      <div class="red">
-        This component returns a Promise that delays for 1 second
-      </div>
-    </Delayed>
-  </Page>
-));
+      <Delayed delay={1000}>
+        <div class="red">
+          This component returns a Promise that delays for 1 second
+        </div>
+      </Delayed>
+    </>
+  );
+}
