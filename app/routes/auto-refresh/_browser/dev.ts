@@ -23,7 +23,7 @@ function startAutoRefresh(refreshNow = false, restartDelay = 0) {
       );
     } else {
       console.log(
-        "%cAUTO REFRESH DISABLED%c - you'll need manually refresh",
+        "%cAUTO REFRESH DISABLED%c - you'll need manually refresh, ok",
         "color: red",
         "color: unset",
       );

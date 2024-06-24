@@ -7,6 +7,10 @@ import { lazy } from "@http/route/lazy";
 import { handleComponent } from "./lib/handle_component.tsx";
 
 export default cascade(
+  byPattern(
+    ":pre(/auto-refresh/):path+.js",
+    lazy(async () => byMethod(await import("./lib/handle_route_browser_dir.ts"))),
+  ),
   byPattern("/todo/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
   byPattern("/todo/:listId/:itemId", lazy(async () => byMethod(await import("./routes/todo/[listId]/[itemId].tsx")))),
   byPattern("/todo/:listId", lazy(async () => byMethod(await import("./routes/todo/[listId]/index.tsx")))),
@@ -44,7 +48,6 @@ export default cascade(
   byPattern("/blog/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
   byPattern("/blog", lazy(async () => byMethod(await import("./lib/handle_route_md.tsx")))),
   byPattern("/auto-refresh/feed", lazy(async () => byMethod(await import("./routes/auto-refresh/feed.ts")))),
-  byPattern("/auto-refresh/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
   byPattern(
     "/async",
     lazy(async () =>

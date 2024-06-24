@@ -6,7 +6,9 @@ import init from "@http/host-deno-local/init";
 import initCron from "../app/cron.ts";
 import generateQuote from "../app/routes/quote/_cron/generate_quote.ts";
 import { lazy } from "@http/route/lazy";
-import { hasEnv, setEnv } from "@cross/env";
+import { getEnv, hasEnv, setEnv } from "@cross/env";
+import { cascade } from "@http/route/cascade";
+import type { RequestHandler } from "@http/route/types";
 
 if (!hasEnv("AUTO_REFRESH")) {
   setEnv("AUTO_REFRESH", "true");
@@ -21,6 +23,13 @@ await generateQuote();
 
 await initCron();
 
+let cache: RequestHandler = () => null;
+
+if (getEnv("USE_CACHE") === "true") {
+  console.log("Using cache");
+  cache = lazy(import.meta.resolve("../app/cache.ts"));
+}
+
 const handler = lazy(import.meta.resolve("../app/handler.ts"));
 
-await Deno.serve(await init(handler)).finished;
+await Deno.serve(await init(cascade(cache, handler))).finished;

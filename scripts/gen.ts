@@ -26,6 +26,7 @@ export function generateRoutes(opts: Opts = defaultOpts) {
     moduleOutUrl: import.meta.resolve("../app/routes.ts"),
     pathMapper: "@http/discovery/fresh-path-mapper",
     routeMapper: [
+      import.meta.resolve("./route_mapper/browser.ts"),
       import.meta.resolve("./route_mapper/static.ts"),
       import.meta.resolve("./route_mapper/ignore.ts"),
       "@http/discovery/ts-route-mapper",

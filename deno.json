@@ -9,6 +9,7 @@
     "cache:clean": "rm -rf app/cache",
     "gen": "./scripts/gen.ts",
     "start": "./scripts/dev.ts",
+    "start:cache": "USE_CACHE=true ./scripts/dev.ts",
     "start:prod": "deno run --allow-net --allow-env --allow-read ./app/main.ts",
     "mkcert": "mkcert -install -key-file localhost-key.pem -cert-file localhost-cert.pem localhost",
     "deploy": "deno run --allow-sys --allow-net --allow-read --allow-write --allow-env jsr:@deno/deployctl deploy",
@@ -38,6 +39,7 @@
   "imports": {
     "$store": "https://deno.land/x/storage_modules@v0.1.0/deno_kv.ts",
     "@cross/env": "jsr:@cross/env@^1.0.2",
+    "@deno/emit": "jsr:@deno/emit@^0.41.0",
     "@http/discovery": "jsr:@http/discovery@^0.18.0",
     "@http/generate": "jsr:@http/generate@^0.18.0",
     "@http/host-deno-deploy": "jsr:@http/host-deno-deploy@^0.18.0",
