@@ -43,6 +43,8 @@ export default cascade(
   ], lazy(async () => byMethod(await import("./lib/handle_route_md.tsx")))),
   byPattern("/blog/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
   byPattern("/blog", lazy(async () => byMethod(await import("./lib/handle_route_md.tsx")))),
+  byPattern("/auto-refresh/feed", lazy(async () => byMethod(await import("./routes/auto-refresh/feed.ts")))),
+  byPattern("/auto-refresh/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
   byPattern(
     "/async",
     lazy(async () =>
