@@ -1,5 +1,5 @@
 import { getQuoteConfig } from "../_lib/quote_config.ts";
-import { isQuoteUnseen } from "../_lib/quote_store.ts";
+import { canSetQuote, isQuoteUnseen } from "../_lib/quote_store.ts";
 import { setQuote } from "../_lib/quote_store.ts";
 import OpenAI from "openai";
 
@@ -10,8 +10,13 @@ const config = getQuoteConfig();
 export const schedule = config.schedule;
 
 export default async function generateQuote() {
+  if (!(await canSetQuote())) {
+    console.log("Skipping quote generation - store is not writeable");
+    return;
+  }
+
   if (await isQuoteUnseen()) {
-    console.log("Skipping quote generation");
+    console.log("Skipping quote generation - current quote is unseen");
     return;
   }
 

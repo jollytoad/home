@@ -21,6 +21,7 @@
       "jsr:@jollytoad/store-common@^0.3.0": "jsr:@jollytoad/store-common@0.3.0",
       "jsr:@jollytoad/store-deno-fs@^0.3.0": "jsr:@jollytoad/store-deno-fs@0.3.0",
       "jsr:@jollytoad/store-deno-kv@^0.3.0": "jsr:@jollytoad/store-deno-kv@0.3.0",
+      "jsr:@jollytoad/store-no-op@^0.3.0": "jsr:@jollytoad/store-no-op@0.3.0",
       "jsr:@jollytoad/store@^0.3.0": "jsr:@jollytoad/store@0.3.0",
       "jsr:@luca/esbuild-deno-loader@^0.10.3": "jsr:@luca/esbuild-deno-loader@0.10.3",
       "jsr:@std/assert@^0.213.1": "jsr:@std/assert@0.213.1",
@@ -121,6 +122,7 @@
         "integrity": "6ef2b5c54745114776680f2ed7e6dafada3300e124ed85f867338e2bdc90c230",
         "dependencies": [
           "jsr:@http/interceptor@^0.19.0",
+          "jsr:@http/route@^0.19.0",
           "jsr:@std/net@^0.224.4"
         ]
       },
@@ -168,6 +170,9 @@
         "dependencies": [
           "jsr:@jollytoad/store-common@^0.3.0"
         ]
+      },
+      "@jollytoad/store-no-op@0.3.0": {
+        "integrity": "f550a9163aba0967d64600863fb7539b39de9bc44e2fcc8f67b2f4db3aba199c"
       },
       "@jollytoad/store@0.3.0": {
         "integrity": "f7535c057b2c7dddd8e68e74f66f16729e73243ec8aa5d296f055e3703d2ebc1",
@@ -1345,6 +1350,7 @@
       "jsr:@http/route@^0.19.0",
       "jsr:@jollytoad/store-deno-fs@^0.3.0",
       "jsr:@jollytoad/store-deno-kv@^0.3.0",
+      "jsr:@jollytoad/store-no-op@^0.3.0",
       "jsr:@jollytoad/store@^0.3.0",
       "jsr:@luca/esbuild-deno-loader@^0.10.3",
       "jsr:@std/async@^1.0.0-rc.3",

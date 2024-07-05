@@ -4,8 +4,8 @@ import * as store from "@jollytoad/store";
 import { getDenoKv } from "@jollytoad/store-deno-kv/get-deno-kv";
 
 interface QuizSession {
-  id: string;
-  score: bigint;
+  id?: string;
+  score?: bigint;
   headers?: Headers;
 }
 
@@ -17,6 +17,10 @@ export async function getQuizSession(
   req: Request,
   reset = false,
 ): Promise<QuizSession> {
+  if (!(await store.isWritable(KEY_PREFIX))) {
+    return {};
+  }
+
   const cookies = getCookies(req.headers);
 
   let id = cookies[COOKIE_NAME];

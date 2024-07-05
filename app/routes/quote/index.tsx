@@ -25,8 +25,10 @@ export default byMethod({
             Quotes are updated using{" "}
             <a href="https://deno.com/blog/cron" target="_blank">Deno Cron</a>,
             with the schedule: &quot;<code>{config.schedule}</code>&quot;, and
-            stored using{" "}
-            <a href="https://deno.com/blog/kv" target="_blank">Deno Kv</a>.
+            stored using a{" "}
+            <a href="https://jsr.io/@jollytoad/store" target="_blank">
+              pluggable storage module
+            </a>: <StorageModuleLink />
           </p>
 
           <p>
@@ -52,7 +54,7 @@ export default byMethod({
               </li>
               <li>
                 <Src module={import.meta.resolve("./_lib/quote_store.ts")}>
-                  Quote storage via Kv
+                  Quote storage
                 </Src>
               </li>
               <li>
@@ -84,3 +86,9 @@ export default byMethod({
     ))(req, match);
   },
 });
+
+async function StorageModuleLink() {
+  const url = new URL(await (await import("@jollytoad/store")).url());
+  const name = url.pathname.split("/", 3).slice(1).join("/");
+  return <a href={url} target="_blank">{name}</a>;
+}
