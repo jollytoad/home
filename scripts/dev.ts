@@ -9,15 +9,22 @@ import { lazy } from "@http/route/lazy";
 import { getEnv, hasEnv, setEnv } from "@cross/env";
 import { cascade } from "@http/route/cascade";
 import type { RequestHandler } from "@http/route/types";
+import { setStore } from "@jollytoad/store";
 
 if (!hasEnv("AUTO_REFRESH")) {
   setEnv("AUTO_REFRESH", "true");
+}
+
+if (!hasEnv("STORAGE_MODULE")) {
+  setStore(import("@jollytoad/store-deno-fs"));
 }
 
 await generateRoutes();
 await generateCron();
 
 await buildServiceWorker();
+
+console.log("Storage module:", await (await import("@jollytoad/store")).url());
 
 await generateQuote();
 

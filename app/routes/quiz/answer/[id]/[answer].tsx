@@ -9,8 +9,6 @@ export default handleFragment(
   async function AnswerResult({ req, match }) {
     const { id: sessionId } = await getQuizSession(req);
 
-    console.log(sessionId);
-
     let { id: answerId, answer } = match.pathname.groups;
     answer = decodeURIComponent(answer ?? "");
 
@@ -34,7 +32,6 @@ export default handleFragment(
     if (sessionId) {
       try {
         ({ score } = await updateQuizScore(sessionId, correct));
-        console.log(score);
       } catch (e) {
         console.error(e);
       }

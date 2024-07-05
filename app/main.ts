@@ -3,6 +3,9 @@ import cache from "./cache.ts";
 import init from "@http/host-deno-deploy/init";
 import { cascade } from "@http/route/cascade";
 import initCron from "./cron.ts";
+import { setStore } from "@jollytoad/store";
+
+setStore(import("@jollytoad/store-deno-kv"));
 
 await initCron();
 

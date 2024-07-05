@@ -1,6 +1,6 @@
 import { filterValues } from "@std/collections/filter-values";
 import type { TodoListItem } from "./types.ts";
-import { getItem, listItems, removeItem, setItem } from "$store";
+import { getItem, listItems, removeItem, setItem } from "@jollytoad/store";
 import { newId } from "./id.ts";
 
 export async function* readItems(listId: string): AsyncIterable<TodoListItem> {

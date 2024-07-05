@@ -1,16 +1,16 @@
-import * as store from "$store";
+import { getItem, removeItem, setItem } from "@jollytoad/store";
 
 export async function getQuote(): Promise<string> {
-  const quote = await store.getItem<string>(["quote"]) ?? "Nothing to see here";
-  await store.removeItem(["quote", "unseen"]);
+  const quote = await getItem<string>(["quote"]) ?? "Nothing to see here";
+  await removeItem(["quote", "unseen"]);
   return quote;
 }
 
 export async function setQuote(quote: string) {
-  await store.setItem(["quote"], quote);
-  await store.setItem(["quote", "unseen"], true);
+  await setItem(["quote"], quote);
+  await setItem(["quote", "unseen"], true);
 }
 
 export async function isQuoteUnseen(): Promise<boolean> {
-  return await store.getItem(["quote", "unseen"]) ?? false;
+  return await getItem(["quote", "unseen"]) ?? false;
 }
