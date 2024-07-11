@@ -118,13 +118,11 @@ development, production, for deno deploy, for cloudflare, etc.</p>
 different entry points.</p>
 <p>And in this example, we&#39;ll add the ability to serve up static files.</p>
 <pre><code class="language-sh">mkdir app/static
-deno add @http/route-deno
 </code></pre>
-<p>(<code>@http/route-deno</code> contains the Deno specific router function <code>staticRoute</code>)</p>
 <p>Create <code>app/handler.ts</code>:</p>
 <pre><code class="language-ts">import routes from &quot;./routes.ts&quot;;
 import { handle } from &quot;@http/route/handle&quot;;
-import { staticRoute } from &quot;@http/route-deno/static-route&quot;;
+import { staticRoute } from &quot;@http/route/static-route&quot;;
 
 export default handle([
   routes,

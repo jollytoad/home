@@ -6,7 +6,7 @@ import init from "@http/host-deno-local/init";
 import initCron from "../app/cron.ts";
 import generateQuote from "../app/routes/quote/_cron/generate_quote.ts";
 import { lazy } from "@http/route/lazy";
-import { getEnv, hasEnv, setEnv } from "@cross/env";
+import { getEnv, hasEnv, setEnv } from "../app/lib/env.ts";
 import { cascade } from "@http/route/cascade";
 import type { RequestHandler } from "@http/route/types";
 import { setStore } from "@jollytoad/store";

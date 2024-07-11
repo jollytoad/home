@@ -5,10 +5,10 @@ import { byMediaType } from "@http/route/by-media-type";
 import { fetchContent } from "../lib/content.ts";
 
 export const GET = byMediaType({
-  "text/html": renderPage(({ match }) => {
+  "text/html": renderPage(({ req, match }) => {
     const url = moduleUrl(match);
     return (
-      <Page module={url}>
+      <Page req={req} module={url}>
         <Markdown url={url} />
         <script src="/prism.js" async></script>
       </Page>

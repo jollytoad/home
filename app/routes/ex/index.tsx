@@ -5,13 +5,13 @@ import { Exchange, exchangePropsFrom } from "./_components/Exchange.tsx";
 export default handlePage(({ req, match }) => {
   const exchangeProps = exchangePropsFrom(req, match);
 
-  if (req?.headers.get("HX-Target")) {
+  if (req.headers.get("HX-Target")) {
     return <Exchange {...exchangeProps} />;
   } else {
     const { id, fromCurr, toCurr, amount } = exchangeProps;
     const swapUrl = `/ex/${toCurr}/${fromCurr}`;
     return (
-      <Page>
+      <Page req={req}>
         <link rel="stylesheet" href="/ex/ex.css" />
 
         <h1>

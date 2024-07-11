@@ -1,3 +1,5 @@
+#!/usr/bin/env -S deno run --allow-net --allow-read --allow-env --env
+
 import handler from "./handler.ts";
 import cache from "./cache.ts";
 import init from "@http/host-deno-deploy/init";

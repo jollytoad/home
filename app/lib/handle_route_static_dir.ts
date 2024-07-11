@@ -1,5 +1,5 @@
 import { byMethod } from "@http/route/by-method";
-import { serveDir } from "@std/http/file-server";
+import { serveDir } from "@http/fs/serve-dir";
 import { fromFileUrl } from "@std/path/from-file-url";
 import { interceptResponse } from "@http/interceptor/intercept-response";
 import { skip } from "@http/interceptor/skip";
@@ -12,7 +12,7 @@ export default interceptResponse(
       const fsRoot = fromFileUrl(
         import.meta.resolve(`../routes/${urlRoot}_static`),
       );
-      return serveDir(req, { quiet: true, fsRoot, urlRoot });
+      return serveDir(req, { fsRoot, urlRoot });
     },
   }),
   skip(404, 405),
