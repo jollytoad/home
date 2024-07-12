@@ -22,7 +22,7 @@
     "check": "deno check **/*.ts",
     "ok": "deno fmt && deno lint && deno task check",
     "lock": "rm -f deno.lock && deno task check",
-    "outdated": "deno run --allow-read=. --allow-net=jsr.io,registry.npmjs.org jsr:@check/deps"
+    "outdated": "deno run --no-lock --allow-read=. --allow-net=jsr.io,registry.npmjs.org jsr:@check/deps"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
@@ -56,15 +56,16 @@
     "@http/request": "jsr:@http/request@^0.20.0",
     "@http/response": "jsr:@http/response@^0.20.0",
     "@http/route": "jsr:@http/route@^0.20.1",
-    "@jollytoad/store": "jsr:@jollytoad/store@^0.3.0",
-    "@jollytoad/store-deno-fs": "jsr:@jollytoad/store-deno-fs@^0.3.0",
-    "@jollytoad/store-deno-kv": "jsr:@jollytoad/store-deno-kv@^0.3.0",
-    "@jollytoad/store-no-op": "jsr:@jollytoad/store-no-op@^0.3.0",
+    "@jollytoad/store": "jsr:@jollytoad/store@^0.4.0",
+    "@jollytoad/store-deno-fs": "jsr:@jollytoad/store-deno-fs@^0.4.0",
+    "@jollytoad/store-deno-kv": "jsr:@jollytoad/store-deno-kv@^0.4.0",
+    "@jollytoad/store-no-op": "jsr:@jollytoad/store-no-op@^0.4.0",
+    "@jollytoad/store-node-fs": "jsr:@jollytoad/store-node-fs@^0.4.0",
     "@std/async": "jsr:@std/async@^1.0.0-rc.3",
-    "@std/collections": "jsr:@std/collections@^1.0.2",
-    "@std/fs": "jsr:@std/fs@^1.0.0-rc.3",
-    "@std/http": "jsr:@std/http@^1.0.0-rc.2",
-    "@std/path": "jsr:@std/path@^1.0.0-rc.3",
+    "@std/collections": "jsr:@std/collections@^1.0.3",
+    "@std/fs": "jsr:@std/fs@^1.0.0-rc.4",
+    "@std/http": "jsr:@std/http@^1.0.0-rc.3",
+    "@std/path": "jsr:@std/path@^1.0.0-rc.4",
     "@std/ulid": "jsr:@std/ulid@^1.0.0-rc.3",
     "@types/node": "npm:@types/node@^20.14.10",
     "esbuild": "npm:esbuild@^0.23.0",
@@ -75,7 +76,7 @@
     "mdast-util-gfm": "npm:mdast-util-gfm@^3.0.0",
     "mdast-util-to-hast": "npm:mdast-util-to-hast@^13.2.0",
     "micromark-extension-gfm": "npm:micromark-extension-gfm@^3.0.0",
-    "openai": "npm:openai@^4.52.1",
+    "openai": "npm:openai@^4.52.7",
     "urlpattern-polyfill": "npm:urlpattern-polyfill@^10.0.0"
   },
   "deploy": {

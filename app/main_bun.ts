@@ -12,7 +12,7 @@ import { intercept } from "@http/interceptor/intercept";
 import { withFallback } from "@http/route/with-fallback";
 import { logging } from "@http/interceptor/logger";
 
-setStore(import("@jollytoad/store-no-op"));
+setStore(import("@jollytoad/store-node-fs"));
 
 const server = Bun.serve(init(handler));
 

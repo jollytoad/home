@@ -2,9 +2,6 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "jsr:@cross/deepmerge@^1.0.0": "jsr:@cross/deepmerge@1.0.0",
-      "jsr:@cross/env@^1.0.2": "jsr:@cross/env@1.0.2",
-      "jsr:@cross/runtime@^1.0.0": "jsr:@cross/runtime@1.0.0",
       "jsr:@deno/cache-dir@0.8": "jsr:@deno/cache-dir@0.8.0",
       "jsr:@deno/cache-dir@^0.10.1": "jsr:@deno/cache-dir@0.10.1",
       "jsr:@deno/emit@^0.43.0": "jsr:@deno/emit@0.43.1",
@@ -21,11 +18,12 @@
       "jsr:@http/request@^0.20.0": "jsr:@http/request@0.20.0",
       "jsr:@http/response@^0.20.0": "jsr:@http/response@0.20.0",
       "jsr:@http/route@^0.20.1": "jsr:@http/route@0.20.1",
-      "jsr:@jollytoad/store-common@^0.3.0": "jsr:@jollytoad/store-common@0.3.0",
-      "jsr:@jollytoad/store-deno-fs@^0.3.0": "jsr:@jollytoad/store-deno-fs@0.3.0",
-      "jsr:@jollytoad/store-deno-kv@^0.3.0": "jsr:@jollytoad/store-deno-kv@0.3.0",
-      "jsr:@jollytoad/store-no-op@^0.3.0": "jsr:@jollytoad/store-no-op@0.3.0",
-      "jsr:@jollytoad/store@^0.3.0": "jsr:@jollytoad/store@0.3.0",
+      "jsr:@jollytoad/store-common@^0.4.0": "jsr:@jollytoad/store-common@0.4.0",
+      "jsr:@jollytoad/store-deno-fs@^0.4.0": "jsr:@jollytoad/store-deno-fs@0.4.0",
+      "jsr:@jollytoad/store-deno-kv@^0.4.0": "jsr:@jollytoad/store-deno-kv@0.4.0",
+      "jsr:@jollytoad/store-no-op@^0.4.0": "jsr:@jollytoad/store-no-op@0.4.0",
+      "jsr:@jollytoad/store-node-fs@^0.4.0": "jsr:@jollytoad/store-node-fs@0.4.0",
+      "jsr:@jollytoad/store@^0.4.0": "jsr:@jollytoad/store@0.4.0",
       "jsr:@luca/esbuild-deno-loader@^0.10.3": "jsr:@luca/esbuild-deno-loader@0.10.3",
       "jsr:@std/assert@^0.213.1": "jsr:@std/assert@0.213.1",
       "jsr:@std/assert@^0.218.2": "jsr:@std/assert@0.218.2",
@@ -33,16 +31,15 @@
       "jsr:@std/async@^1.0.0-rc.3": "jsr:@std/async@1.0.0-rc.3",
       "jsr:@std/bytes@^0.218.2": "jsr:@std/bytes@0.218.2",
       "jsr:@std/bytes@^0.223.0": "jsr:@std/bytes@0.223.0",
-      "jsr:@std/collections@^1.0.2": "jsr:@std/collections@1.0.3",
+      "jsr:@std/collections@^1.0.3": "jsr:@std/collections@1.0.3",
       "jsr:@std/encoding@0.213": "jsr:@std/encoding@0.213.1",
       "jsr:@std/encoding@^1.0.1": "jsr:@std/encoding@1.0.1",
       "jsr:@std/fmt@^0.218.2": "jsr:@std/fmt@0.218.2",
       "jsr:@std/fmt@^0.223": "jsr:@std/fmt@0.223.0",
       "jsr:@std/fs@^0.218.2": "jsr:@std/fs@0.218.2",
       "jsr:@std/fs@^0.223": "jsr:@std/fs@0.223.0",
-      "jsr:@std/fs@^1.0.0-rc.3": "jsr:@std/fs@1.0.0-rc.4",
+      "jsr:@std/fs@^1.0.0-rc.4": "jsr:@std/fs@1.0.0-rc.4",
       "jsr:@std/html@^1.0.0-rc.2": "jsr:@std/html@1.0.0-rc.2",
-      "jsr:@std/http@^1.0.0-rc.2": "jsr:@std/http@1.0.0-rc.3",
       "jsr:@std/http@^1.0.0-rc.3": "jsr:@std/http@1.0.0-rc.3",
       "jsr:@std/io@^0.218.2": "jsr:@std/io@0.218.2",
       "jsr:@std/io@^0.223": "jsr:@std/io@0.223.0",
@@ -55,10 +52,10 @@
       "jsr:@std/path@^0.218.2": "jsr:@std/path@0.218.2",
       "jsr:@std/path@^0.223": "jsr:@std/path@0.223.0",
       "jsr:@std/path@^0.223.0": "jsr:@std/path@0.223.0",
-      "jsr:@std/path@^1.0.0-rc.3": "jsr:@std/path@1.0.0-rc.4",
       "jsr:@std/path@^1.0.0-rc.4": "jsr:@std/path@1.0.0-rc.4",
       "jsr:@std/streams@^1.0.0-rc.2": "jsr:@std/streams@1.0.0-rc.2",
       "jsr:@std/ulid@^1.0.0-rc.3": "jsr:@std/ulid@1.0.0-rc.3",
+      "npm:@types/node@^20.14.10": "npm:@types/node@20.14.10",
       "npm:bun-types": "npm:bun-types@1.1.18",
       "npm:bun-types@^1.1.18": "npm:bun-types@1.1.18",
       "npm:esbuild@^0.23.0": "npm:esbuild@0.23.0",
@@ -68,24 +65,11 @@
       "npm:mdast-util-gfm@^3.0.0": "npm:mdast-util-gfm@3.0.0",
       "npm:mdast-util-to-hast@^13.2.0": "npm:mdast-util-to-hast@13.2.0",
       "npm:micromark-extension-gfm@^3.0.0": "npm:micromark-extension-gfm@3.0.0",
-      "npm:openai@^4.52.1": "npm:openai@4.52.7",
+      "npm:openai@^4.52.7": "npm:openai@4.52.7",
       "npm:ts-poet@^6.9.0": "npm:ts-poet@6.9.0",
       "npm:urlpattern-polyfill@^10.0.0": "npm:urlpattern-polyfill@10.0.0"
     },
     "jsr": {
-      "@cross/deepmerge@1.0.0": {
-        "integrity": "1e1318a74e31ba1959b9aa0acae8bd417b806f74ffd25ac07c90e12f83ad6b1d"
-      },
-      "@cross/env@1.0.2": {
-        "integrity": "28501ad1043c218a5b00fe5db27ec62c01ab16371bbe1b9d738496f0a7c5eeb8",
-        "dependencies": [
-          "jsr:@cross/deepmerge@^1.0.0",
-          "jsr:@cross/runtime@^1.0.0"
-        ]
-      },
-      "@cross/runtime@1.0.0": {
-        "integrity": "dddecdf99182df13d50279d1e473f715e83d41961c5c22edd7bb0c4c3cf8a76a"
-      },
       "@deno/cache-dir@0.10.1": {
         "integrity": "30f0a3b975df62adebd859a56f285873c56c6e68190e4370c7a539c6664559ad",
         "dependencies": [
@@ -144,7 +128,6 @@
         "integrity": "2ad43eadc5c91caae3e54c581ee6fabf219e80ee97f57a2b4a001c64aab887b3",
         "dependencies": [
           "jsr:@http/discovery@^0.20.0",
-          "jsr:@std/path@^1.0.0-rc.4",
           "npm:ts-poet@^6.9.0"
         ]
       },
@@ -182,31 +165,37 @@
           "jsr:@std/path@^1.0.0-rc.4"
         ]
       },
-      "@jollytoad/store-common@0.3.0": {
-        "integrity": "0a6a1ad8eb689c08f0273c75ad641361e5732c75ae4d113fbb99e2628acc3670"
+      "@jollytoad/store-common@0.4.0": {
+        "integrity": "48a6dd891bbe8147f6a73e415e23754996231dd08d8564ec1e928435a4847ef9"
       },
-      "@jollytoad/store-deno-fs@0.3.0": {
-        "integrity": "a74b363ec59dfc5225d792e634eaeddf521064679560f5306b02069dfd633d6f",
+      "@jollytoad/store-deno-fs@0.4.0": {
+        "integrity": "617e5d034652b0090599e860c7f39b5f62e63464cde3c8e74ff865846755a5a9",
         "dependencies": [
-          "jsr:@jollytoad/store-common@^0.3.0",
-          "jsr:@std/fs@^1.0.0-rc.3",
-          "jsr:@std/path@^1.0.0-rc.3"
+          "jsr:@jollytoad/store-common@^0.4.0",
+          "jsr:@std/fs@^1.0.0-rc.4",
+          "jsr:@std/path@^1.0.0-rc.4"
         ]
       },
-      "@jollytoad/store-deno-kv@0.3.0": {
-        "integrity": "31962715f5146adfa88843e734f7cb29a1781c4507ebc6074ef33842567f1907",
+      "@jollytoad/store-deno-kv@0.4.0": {
+        "integrity": "9fe4ca1919e6e4377ad4ff21eb990c8de1cfadde4cb5da2133d82c95b6efd36c",
         "dependencies": [
-          "jsr:@jollytoad/store-common@^0.3.0"
+          "jsr:@jollytoad/store-common@^0.4.0"
         ]
       },
-      "@jollytoad/store-no-op@0.3.0": {
-        "integrity": "f550a9163aba0967d64600863fb7539b39de9bc44e2fcc8f67b2f4db3aba199c"
+      "@jollytoad/store-no-op@0.4.0": {
+        "integrity": "20f28c85f5dd322a48d3da9acc32e2b696247ed1b3742f1ad8016421be7dadc2"
       },
-      "@jollytoad/store@0.3.0": {
-        "integrity": "f7535c057b2c7dddd8e68e74f66f16729e73243ec8aa5d296f055e3703d2ebc1",
+      "@jollytoad/store-node-fs@0.4.0": {
+        "integrity": "408732e577d3dfc42e8dcfb1a09fb88cf18139a72202e0766edbb29ec79ad9ca",
         "dependencies": [
-          "jsr:@cross/env@^1.0.2",
-          "jsr:@jollytoad/store-common@^0.3.0"
+          "jsr:@jollytoad/store-common@^0.4.0",
+          "npm:@types/node@^20.14.10"
+        ]
+      },
+      "@jollytoad/store@0.4.0": {
+        "integrity": "60c8fa324f90e91ba37dfc8aed9dcf0d98dae6a81dcf1241bc773f3546adf2c9",
+        "dependencies": [
+          "jsr:@jollytoad/store-common@^0.4.0"
         ]
       },
       "@luca/esbuild-deno-loader@0.10.3": {
@@ -477,6 +466,12 @@
       },
       "@types/node@20.12.14": {
         "integrity": "sha512-scnD59RpYD91xngrQQLGkE+6UrHUPzeKZWhhjBSa3HSkwjbQc38+q3RoIVEwxQGRw3M+j5hpNAM+lgV3cVormg==",
+        "dependencies": {
+          "undici-types": "undici-types@5.26.5"
+        }
+      },
+      "@types/node@20.14.10": {
+        "integrity": "sha512-MdiXf+nDuMvY0gJKxyfZ7/6UFsETO7mGKF54MVD/ekJS6HdFtpZFBgrh6Pseu64XTb2MLyFPlbW6hj8HYRQNOQ==",
         "dependencies": {
           "undici-types": "undici-types@5.26.5"
         }
@@ -1398,16 +1393,17 @@
       "jsr:@http/request@^0.20.0",
       "jsr:@http/response@^0.20.0",
       "jsr:@http/route@^0.20.1",
-      "jsr:@jollytoad/store-deno-fs@^0.3.0",
-      "jsr:@jollytoad/store-deno-kv@^0.3.0",
-      "jsr:@jollytoad/store-no-op@^0.3.0",
-      "jsr:@jollytoad/store@^0.3.0",
+      "jsr:@jollytoad/store-deno-fs@^0.4.0",
+      "jsr:@jollytoad/store-deno-kv@^0.4.0",
+      "jsr:@jollytoad/store-no-op@^0.4.0",
+      "jsr:@jollytoad/store-node-fs@^0.4.0",
+      "jsr:@jollytoad/store@^0.4.0",
       "jsr:@luca/esbuild-deno-loader@^0.10.3",
       "jsr:@std/async@^1.0.0-rc.3",
-      "jsr:@std/collections@^1.0.2",
-      "jsr:@std/fs@^1.0.0-rc.3",
-      "jsr:@std/http@^1.0.0-rc.2",
-      "jsr:@std/path@^1.0.0-rc.3",
+      "jsr:@std/collections@^1.0.3",
+      "jsr:@std/fs@^1.0.0-rc.4",
+      "jsr:@std/http@^1.0.0-rc.3",
+      "jsr:@std/path@^1.0.0-rc.4",
       "jsr:@std/ulid@^1.0.0-rc.3",
       "npm:@types/node@^20.14.10",
       "npm:esbuild@^0.23.0",
@@ -1417,7 +1413,7 @@
       "npm:mdast-util-gfm@^3.0.0",
       "npm:mdast-util-to-hast@^13.2.0",
       "npm:micromark-extension-gfm@^3.0.0",
-      "npm:openai@^4.52.1",
+      "npm:openai@^4.52.7",
       "npm:urlpattern-polyfill@^10.0.0"
     ],
     "packageJson": {
@@ -1431,9 +1427,10 @@
         "npm:@jsr/http__request@^0.20.0",
         "npm:@jsr/http__response@^0.20.0",
         "npm:@jsr/http__route@^0.20.1",
-        "npm:@jsr/jollytoad__store-deno-kv@^0.3.0",
-        "npm:@jsr/jollytoad__store-no-op@^0.3.0",
-        "npm:@jsr/jollytoad__store@^0.3.0",
+        "npm:@jsr/jollytoad__store-deno-kv@^0.4.0",
+        "npm:@jsr/jollytoad__store-no-op@^0.4.0",
+        "npm:@jsr/jollytoad__store-node-fs@^0.4.0",
+        "npm:@jsr/jollytoad__store@^0.4.0",
         "npm:@jsr/std__async@^1.0.0-rc.3",
         "npm:@jsr/std__collections@^1.0.2",
         "npm:@jsr/std__http@^1.0.0-rc.2",
