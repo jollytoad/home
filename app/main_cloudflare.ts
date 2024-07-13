@@ -7,6 +7,7 @@ import type { Interceptors } from "@http/interceptor/types";
 import { intercept } from "@http/interceptor/intercept";
 import { withFallback } from "@http/route/with-fallback";
 import { logging } from "@http/interceptor/logger";
+import { envInterceptor } from "./lib/env.ts";
 
 setStore(import("@jollytoad/store-no-op"));
 
@@ -19,6 +20,11 @@ function init(
   ...interceptors: Interceptors<unknown[], Response>[]
 ) {
   return {
-    fetch: intercept(withFallback(handler), logging(), ...interceptors),
+    fetch: intercept(
+      withFallback(handler),
+      logging(),
+      envInterceptor(),
+      ...interceptors,
+    ),
   };
 }
