@@ -16,9 +16,6 @@ setStore(import("@jollytoad/store-node-fs"));
 
 const server = Bun.serve(init(handler));
 
-const f = Bun.file("");
-f.slice(0).stream();
-
 console.log(`Listening on ${server.url}`);
 
 function init(
