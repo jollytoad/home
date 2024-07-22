@@ -1419,7 +1419,6 @@
       "jsr:@std/http@^1.0.0-rc.5",
       "jsr:@std/path@^1.0.1",
       "jsr:@std/ulid@^1.0.0",
-      "npm:@types/node@^20.14.11",
       "npm:esbuild@^0.23.0",
       "npm:hast-util-raw@^9.0.4",
       "npm:hast-util-to-jsx-runtime@^2.3.0",
