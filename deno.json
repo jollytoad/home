@@ -50,7 +50,7 @@
     "@deno/emit": "jsr:@deno/emit@^0.43.1",
     "@deno/graph": "jsr:@deno/graph@^0.80.1",
     "@http/discovery": "jsr:@http/discovery@^0.21.0",
-    "@http/fs": "jsr:@http/fs@^0.21.0",
+    "@http/fs": "jsr:@http/fs@^0.21.1",
     "@http/generate": "jsr:@http/generate@^0.21.0",
     "@http/host-deno-deploy": "jsr:@http/host-deno-deploy@^0.21.0",
     "@http/host-deno-local": "jsr:@http/host-deno-local@^0.21.0",
