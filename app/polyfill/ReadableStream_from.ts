@@ -24,4 +24,5 @@ function ReadableStream_from<T>(
   });
 }
 
+//@ts-expect-error: https://github.com/denoland/deno/issues/24671
 export default ReadableStream_from satisfies typeof ReadableStream.from;
