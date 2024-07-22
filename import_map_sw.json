@@ -1,11 +1,11 @@
 {
   "imports": {
-    "@http/jsx-stream": "jsr:@http/jsx-stream@^0.2.2",
-    "@http/jsx-stream/": "jsr:/@http/jsx-stream@^0.2.2/",
-    "@http/request/": "jsr:/@http/request@^0.20.0/",
-    "@http/response/": "jsr:/@http/response@^0.20.0/",
-    "@http/route/": "jsr:/@http/route@^0.20.1/",
-    "https://jsr.io/@http/jsx-stream/0.2.2/serialize.ts": "https://jsr.io/@http/jsx-stream/0.2.2/serialize_sw.ts",
+    "@http/jsx-stream": "jsr:@http/jsx-stream@^0.3.0",
+    "@http/jsx-stream/": "jsr:/@http/jsx-stream@^0.3.0/",
+    "@http/request/": "jsr:/@http/request@^0.21.0/",
+    "@http/response/": "jsr:/@http/response@^0.21.0/",
+    "@http/route/": "jsr:/@http/route@^0.21.0/",
+    "https://jsr.io/@http/jsx-stream/0.3.0/serialize.ts": "https://jsr.io/@http/jsx-stream/0.3.0/serialize_sw.ts",
     "urlpattern-polyfill": "npm:urlpattern-polyfill@10.0.0"
   }
 }
