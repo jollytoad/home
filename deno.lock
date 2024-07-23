@@ -71,6 +71,7 @@
       "npm:micromark-extension-gfm@^3.0.0": "npm:micromark-extension-gfm@3.0.0",
       "npm:openai@^4.52.7": "npm:openai@4.52.7",
       "npm:ts-poet@^6.9.0": "npm:ts-poet@6.9.0",
+      "npm:urlpattern-polyfill@10.0.0": "npm:urlpattern-polyfill@10.0.0",
       "npm:urlpattern-polyfill@^10.0.0": "npm:urlpattern-polyfill@10.0.0"
     },
     "jsr": {

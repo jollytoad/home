@@ -12,6 +12,7 @@ export default interceptResponse(
       const fsRoot = fromFileUrl(
         import.meta.resolve(`../routes/${urlRoot}_static`),
       );
+
       return serveDir(req, { fsRoot, urlRoot });
     },
   }),

@@ -7,10 +7,20 @@ import type { Interceptors } from "@http/interceptor/types";
 import { intercept } from "@http/interceptor/intercept";
 import { withFallback } from "@http/route/with-fallback";
 import { logging } from "@http/interceptor/logger";
+import { envInterceptor } from "./lib/env.ts";
+import { fetchAsset } from "./lib/cloudflare_assets.ts";
+import { interceptResponse } from "@http/interceptor/intercept-response";
+import { skip } from "@http/interceptor/skip";
+import { cascade } from "@http/route/cascade";
 
 setStore(import("@jollytoad/store-no-op"));
 
-export default init(handler);
+const assets = interceptResponse(
+  (req) => fetchAsset(req),
+  skip(404, 405),
+);
+
+export default init(cascade(assets, handler));
 
 function init(
   handler: (
@@ -19,6 +29,11 @@ function init(
   ...interceptors: Interceptors<unknown[], Response>[]
 ) {
   return {
-    fetch: intercept(withFallback(handler), logging(), ...interceptors),
+    fetch: intercept(
+      withFallback(handler),
+      logging(),
+      envInterceptor(),
+      ...interceptors,
+    ),
   };
 }

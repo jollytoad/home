@@ -5,6 +5,7 @@
   ],
   "tasks": {
     "build": "./scripts/build.ts",
+    "build:cloudflare": "./scripts/build_cloudflare.ts",
     "cache": "./scripts/cache.ts",
     "cache:clean": "rm -rf app/cache",
     "gen": "./scripts/gen.ts",
@@ -15,6 +16,7 @@
     "start:cache": "USE_CACHE=true ./scripts/dev.ts",
     "start:prod": "./app/main.ts",
     "start:bun": "./app/main_bun.ts",
+    "start:cloudflare": "deno task build:cloudflare && npx wrangler pages dev ./.cloudflare/dist",
     "mkcert": "mkcert -install -key-file localhost-key.pem -cert-file localhost-cert.pem localhost",
     "deploy": "deno run --allow-sys --allow-net --allow-read --allow-write --allow-env jsr:@deno/deployctl deploy",
     "deployctl": "deno run --allow-sys --allow-net --allow-read --allow-env jsr:@deno/deployctl",
@@ -34,7 +36,8 @@
     "app/routes/_static/sw.js",
     "app/routes/_static/sw_compat.js",
     "app/routes/_static/prism.*",
-    ".store"
+    ".store",
+    ".cloudflare"
   ],
   "fmt": {
     "exclude": [

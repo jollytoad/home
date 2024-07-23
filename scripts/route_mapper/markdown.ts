@@ -12,3 +12,14 @@ export default function markdownRouteMapper(
     }]
     : [];
 }
+
+export function markdownAssetMapper(
+  { ext, pattern, module }: DiscoveredPath,
+): DiscoveredRoute[] {
+  return ext === ".md"
+    ? [{
+      pattern: `${pattern}${ext}`,
+      module,
+    }]
+    : [];
+}

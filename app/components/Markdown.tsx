@@ -11,6 +11,7 @@ import type { Promisable } from "@http/jsx-stream/types";
 interface Props {
   url?: string;
   children?: Promisable<string>;
+  req?: Request;
 }
 
 const options = {
@@ -26,7 +27,7 @@ export async function Markdown(props: Props) {
   let markdown: string | undefined;
 
   if (props.url) {
-    const response = await fetchContent(props.url);
+    const response = await fetchContent(props.url, props.req);
     if (response.ok) {
       markdown = await response.text();
     }

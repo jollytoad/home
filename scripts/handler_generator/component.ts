@@ -28,14 +28,13 @@ export function generate(
     );
 
     const handleComponent = importNamed(
-      relativeModulePath(
-        import.meta.resolve("../../app/lib/handle_component.tsx"),
-        moduleOutUrl,
-      ),
+      "./lib/handle_component.tsx",
       "handleComponent",
     );
 
-    const modulePath = literalOf(relativeModulePath(module, rootPath));
+    const modulePath = literalOf(
+      relativeModulePath(module, rootPath).replace(".cloudflare/", ""),
+    );
 
     switch (moduleImports) {
       case "dynamic": {
