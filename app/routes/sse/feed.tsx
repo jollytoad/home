@@ -4,7 +4,6 @@ import { renderString } from "@http/jsx-stream";
 import type { JSX } from "@http/jsx-stream/jsx-runtime";
 
 export default function (_req: Request) {
-  //@ts-expect-error: https://github.com/denoland/deno/issues/24671
   const body = ReadableStream.from(streamEvents())
     .pipeThrough(new TextEncoderStream());
 
