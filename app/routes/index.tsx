@@ -1,6 +1,7 @@
 import { Markdown } from "../components/Markdown.tsx";
+import type { RequestProps } from "../lib/types.ts";
 
-export function Home() {
+export function Home({ req }: RequestProps) {
   return (
     <>
       <Markdown>
@@ -17,9 +18,9 @@ export function Home() {
 `}
       </Markdown>
 
-      <Markdown url={import.meta.resolve("./blog/index.md")} />
+      <Markdown url={import.meta.resolve("./blog/blogs.md")} req={req} />
 
-      <Markdown url={import.meta.resolve("./blog/links.md")} />
+      <Markdown url={import.meta.resolve("./blog/links.md")} req={req} />
 
       <div id="wcb" class="carbonbadge"></div>
       <script

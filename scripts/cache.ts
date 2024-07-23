@@ -7,39 +7,55 @@ import { resolve } from "@std/path/resolve";
 import { pooledMap } from "@std/async/pool";
 import { withFallback } from "@http/route/with-fallback";
 import routes from "../app/routes.ts";
-import cached_routes from "../cached_routes.ts";
 
-const CACHE_DIR = resolve(import.meta.dirname!, "../app/cache");
+export async function generateCache(
+  cachedRoutes: string[],
+  outdir: string,
+  defaultExt?: ".html",
+) {
+  const handler = withFallback(routes);
 
-const handler = withFallback(routes);
+  await ensureDir(outdir);
 
-await emptyDir(CACHE_DIR);
+  const reqInit: RequestInit = {
+    headers: {
+      "Deferred-Timeout": "false",
+    },
+  };
 
-const reqInit: RequestInit = {
-  headers: {
-    "Deferred-Timeout": "false",
-  },
-};
+  const results = pooledMap(4, cachedRoutes, async (route) => {
+    console.log(`Caching: %c${route}`, "color: orange");
 
-const results = pooledMap(4, cached_routes, async (route) => {
-  console.log(`Caching: %c${route}`, "color: orange");
+    const url = new URL(route, "http://localhost");
 
-  const url = new URL(route, "http://localhost");
+    try {
+      const response = await handler(new Request(url, reqInit));
 
-  try {
-    const response = await handler(new Request(url, reqInit));
+      if (response.ok && response.status === 200 && response.body) {
+        let file = `${outdir}${route === "/" ? "/index.html" : route}`;
+        if (!/\.[a-z]+$/.test(file)) {
+          file += defaultExt;
+        }
 
-    if (response.ok && response.status === 200 && response.body) {
-      const file = `${CACHE_DIR}${route === "/" ? "/index.html" : route}`;
-      await ensureDir(dirname(file));
-      await Deno.writeFile(file, response.body);
-      return file;
+        await ensureDir(dirname(file));
+        await Deno.writeFile(file, response.body);
+        return file;
+      }
+    } catch (e) {
+      console.error(`Error whilst fetching: ${url.href}`, e);
     }
-  } catch (e) {
-    console.error(`Error whilst fetching: ${url.href}`, e);
-  }
-});
+  });
 
-for await (const file of results) {
-  console.log(`Cached: %c${file}`, "color: green");
+  for await (const file of results) {
+    console.log(`Cached: %c${file}`, "color: green");
+  }
+}
+
+if (import.meta.main) {
+  const { default: cachedRoutes } = await import("../cached_routes.ts");
+  const cacheDir = resolve(import.meta.dirname!, "../app/cache");
+
+  await emptyDir(cacheDir);
+
+  await generateCache(cachedRoutes, cacheDir);
 }

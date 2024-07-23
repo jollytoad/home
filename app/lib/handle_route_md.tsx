@@ -9,7 +9,7 @@ export const GET = byMediaType({
     const url = moduleUrl(match);
     return (
       <Page req={req} module={url}>
-        <Markdown url={url} />
+        <Markdown url={url} req={req} />
         <script src="/prism.js" async></script>
       </Page>
     );

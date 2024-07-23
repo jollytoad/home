@@ -4,7 +4,6 @@ import { byMediaType } from "@http/route/by-media-type";
 
 export const GET = byMediaType({
   "text/event-stream": (_req: Request) => {
-    //@ts-expect-error: https://github.com/denoland/deno/issues/24671
     const body = ReadableStream.from(streamEvents())
       .pipeThrough(new TextEncoderStream());
 

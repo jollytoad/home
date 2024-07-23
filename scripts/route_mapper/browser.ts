@@ -20,3 +20,15 @@ export default function browserRouteMapper(
     }]
     : [];
 }
+
+export function browserAssetMapper(
+  { parentPath, pattern, ext, module }: DiscoveredPath,
+): (DiscoveredRoute & { cache: boolean })[] {
+  return ext === ".ts" && /[/\\]_browser/.test(parentPath)
+    ? [{
+      pattern: `${pattern.replace(/_browser\//, "")}.js`,
+      module,
+      cache: true,
+    }]
+    : [];
+}

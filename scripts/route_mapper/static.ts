@@ -17,3 +17,17 @@ export default function staticRouteMapper(
     }]
     : [];
 }
+
+export function staticAssetMapper(
+  { parentPath, pattern, module, ext }: DiscoveredPath,
+): (DiscoveredRoute | StopRouteMapping)[] {
+  // Treat any route under a `_static` dir as static content
+  return /[/\\]_static/.test(parentPath)
+    ? [{
+      pattern: pattern.replace(/_static\//, "") + ext,
+      module,
+    }, {
+      stop: true,
+    }]
+    : [];
+}
