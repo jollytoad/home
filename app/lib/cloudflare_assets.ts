@@ -8,13 +8,19 @@ export function hasAssetFetcher(req?: Request) {
 }
 
 export function fetchAsset(
-  assetReq: Request | URL,
-  scope = assetReq,
+  asset: Request | URL,
+  scope: Request,
 ): Promise<Response> {
   const assets = getEnv<{ fetch: Fetcher }>("ASSETS", scope);
   if (assets && typeof assets.fetch === "function") {
-    return assets.fetch(assetReq);
+    return assets.fetch(asset);
   } else {
     return Promise.resolve(notFound());
   }
+}
+
+export function handleAsset(
+  req: Request,
+): Promise<Response> {
+  return fetchAsset(req, req);
 }

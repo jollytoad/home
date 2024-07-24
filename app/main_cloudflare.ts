@@ -8,15 +8,18 @@ import { intercept } from "@http/interceptor/intercept";
 import { withFallback } from "@http/route/with-fallback";
 import { logging } from "@http/interceptor/logger";
 import { envInterceptor } from "./lib/env.ts";
-import { fetchAsset } from "./lib/cloudflare_assets.ts";
+import { handleAsset } from "./lib/cloudflare_assets.ts";
 import { interceptResponse } from "@http/interceptor/intercept-response";
 import { skip } from "@http/interceptor/skip";
 import { cascade } from "@http/route/cascade";
+import { byMethod } from "@http/route/by-method";
 
 setStore(import("@jollytoad/store-no-op"));
 
 const assets = interceptResponse(
-  (req) => fetchAsset(req),
+  byMethod({
+    GET: handleAsset,
+  }),
   skip(404, 405),
 );
 

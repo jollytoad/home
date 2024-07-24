@@ -19,6 +19,7 @@
     "start:cloudflare": "deno task build:cloudflare && npx wrangler pages dev ./.cloudflare/dist",
     "mkcert": "mkcert -install -key-file localhost-key.pem -cert-file localhost-cert.pem localhost",
     "deploy": "deno run --allow-sys --allow-net --allow-read --allow-write --allow-env jsr:@deno/deployctl deploy",
+    "deploy:cloudflare": "deno task build:cloudflare && npx wrangler pages deploy ./.cloudflare/dist",
     "deployctl": "deno run --allow-sys --allow-net --allow-read --allow-env jsr:@deno/deployctl",
     "reload": "deno cache --reload **/*.ts jsr:@check/deps jsr:@deno/deployctl",
     "check": "deno check **/*.ts",
