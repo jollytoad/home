@@ -1,4 +1,3 @@
+name = "jollytoad"
+pages_build_output_dir = "./.cloudflare/dist"
 compatibility_flags = [ "nodejs_compat" ]
-rules = [
-  { type = "Text", globs = ["**/*.md", "**/*.css", "**/*.html", "**/_static/*", "**/_browser/*"], fallthrough = true }
-]

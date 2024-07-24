@@ -8,7 +8,7 @@ export default handlePage(({ req }) => (
 
     <details open>
       <summary>What is this?</summary>
-      <Markdown url={import.meta.resolve("./_doc.md")} />
+      <Markdown url={import.meta.resolve("./_doc.md")} req={req} />
     </details>
 
     <h3>Control:</h3>
