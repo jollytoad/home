@@ -14,9 +14,12 @@ to gradually add more runtime and deployment options as I investigate them.
 
 Install [Deno](https://deno.com/manual/getting_started/installation).
 
+Alternatively use [pkgx dev](https://docs.pkgx.sh/using-dev/dev) environment, to
+automatically fetch the required tooling (deno, bun, etc).
+
 ## Local https support
 
-(Only supports Deno atm)
+(Supports Deno & Bun)
 
 To emulate a more realistic production environment locally, you can provide a
 localhost key/cert pair, which automatically be picked up and the server will be
@@ -48,9 +51,10 @@ deno task start
 ### With Bun
 
 To use Bun as the runtime, you must have
-[installed bun](https://bun.sh/docs/installation):
+[installed bun](https://bun.sh/docs/installation).
 
 ```sh
+deno task install:bun
 deno task start:bun
 ```
 
@@ -64,7 +68,7 @@ You don't need Deno or Node installed to run via Bun.
 
 ### With Cloudflare Pages (Wrangler)
 
-To run as a Cloudflare Pages dev site, you must have `npx` pre-installed:
+To run as a Cloudflare Pages dev site, you must also have Bun pre-installed.
 
 ```sh
 deno task start:cloudflare
