@@ -50,33 +50,7 @@ export async function transformCloudflareSource() {
         case ".ts":
         case ".tsx": {
           const contentIn = await Deno.readTextFile(path);
-          const url = toFileUrl(`/${relPath}`);
-
-          let contentOut = contentIn;
-
-          // Replace `import.meta.url` and `import.meta.resolve` with hardcoded values
-          contentOut = contentOut.replaceAll("import.meta.url", `"${url}"`);
-          contentOut = contentOut.replaceAll(
-            "import.meta.resolve",
-            `import_meta_resolve`,
-          );
-
-          // const result = await esbuild.transform(contentIn, {
-          //   sourcefile: path,
-          //   platform: "neutral",
-          //   format: "esm",
-          //   loader: ext.slice(1) as esbuild.Loader,
-          //   jsx: "preserve",
-          //   define: {
-          //     "import.meta.url": `"${url}"`,
-          //     "import.meta.resolve": `import_meta_resolve`
-          //   }
-          // });
-
-          if (contentOut.includes("import_meta_resolve")) {
-            contentOut +=
-              `\nfunction import_meta_resolve(path: string) { return new URL(path, "${url}").href; }\n`;
-          }
+          const contentOut = transformCloudflareModule(path, contentIn);
 
           if (contentOut !== contentIn) {
             console.log(`%cTRANSFORM ${path} -> ${appPath}`, "color: yellow");
@@ -94,6 +68,34 @@ export async function transformCloudflareSource() {
       }
     }
   }
+}
+
+/**
+ * Transform a module to be suitable for Cloudflare
+ */
+export function transformCloudflareModule(
+  path: string,
+  contentIn: string,
+): string {
+  const relPath = relative(ROOT, path);
+
+  const url = toFileUrl(`/${relPath}`);
+
+  let contentOut = contentIn;
+
+  // Replace `import.meta.url` and `import.meta.resolve` with hardcoded values
+  contentOut = contentOut.replaceAll("import.meta.url", `"${url}"`);
+  contentOut = contentOut.replaceAll(
+    "import.meta.resolve",
+    `import_meta_resolve`,
+  );
+
+  if (contentOut.includes("import_meta_resolve")) {
+    contentOut +=
+      `\nfunction import_meta_resolve(path: string) { return new URL(path, "${url}").href; }\n`;
+  }
+
+  return contentOut;
 }
 
 /**
@@ -116,7 +118,10 @@ export function generateCloudflareRoutes() {
     ],
     routeDiscovery: "static",
     moduleImports: "static",
-    formatModule: dprintFormatModule(),
+    formatModule: (url, content) => {
+      content = transformCloudflareModule(fromFileUrl(url), content);
+      return dprintFormatModule()(url, content);
+    },
     verbose: true,
   });
 }
