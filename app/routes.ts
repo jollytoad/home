@@ -38,7 +38,10 @@ export default cascade(
   byPattern(
     "/tabs",
     lazy(async () =>
-      handleComponent((await import("./routes/tabs.tsx")).TabsExample)
+      handleComponent(
+        (await import("./routes/tabs.tsx")).TabsExample,
+        import.meta.resolve("./routes/tabs.tsx"),
+      )
     ),
   ),
   byPattern(
@@ -143,6 +146,7 @@ export default cascade(
     lazy(async () =>
       handleComponent(
         (await import("./routes/async.tsx")).AsyncStreamingExample,
+        import.meta.resolve("./routes/async.tsx"),
       )
     ),
   ),
@@ -155,7 +159,10 @@ export default cascade(
   byPattern(
     "/",
     lazy(async () =>
-      handleComponent((await import("./routes/index.tsx")).Home)
+      handleComponent(
+        (await import("./routes/index.tsx")).Home,
+        import.meta.resolve("./routes/index.tsx"),
+      )
     ),
   ),
 );

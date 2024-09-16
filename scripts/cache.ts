@@ -33,7 +33,7 @@ export async function generateCache(
 
       if (response.ok && response.status === 200 && response.body) {
         let file = `${outdir}${route === "/" ? "/index.html" : route}`;
-        if (!/\.[a-z]+$/.test(file)) {
+        if (defaultExt && !/\.[a-z]+$/.test(file)) {
           file += defaultExt;
         }
 

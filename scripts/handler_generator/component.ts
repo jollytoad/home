@@ -1,5 +1,10 @@
 import type { Code, GeneratorOptions, RouteModule } from "@http/generate/types";
-import { asFn, importNamed, staticImport } from "@http/generate/code-builder";
+import {
+  asFn,
+  importNamed,
+  importResolve,
+  staticImport,
+} from "@http/generate/code-builder";
 import { getComponent } from "../../app/lib/component_handler_mapper.ts";
 
 export const handlerMapper = import.meta.resolve(
@@ -19,8 +24,10 @@ export function generate(
       "handleComponent",
     )));
 
+    const modulePath = importResolve(module);
+
     const componentModule = importNamed(module, name, `route_component_${i}`);
 
-    return handleComponent(componentModule);
+    return handleComponent(componentModule, modulePath);
   }
 }

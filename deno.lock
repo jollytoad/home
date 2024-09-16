@@ -11,18 +11,15 @@
       "jsr:@dprint/formatter@^0.4.1": "jsr:@dprint/formatter@0.4.1",
       "jsr:@http/discovery@^0.23.0": "jsr:@http/discovery@0.23.0",
       "jsr:@http/fs@^0.23.0": "jsr:@http/fs@0.23.0",
-      "jsr:@http/generate@^0.23.0": "jsr:@http/generate@0.23.0",
+      "jsr:@http/generate@^0.23.1": "jsr:@http/generate@0.23.1",
       "jsr:@http/host-bun-local@^0.23.0": "jsr:@http/host-bun-local@0.23.0",
       "jsr:@http/host-cloudflare-worker@^0.23.0": "jsr:@http/host-cloudflare-worker@0.23.0",
       "jsr:@http/host-deno-deploy@^0.23.0": "jsr:@http/host-deno-deploy@0.23.0",
       "jsr:@http/host-deno-local@^0.23.0": "jsr:@http/host-deno-local@0.23.0",
       "jsr:@http/interceptor@^0.23.0": "jsr:@http/interceptor@0.23.0",
       "jsr:@http/jsx-stream@^0.3.0": "jsr:@http/jsx-stream@0.3.0",
-      "jsr:@http/request@^0.21.0": "jsr:@http/request@0.21.0",
       "jsr:@http/request@^0.23.0": "jsr:@http/request@0.23.0",
-      "jsr:@http/response@^0.21.0": "jsr:@http/response@0.21.0",
       "jsr:@http/response@^0.23.0": "jsr:@http/response@0.23.0",
-      "jsr:@http/route@^0.21.0": "jsr:@http/route@0.21.0",
       "jsr:@http/route@^0.23.0": "jsr:@http/route@0.23.0",
       "jsr:@jollytoad/store-common@^0.4.0": "jsr:@jollytoad/store-common@0.4.0",
       "jsr:@jollytoad/store-deno-fs@^0.4.0": "jsr:@jollytoad/store-deno-fs@0.4.0",
@@ -74,7 +71,6 @@
       "npm:mdast-util-to-hast@^13.2.0": "npm:mdast-util-to-hast@13.2.0",
       "npm:micromark-extension-gfm@^3.0.0": "npm:micromark-extension-gfm@3.0.0",
       "npm:openai@^4.61.0": "npm:openai@4.61.0",
-      "npm:urlpattern-polyfill@10.0.0": "npm:urlpattern-polyfill@10.0.0",
       "npm:urlpattern-polyfill@^10.0.0": "npm:urlpattern-polyfill@10.0.0"
     },
     "jsr": {
@@ -134,8 +130,8 @@
           "jsr:@std/streams@^1.0.5"
         ]
       },
-      "@http/generate@0.23.0": {
-        "integrity": "18ce12ec9b5bf57a51c9e83da10dec5111b911a2cca9bc9f6d22d91b063043b3",
+      "@http/generate@0.23.1": {
+        "integrity": "ed54f6e97fae2f8135483d5ffec5cd0db659dfbdf4ce763eb904bad7b9bdd4fb",
         "dependencies": [
           "jsr:@dprint/formatter@^0.4.1",
           "jsr:@http/discovery@^0.23.0",
@@ -181,23 +177,11 @@
           "jsr:@std/html@^1.0.0-rc.2"
         ]
       },
-      "@http/request@0.21.0": {
-        "integrity": "8ffc6267214b896faa1d0046df33aa773e3dc7d72c656d483878271b963cd465"
-      },
       "@http/request@0.23.0": {
         "integrity": "40c3b183dc7a17b27d25678f8b0c8163664d4b9347d494df3469a309d67b9744"
       },
-      "@http/response@0.21.0": {
-        "integrity": "65d17e0330c1713268d41713f39c29189763cce57b806083284a1dc26833b8c8"
-      },
       "@http/response@0.23.0": {
         "integrity": "072de73480eec83b332a759872667f78e142bb228064d209881a1397b536cbca"
-      },
-      "@http/route@0.21.0": {
-        "integrity": "8d73e6c6b6119a4ad1fc47d4086169a7ed4629033fed24b00e1431772be1ee06",
-        "dependencies": [
-          "jsr:@http/response@^0.21.0"
-        ]
       },
       "@http/route@0.23.0": {
         "integrity": "cba9b44e434d63fd164978f7e04f05233ab0834eb9b2ab65322e6b44eae6bbca",
@@ -1506,7 +1490,7 @@
       "jsr:@deno/graph@^0.82.1",
       "jsr:@http/discovery@^0.23.0",
       "jsr:@http/fs@^0.23.0",
-      "jsr:@http/generate@^0.23.0",
+      "jsr:@http/generate@^0.23.1",
       "jsr:@http/host-bun-local@^0.23.0",
       "jsr:@http/host-cloudflare-worker@^0.23.0",
       "jsr:@http/host-deno-deploy@^0.23.0",
