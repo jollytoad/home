@@ -61,6 +61,7 @@
       "jsr:@std/path@^1.0.6": "jsr:@std/path@1.0.6",
       "jsr:@std/streams@^1.0.5": "jsr:@std/streams@1.0.5",
       "jsr:@std/ulid@^1.0.0": "jsr:@std/ulid@1.0.0",
+      "npm:@types/node": "npm:@types/node@18.16.19",
       "npm:@types/node@^20.14.10": "npm:@types/node@20.16.5",
       "npm:bun-types": "npm:bun-types@1.1.27",
       "npm:esbuild@^0.23.1": "npm:esbuild@0.23.1",
@@ -488,12 +489,6 @@
       "@types/node@18.16.19": {
         "integrity": "sha512-IXl7o+R9iti9eBW4Wg2hx1xQDig183jj7YLn8F7udNceyfkbn1ZxmzZXuak20gR40D7pIkIY1kYGx5VIGbaHKA==",
         "dependencies": {}
-      },
-      "@types/node@18.19.50": {
-        "integrity": "sha512-xonK+NRrMBRtkL1hVCc3G+uXtjh1Al4opBLjqVmipe5ZAaBYWW6cNAiBVZ1BvmkBhep698rP3UM3aRAdSALuhg==",
-        "dependencies": {
-          "undici-types": "undici-types@5.26.5"
-        }
       },
       "@types/node@20.12.14": {
         "integrity": "sha512-scnD59RpYD91xngrQQLGkE+6UrHUPzeKZWhhjBSa3HSkwjbQc38+q3RoIVEwxQGRw3M+j5hpNAM+lgV3cVormg==",
@@ -1306,7 +1301,7 @@
       "openai@4.61.0": {
         "integrity": "sha512-xkygRBRLIUumxzKGb1ug05pWmJROQsHkGuj/N6Jiw2dj0dI19JvbFpErSZKmJ/DA+0IvpcugZqCAyk8iLpyM6Q==",
         "dependencies": {
-          "@types/node": "@types/node@18.19.50",
+          "@types/node": "@types/node@18.16.19",
           "@types/node-fetch": "@types/node-fetch@2.6.11",
           "@types/qs": "@types/qs@6.9.16",
           "abort-controller": "abort-controller@3.0.0",
@@ -1521,33 +1516,6 @@
       "npm:micromark-extension-gfm@^3.0.0",
       "npm:openai@^4.61.0",
       "npm:urlpattern-polyfill@^10.0.0"
-    ],
-    "packageJson": {
-      "dependencies": [
-        "npm:@jsr/deno__emit@^0.45.0",
-        "npm:@jsr/http__fs@^0.23.0",
-        "npm:@jsr/http__host-bun-local@^0.23.0",
-        "npm:@jsr/http__interceptor@^0.23.0",
-        "npm:@jsr/http__jsx-stream@^0.3.0",
-        "npm:@jsr/http__request@^0.23.0",
-        "npm:@jsr/http__response@^0.23.0",
-        "npm:@jsr/http__route@^0.23.0",
-        "npm:@jsr/jollytoad__store-deno-kv@^0.4.0",
-        "npm:@jsr/jollytoad__store-node-fs@^0.4.0",
-        "npm:@jsr/jollytoad__store@^0.4.0",
-        "npm:@jsr/std__async@^1.0.5",
-        "npm:@jsr/std__collections@^1.0.6",
-        "npm:@jsr/std__http@^1.0.6",
-        "npm:@jsr/std__path@^1.0.6",
-        "npm:@jsr/std__ulid@^1.0.0",
-        "npm:hast-util-raw@^9.0.4",
-        "npm:hast-util-to-jsx-runtime@^2.3.0",
-        "npm:mdast-util-from-markdown@^2.0.1",
-        "npm:mdast-util-gfm@^3.0.0",
-        "npm:mdast-util-to-hast@^13.2.0",
-        "npm:micromark-extension-gfm@^3.0.0",
-        "npm:urlpattern-polyfill@^10.0.0"
-      ]
-    }
+    ]
   }
 }

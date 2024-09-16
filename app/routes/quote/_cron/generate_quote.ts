@@ -9,9 +9,22 @@ const config = getQuoteConfig();
 
 export const schedule = config.schedule;
 
+let disable = false;
+
 export default async function generateQuote() {
+  if (disable) return;
+
+  if (!config.apiKey) {
+    console.log(
+      "Skipping quote generation - OPENAI_API_KEY environment variable is not set",
+    );
+    disable = true;
+    return;
+  }
+
   if (!(await canSetQuote())) {
     console.log("Skipping quote generation - store is not writeable");
+    disable = true;
     return;
   }
 
@@ -22,24 +35,30 @@ export default async function generateQuote() {
 
   console.log("Generating a new quote...");
 
-  const openai = new OpenAI();
+  try {
+    const openai = new OpenAI({
+      apiKey: config.apiKey,
+    });
 
-  const completion = await openai.chat.completions.create({
-    model: config.model,
-    temperature: config.temperature,
-    messages: [
-      {
-        role: "user",
-        content: config.prompt,
-      },
-    ],
-  });
+    const completion = await openai.chat.completions.create({
+      model: config.model,
+      temperature: config.temperature,
+      messages: [
+        {
+          role: "user",
+          content: config.prompt,
+        },
+      ],
+    });
 
-  const content = completion?.choices[0]?.message.content;
+    const content = completion?.choices[0]?.message.content;
 
-  if (content) {
-    console.log(content);
-    await setQuote(content);
+    if (content) {
+      console.log(content);
+      await setQuote(content);
+    }
+  } catch (error: unknown) {
+    console.error("Failed to generate new quote:\n", error);
   }
 }
 

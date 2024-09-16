@@ -2,6 +2,11 @@ import { getEnv } from "../../../lib/env.ts";
 
 export interface QuoteConfig {
   /**
+   * OpenAI API key
+   */
+  apiKey?: string;
+
+  /**
    * Cron schedule for generating a new quote
    */
   schedule: string;
@@ -32,6 +37,7 @@ let _config: QuoteConfig | undefined;
 export function getQuoteConfig(req?: Request): QuoteConfig {
   if (!_config) {
     _config = {
+      apiKey: getEnv("OPENAI_API_KEY"),
       schedule: getEnv("QUOTE_SCHEDULE", req) ?? "*/5 * * * *",
       refresh: parseInt(getEnv("QUOTE_TV_REFRESH", req) ?? "") || (6 * 60),
       model: getEnv("QUOTE_AI_MODEL", req) ?? "gpt-3.5-turbo",
