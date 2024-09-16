@@ -9,8 +9,19 @@ async function listPackages(type: "jsr" | "npm", ...entrypoints: string[]) {
     import.meta.resolve(resolve(filename))
   );
   const cache = createCache();
+  const { cacheInfo, load } = cache;
   const graph = await createGraph(rootSpecifiers, {
-    ...cache,
+    cacheInfo,
+    load: (
+      specifier: string,
+      isDynamic?: boolean,
+      _cacheSetting?: unknown,
+      checksum?: string,
+    ) => {
+      // WORK-AROUND: For some unknown reason cacheSetting is getting passed as "only"
+      // so this hack overrides that!
+      return load(specifier, isDynamic, "use", checksum);
+    },
     resolve: (specifier, referrer) => {
       if (specifier.startsWith(".")) {
         return new URL(specifier, referrer).href;

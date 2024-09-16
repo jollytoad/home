@@ -931,7 +931,7 @@
     return typeof value?.[Symbol.asyncIterator] === "function";
   }
 
-  // https://jsr.io/@std/html/1.0.0/entities.ts
+  // https://jsr.io/@std/html/1.0.3/entities.ts
   var rawToEntityEntries = [
     ["&", "&amp;"],
     ["<", "&lt;"],

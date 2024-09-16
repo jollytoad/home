@@ -1,0 +1,7 @@
+{
+  "id": "pkgx",
+  "version": "1.0.0",
+  "name": "pkgx",
+  "description": "Run anything",
+  "postCreateCommand": "pkgx integrate"
+}

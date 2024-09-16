@@ -1,9 +1,11 @@
-#!/usr/bin/env -S deno run --allow-net --allow-read --allow-write --allow-env --allow-ffi scripts/gen.ts
+#!/usr/bin/env -S deno run --allow-net --allow-read --allow-write --allow-env scripts/gen.ts
 
 import {
   type GenerateOptions,
   generateRoutesModule,
 } from "@http/generate/generate-routes-module";
+import { dprintFormatModule } from "@http/generate/dprint-format-module";
+
 import { generateCronModule } from "./generate_cron_module.ts";
 
 type Opts = Pick<
@@ -37,6 +39,7 @@ export function generateRoutes(opts: Opts = defaultOpts) {
       import("@http/generate/default-handler-generator"),
       import("@http/generate/methods-handler-generator"),
     ],
+    formatModule: dprintFormatModule(),
     ...opts,
   });
 }

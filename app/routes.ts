@@ -9,33 +9,116 @@ import { handleComponent } from "./lib/handle_component.tsx";
 export default cascade(
   byPattern(
     ":pre(/auto-refresh/):path+.js",
-    lazy(async () => byMethod(await import("./lib/handle_route_browser_dir.ts"))),
+    lazy(async () =>
+      byMethod(await import("./lib/handle_route_browser_dir.ts"))
+    ),
   ),
-  byPattern("/todo/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
-  byPattern("/todo/:listId/:itemId", lazy(async () => byMethod(await import("./routes/todo/[listId]/[itemId].tsx")))),
-  byPattern("/todo/:listId", lazy(async () => byMethod(await import("./routes/todo/[listId]/index.tsx")))),
-  byPattern("/todo", lazy(async () => byMethod(await import("./routes/todo/index.ts")))),
+  byPattern(
+    "/todo/:path+",
+    lazy(async () =>
+      (await import("./lib/handle_route_static_dir.ts")).default
+    ),
+  ),
+  byPattern(
+    "/todo/:listId/:itemId",
+    lazy(async () =>
+      byMethod(await import("./routes/todo/[listId]/[itemId].tsx"))
+    ),
+  ),
+  byPattern(
+    "/todo/:listId",
+    lazy(async () =>
+      byMethod(await import("./routes/todo/[listId]/index.tsx"))
+    ),
+  ),
+  byPattern(
+    "/todo",
+    lazy(async () => byMethod(await import("./routes/todo/index.ts"))),
+  ),
   byPattern(
     "/tabs",
-    lazy(async () => handleComponent((await import("./routes/tabs.tsx")).TabsExample, "./app/routes/tabs.tsx")),
+    lazy(async () =>
+      handleComponent((await import("./routes/tabs.tsx")).TabsExample)
+    ),
   ),
-  byPattern("/sse/stop", lazy(() => import("./routes/sse/stop.tsx"))),
-  byPattern("/sse/start", lazy(() => import("./routes/sse/start.tsx"))),
-  byPattern("/sse/feed", lazy(() => import("./routes/sse/feed.tsx"))),
-  byPattern("/sse", lazy(() => import("./routes/sse/index.tsx"))),
-  byPattern("/sleep", lazy(() => import("./routes/sleep.ts"))),
-  byPattern("/quote/tv", lazy(() => import("./routes/quote/tv.ts"))),
-  byPattern("/quote/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
-  byPattern("/quote", lazy(() => import("./routes/quote/index.tsx"))),
-  byPattern("/quiz/answer/:id/:answer", lazy(() => import("./routes/quiz/answer/[id]/[answer].tsx"))),
-  byPattern("/quiz/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
-  byPattern("/quiz", lazy(() => import("./routes/quiz/index.tsx"))),
-  byPattern("/ex/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
-  byPattern("/ex/:from/:to", lazy(() => import("./routes/ex/[from]/[to].tsx"))),
-  byPattern("/ex", lazy(() => import("./routes/ex/index.tsx"))),
-  byPattern("/calc/eval", lazy(() => import("./routes/calc/eval.tsx"))),
-  byPattern("/calc/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
-  byPattern("/calc", lazy(() => import("./routes/calc/index.tsx"))),
+  byPattern(
+    "/sse/stop",
+    lazy(async () => (await import("./routes/sse/stop.tsx")).default),
+  ),
+  byPattern(
+    "/sse/start",
+    lazy(async () => (await import("./routes/sse/start.tsx")).default),
+  ),
+  byPattern(
+    "/sse/feed",
+    lazy(async () => (await import("./routes/sse/feed.tsx")).default),
+  ),
+  byPattern(
+    "/sse",
+    lazy(async () => (await import("./routes/sse/index.tsx")).default),
+  ),
+  byPattern(
+    "/sleep",
+    lazy(async () => (await import("./routes/sleep.ts")).default),
+  ),
+  byPattern(
+    "/quote/tv",
+    lazy(async () => (await import("./routes/quote/tv.ts")).default),
+  ),
+  byPattern(
+    "/quote/:path+",
+    lazy(async () =>
+      (await import("./lib/handle_route_static_dir.ts")).default
+    ),
+  ),
+  byPattern(
+    "/quote",
+    lazy(async () => (await import("./routes/quote/index.tsx")).default),
+  ),
+  byPattern(
+    "/quiz/answer/:id/:answer",
+    lazy(async () =>
+      (await import("./routes/quiz/answer/[id]/[answer].tsx")).default
+    ),
+  ),
+  byPattern(
+    "/quiz/:path+",
+    lazy(async () =>
+      (await import("./lib/handle_route_static_dir.ts")).default
+    ),
+  ),
+  byPattern(
+    "/quiz",
+    lazy(async () => (await import("./routes/quiz/index.tsx")).default),
+  ),
+  byPattern(
+    "/ex/:path+",
+    lazy(async () =>
+      (await import("./lib/handle_route_static_dir.ts")).default
+    ),
+  ),
+  byPattern(
+    "/ex/:from/:to",
+    lazy(async () => (await import("./routes/ex/[from]/[to].tsx")).default),
+  ),
+  byPattern(
+    "/ex",
+    lazy(async () => (await import("./routes/ex/index.tsx")).default),
+  ),
+  byPattern(
+    "/calc/eval",
+    lazy(async () => (await import("./routes/calc/eval.tsx")).default),
+  ),
+  byPattern(
+    "/calc/:path+",
+    lazy(async () =>
+      (await import("./lib/handle_route_static_dir.ts")).default
+    ),
+  ),
+  byPattern(
+    "/calc",
+    lazy(async () => (await import("./routes/calc/index.tsx")).default),
+  ),
   byPattern([
     "/blog/md{.:ext}?",
     "/blog/links{.:ext}?",
@@ -45,17 +128,34 @@ export default cascade(
     "/blog/dependency_hell{.:ext}?",
     "/blog/blogs{.:ext}?",
   ], lazy(async () => byMethod(await import("./lib/handle_route_md.tsx")))),
-  byPattern("/blog/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
-  byPattern("/auto-refresh/feed", lazy(async () => byMethod(await import("./routes/auto-refresh/feed.ts")))),
+  byPattern(
+    "/blog/:path+",
+    lazy(async () =>
+      (await import("./lib/handle_route_static_dir.ts")).default
+    ),
+  ),
+  byPattern(
+    "/auto-refresh/feed",
+    lazy(async () => byMethod(await import("./routes/auto-refresh/feed.ts"))),
+  ),
   byPattern(
     "/async",
     lazy(async () =>
-      handleComponent((await import("./routes/async.tsx")).AsyncStreamingExample, "./app/routes/async.tsx")
+      handleComponent(
+        (await import("./routes/async.tsx")).AsyncStreamingExample,
+      )
     ),
   ),
-  byPattern("/:path+", lazy(() => import("./lib/handle_route_static_dir.ts"))),
+  byPattern(
+    "/:path+",
+    lazy(async () =>
+      (await import("./lib/handle_route_static_dir.ts")).default
+    ),
+  ),
   byPattern(
     "/",
-    lazy(async () => handleComponent((await import("./routes/index.tsx")).Home, "./app/routes/index.tsx")),
+    lazy(async () =>
+      handleComponent((await import("./routes/index.tsx")).Home)
+    ),
   ),
 );

@@ -22,6 +22,7 @@ import { asSerializablePattern } from "@http/discovery/as-serializable-pattern";
 import { generateCache } from "./cache.ts";
 import { emptyDir } from "@std/fs/empty-dir";
 import { generateRoutesModule } from "@http/generate/generate-routes-module";
+import { dprintFormatModule } from "@http/generate/dprint-format-module";
 
 const ROOT = fromFileUrl(import.meta.resolve("../app"));
 const CF_ROOT = fromFileUrl(import.meta.resolve("../.cloudflare"));
@@ -115,6 +116,7 @@ export function generateCloudflareRoutes() {
     ],
     routeDiscovery: "static",
     moduleImports: "static",
+    formatModule: dprintFormatModule(),
     verbose: true,
   });
 }
