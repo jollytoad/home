@@ -66,7 +66,7 @@ Let's create a handler for `/`...
 I'm making use of the response helpers, so first add that package...
 
 ```sh
-deno add @http/response
+deno add jsr:@http/response
 ```
 
 Create `app/routes/index.ts`:
@@ -87,7 +87,7 @@ if you prefer.
 Next we'll want to generate the routes module for this:
 
 ```sh
-deno add @http/generate
+deno add jsr:@http/generate
 ```
 
 and create a script at `scripts/gen.ts`:
@@ -137,7 +137,7 @@ editor.
 You'll notice it imports some packages we haven't yet added...
 
 ```sh
-deno add @http/route
+deno add jsr:@http/route
 ```
 
 The default export of this module is a simple Request -> Response handler for
@@ -247,7 +247,7 @@ also need to be able to deal with an initially non-existing or modified routes
 module.
 
 ```sh
-deno add @http/host-deno-local
+deno add jsr:@http/host-deno-local
 ```
 
 Create a `app/dev.ts`:
@@ -331,7 +331,7 @@ return generateRoutesModule({
 and add the import mapping for it:
 
 ```sh
-deno add @http/discovery
+deno add jsr:@http/discovery
 ```
 
 You can now rename (or create) the route above as `routes/hello-[name].ts`.
@@ -354,7 +354,7 @@ conventions, this is pure JSX to HTML serialization. JSX properties translate
 exactly to HTML attributes.
 
 ```sh
-deno add @http/jsx-stream
+deno add jsr:@http/jsx-stream
 ```
 
 Edit your `deno.json` to enable JSX compilation...

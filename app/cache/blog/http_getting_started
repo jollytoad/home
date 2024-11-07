@@ -45,7 +45,7 @@ a single entrypoint.</p>
 <h3>Root URL handler</h3>
 <p>Let&#39;s create a handler for <code>/</code>...</p>
 <p>I&#39;m making use of the response helpers, so first add that package...</p>
-<pre><code class="language-sh">deno add @http/response
+<pre><code class="language-sh">deno add jsr:@http/response
 </code></pre>
 <p>Create <code>app/routes/index.ts</code>:</p>
 <pre><code class="language-ts">import { ok } from &quot;@http/response/ok&quot;;
@@ -58,7 +58,7 @@ export function GET() {
 if you prefer.</p>
 <h3>Generate the router module</h3>
 <p>Next we&#39;ll want to generate the routes module for this:</p>
-<pre><code class="language-sh">deno add @http/generate
+<pre><code class="language-sh">deno add jsr:@http/generate
 </code></pre>
 <p>and create a script at <code>scripts/gen.ts</code>:</p>
 <pre><code class="language-ts">#!/usr/bin/env -S deno run --allow-ffi --allow-read --allow-write --allow-net=jsr.io
@@ -95,7 +95,7 @@ if (import.meta.main) {
 <p>This should have created a file at <code>app/routes.ts</code>, take a look at this in your
 editor.</p>
 <p>You&#39;ll notice it imports some packages we haven&#39;t yet added...</p>
-<pre><code class="language-sh">deno add @http/route
+<pre><code class="language-sh">deno add jsr:@http/route
 </code></pre>
 <p>The default export of this module is a simple Request -&gt; Response handler for
 all the routes in your filesystem.</p>
@@ -170,7 +170,7 @@ helper function to add logging, read local TLS certs etc.</p>
 <p>We&#39;re also going to rebuild our routes module automatically on restart, so we
 also need to be able to deal with an initially non-existing or modified routes
 module.</p>
-<pre><code class="language-sh">deno add @http/host-deno-local
+<pre><code class="language-sh">deno add jsr:@http/host-deno-local
 </code></pre>
 <p>Create a <code>app/dev.ts</code>:</p>
 <pre><code class="language-ts">#!/usr/bin/env -S deno run --allow-ffi --allow-read --allow-write --allow-net --watch
@@ -228,7 +228,7 @@ mapper out of the box.</p>
 });
 </code></pre>
 <p>and add the import mapping for it:</p>
-<pre><code class="language-sh">deno add @http/discovery
+<pre><code class="language-sh">deno add jsr:@http/discovery
 </code></pre>
 <p>You can now rename (or create) the route above as <code>routes/hello-[name].ts</code>.</p>
 <p>Re-start your dev app, or run <code>deno task gen</code>, and take a look at the newly
@@ -242,7 +242,7 @@ but I actually like JSX.</p>
 <p>NOTE: This is not React, or Preact, there are no hooks or other React like
 conventions, this is pure JSX to HTML serialization. JSX properties translate
 exactly to HTML attributes.</p>
-<pre><code class="language-sh">deno add @http/jsx-stream
+<pre><code class="language-sh">deno add jsr:@http/jsx-stream
 </code></pre>
 <p>Edit your <code>deno.json</code> to enable JSX compilation...</p>
 <pre><code class="language-json">{
