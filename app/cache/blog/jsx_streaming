@@ -127,7 +127,10 @@ do this all within the same streamed response.</p>
 <pre><code class="language-html">&lt;template id=&quot;_deferred_1&quot;&gt;
   &lt;div&gt;My name is: Mark&lt;/div&gt;
 &lt;/template&gt;
-&lt;script&gt;document.getElementById(&quot;deferred_1&quot;).outerHTML = document.getElementById(&quot;_deferred_1&quot;).innerHTML;&lt;/script&gt;
+&lt;script&gt;
+  document.getElementById(&quot;deferred_1&quot;).outerHTML =
+  document.getElementById(&quot;_deferred_1&quot;).innerHTML;
+&lt;/script&gt;
 </code></pre>
 <p>NOTE: It doesn&#39;t matter that the template and script are rendered outside of the
 body or html element, the HTML5 parser in every browser is designed to handle

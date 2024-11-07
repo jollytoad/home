@@ -10,13 +10,13 @@ html {
   color: white;
 }
 
-@media (orientation: landscape)  {
+@media (orientation: landscape) {
   html {
     font-size: 1vw;
   }
 }
 
-@media (orientation: portrait)  {
+@media (orientation: portrait) {
   html {
     font-size: 0.8vh;
   }

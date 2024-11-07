@@ -178,7 +178,10 @@ Then later in the same stream, once the component has resolved...
 <template id="_deferred_1">
   <div>My name is: Mark</div>
 </template>
-<script>document.getElementById("deferred_1").outerHTML = document.getElementById("_deferred_1").innerHTML;</script>
+<script>
+  document.getElementById("deferred_1").outerHTML =
+  document.getElementById("_deferred_1").innerHTML;
+</script>
 ```
 
 NOTE: It doesn't matter that the template and script are rendered outside of the

@@ -1,6 +1,6 @@
 import type { Children } from "@http/jsx-stream/types";
 import { Src } from "../components/Src.tsx";
-import { AutoRefreshScript } from "./AutoRefreshScript.tsx";
+import { DevScript } from "./DevScript.tsx";
 import type { RequestProps } from "../lib/types.ts";
 
 interface Props extends RequestProps {
@@ -39,7 +39,7 @@ export function Page({ req, children, reqURL, module }: Props) {
 
         <script src="/app.js" type="module" />
 
-        <AutoRefreshScript req={req} />
+        <DevScript req={req} src="/auto-refresh/dev.js" envVar="AUTO_REFRESH" />
       </head>
       <body>
         <header>

@@ -1,5 +1,5 @@
 (() => {
-  // ../../Library/Caches/deno/deno_esbuild/urlpattern-polyfill@10.0.0/node_modules/urlpattern-polyfill/dist/urlpattern.js
+  // node_modules/.deno/urlpattern-polyfill@10.0.0/node_modules/urlpattern-polyfill/dist/urlpattern.js
   var R = class {
     type = 3;
     name = "";
@@ -730,7 +730,7 @@
     }
   };
 
-  // ../../Library/Caches/deno/deno_esbuild/urlpattern-polyfill@10.0.0/node_modules/urlpattern-polyfill/index.js
+  // node_modules/.deno/urlpattern-polyfill@10.0.0/node_modules/urlpattern-polyfill/index.js
   if (!globalThis.URLPattern) {
     globalThis.URLPattern = me;
   }
