@@ -29,6 +29,13 @@
     "outdated": "deno run --no-lock --allow-read=. --allow-net=jsr.io,registry.npmjs.org jsr:@check/deps"
   },
   "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "dom.asynciterable",
+      "deno.ns",
+      "deno.unstable"
+    ],
     "jsx": "react-jsx",
     "jsxImportSource": "@http/jsx-stream",
     "noUncheckedIndexedAccess": true,

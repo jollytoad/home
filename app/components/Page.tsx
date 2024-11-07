@@ -2,6 +2,7 @@ import type { Children } from "@http/jsx-stream/types";
 import { Src } from "../components/Src.tsx";
 import { DevScript } from "./DevScript.tsx";
 import type { RequestProps } from "../lib/types.ts";
+import { getEnv } from "../lib/env.ts";
 
 interface Props extends RequestProps {
   children?: Children;
@@ -39,7 +40,19 @@ export function Page({ req, children, reqURL, module }: Props) {
 
         <script src="/app.js" type="module" />
 
-        <DevScript req={req} src="/auto-refresh/dev.js" envVar="AUTO_REFRESH" />
+        <DevScript
+          req={req}
+          src="/dev/auto-refresh/dev.js"
+          envVar="AUTO_REFRESH"
+        />
+        <DevScript
+          req={req}
+          src="/dev/src-link/dev.js"
+          params={{
+            attr: getEnv("JSX_SRC_ATTR", req),
+          }}
+          envVar="SRC_LINK"
+        />
       </head>
       <body>
         <header>

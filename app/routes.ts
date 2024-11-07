@@ -8,7 +8,7 @@ import { handleComponent } from "./lib/handle_component.tsx";
 
 export default cascade(
   byPattern(
-    ":pre(/auto-refresh/):path+.js",
+    [":pre(/dev/src-link/):path+.js", ":pre(/dev/auto-refresh/):path+.js"],
     lazy(async () =>
       byMethod(await import("./lib/handle_route_browser_dir.ts"))
     ),
@@ -109,6 +109,12 @@ export default cascade(
     lazy(async () => (await import("./routes/ex/index.tsx")).default),
   ),
   byPattern(
+    "/dev/auto-refresh/feed",
+    lazy(async () =>
+      byMethod(await import("./routes/dev/auto-refresh/feed.ts"))
+    ),
+  ),
+  byPattern(
     "/calc/eval",
     lazy(async () => (await import("./routes/calc/eval.tsx")).default),
   ),
@@ -136,10 +142,6 @@ export default cascade(
     lazy(async () =>
       (await import("./lib/handle_route_static_dir.ts")).default
     ),
-  ),
-  byPattern(
-    "/auto-refresh/feed",
-    lazy(async () => byMethod(await import("./routes/auto-refresh/feed.ts"))),
   ),
   byPattern(
     "/async",

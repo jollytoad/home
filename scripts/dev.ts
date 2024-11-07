@@ -15,6 +15,10 @@ if (!hasEnv("AUTO_REFRESH")) {
   setEnv("AUTO_REFRESH", "true");
 }
 
+if (!hasEnv("SRC_LINK")) {
+  setEnv("SRC_LINK", "true");
+}
+
 if (!hasEnv("STORAGE_MODULE")) {
   setStore(import("@jollytoad/store-deno-fs"));
 }

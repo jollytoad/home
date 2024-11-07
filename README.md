@@ -126,3 +126,10 @@ modules.
 The project uses and showcases much of my
 [http functions library](https://jsr.io/@http), which is designed to be easy to
 follow and understand (hopefully).
+
+## Debugging tools
+
+If you switch to `"jsx": "react-jsxdev"` in `deno.json`, then all elements will
+include an additional `jsx-dev` attribute with a link to it's place the source.
+A dev time script will also catch Alt/Option clicks on any element and open the
+source file in VSCode.

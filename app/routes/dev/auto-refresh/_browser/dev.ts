@@ -1,5 +1,5 @@
 function startAutoRefresh(refreshNow = false, restartDelay = 0) {
-  const evtSource = new EventSource("./auto-refresh/feed");
+  const evtSource = new EventSource("/dev/auto-refresh/feed");
 
   evtSource.addEventListener("refresh", () => {
     if (refreshNow) {
