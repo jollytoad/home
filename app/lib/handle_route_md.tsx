@@ -1,4 +1,4 @@
-import { renderPage } from "./handle_page.ts";
+import { renderPage } from "./handle_page.tsx";
 import { Page } from "../components/Page.tsx";
 import { Markdown } from "../components/Markdown.tsx";
 import { byMediaType } from "@http/route/by-media-type";

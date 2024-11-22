@@ -1,14 +1,14 @@
-import type { TagHandlers } from "@http/jsx-stream/types";
-import { inject, recordScript } from "./inject.tsx";
+import { inject } from "./inject.tsx";
+import type { TagHook } from "@http/html-stream/types";
 
-export function patternFlyElements(): TagHandlers {
-  return {
-    ...recordScript,
-    "pf-*": inject((tag) => {
+export function patternFlyElements(): TagHook[] {
+  return [{
+    tag: "pf-*",
+    beforeBegin: inject((tag) => {
       return {
         module:
           `https://jspm.dev/@patternfly/elements/${tag.tagName}/${tag.tagName}.js`,
       };
     }),
-  };
+  }];
 }

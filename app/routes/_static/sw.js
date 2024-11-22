@@ -1,5 +1,5 @@
 (() => {
-  // https://jsr.io/@http/route/0.21.0/as_url_pattern.ts
+  // https://jsr.io/@http/route/0.24.0/as_url_pattern.ts
   function asURLPattern(pattern) {
     return typeof pattern === "string" ? new URLPattern({ pathname: pattern }) : pattern instanceof URLPattern ? pattern : new URLPattern(pattern);
   }
@@ -7,7 +7,7 @@
     return Array.isArray(pattern) ? pattern.map(asURLPattern) : [asURLPattern(pattern)];
   }
 
-  // https://jsr.io/@http/route/0.21.0/by_pattern.ts
+  // https://jsr.io/@http/route/0.24.0/by_pattern.ts
   function byPattern(pattern, handler) {
     const patterns = asURLPatterns(pattern);
     return async (req, ...args) => {
@@ -24,7 +24,7 @@
     };
   }
 
-  // https://jsr.io/@http/route/0.21.0/cascade.ts
+  // https://jsr.io/@http/route/0.24.0/cascade.ts
   function cascade(...handlers) {
     return async (req, ...args) => {
       for (const handler of handlers) {
@@ -37,7 +37,7 @@
     };
   }
 
-  // https://jsr.io/@http/response/0.21.0/plain_error.ts
+  // https://jsr.io/@http/response/0.24.0/plain_error.ts
   function plainError(status, statusText, message) {
     return new Response(message ?? statusText, {
       status,
@@ -48,12 +48,12 @@
     });
   }
 
-  // https://jsr.io/@http/response/0.21.0/method_not_allowed.ts
+  // https://jsr.io/@http/response/0.24.0/method_not_allowed.ts
   function methodNotAllowed(message) {
     return plainError(405, "Method Not Allowed", message);
   }
 
-  // https://jsr.io/@http/response/0.21.0/no_content.ts
+  // https://jsr.io/@http/response/0.24.0/no_content.ts
   function noContent(headers) {
     return new Response(null, {
       status: 204,
@@ -62,7 +62,7 @@
     });
   }
 
-  // https://jsr.io/@http/response/0.21.0/replace_body.ts
+  // https://jsr.io/@http/response/0.24.0/replace_body.ts
   function replaceBody(res, body) {
     return res.body === body ? res : new Response(body, {
       status: res.status,
@@ -71,7 +71,7 @@
     });
   }
 
-  // https://jsr.io/@http/route/0.21.0/by_method.ts
+  // https://jsr.io/@http/route/0.24.0/by_method.ts
   function byMethod(handlers, fallback = () => methodNotAllowed()) {
     const defaultHandlers = {
       OPTIONS: optionsHandler(handlers)
@@ -104,58 +104,128 @@
     return response ? replaceBody(response, null) : response;
   };
 
-  // app/config_fragment.ts
-  var FRAGMENT_RENDER_OPTIONS = {
-    deferredTimeout: false
+  // https://jsr.io/@std/html/1.0.3/entities.ts
+  var rawToEntityEntries = [
+    ["&", "&amp;"],
+    ["<", "&lt;"],
+    [">", "&gt;"],
+    ['"', "&quot;"],
+    ["'", "&#39;"]
+  ];
+  var defaultEntityList = Object.fromEntries([
+    ...rawToEntityEntries.map(([raw, entity]) => [entity, raw]),
+    ["&apos;", "'"],
+    ["&nbsp;", "\xA0"]
+  ]);
+  var rawToEntity = new Map(rawToEntityEntries);
+  var rawRe = new RegExp(`[${[...rawToEntity.keys()].join("")}]`, "g");
+  function escape(str) {
+    return str.replaceAll(rawRe, (m) => rawToEntity.get(m));
+  }
+
+  // https://jsr.io/@http/html-stream/0.6.0/util.ts
+  var VOID_ELEMENTS = /* @__PURE__ */ new Set([
+    "area",
+    "base",
+    "br",
+    "col",
+    "embed",
+    "hr",
+    "img",
+    "input",
+    "keygen",
+    "link",
+    "meta",
+    "param",
+    "source",
+    "track",
+    "wbr"
+  ]);
+  function isVoidElement(tag) {
+    return VOID_ELEMENTS.has(tag);
+  }
+  var SPECIAL_ATTRS = /* @__PURE__ */ new Set([
+    "dangerouslySetInnerHTML"
+  ]);
+  function isValidAttr(name, value) {
+    return value !== false && value !== void 0 && value !== null && !SPECIAL_ATTRS.has(name) && // deno-lint-ignore no-control-regex
+    /^[^\u0000-\u001F\u007F-\u009F\s"'>/=\uFDD0-\uFDEF\p{NChar}]+$/u.test(name);
+  }
+
+  // https://jsr.io/@http/html-stream/0.6.0/token.ts
+  var _Token = class extends String {
+    kind;
+    tagName;
+    attributes;
   };
-
-  // https://jsr.io/@http/response/0.21.0/html.ts
-  function html(body, headersInit) {
-    const headers = new Headers(headersInit);
-    headers.set("Content-Type", "text/html");
-    return new Response(body, {
-      status: 200,
-      statusText: "OK",
-      headers
-    });
+  function safe(value) {
+    return new _Token(value);
   }
-
-  // https://jsr.io/@http/response/0.21.0/prepend_doctype.ts
-  var DOCTYPE = "<!DOCTYPE html>\n";
-  var ENCODED_DOCTYPE = new TextEncoder().encode(DOCTYPE);
-  function prependDocType(bodyInit) {
-    if (isData(bodyInit)) {
-      return bodyInit;
-    } else if (isStream(bodyInit)) {
-      const reader = bodyInit.getReader();
-      return new ReadableStream({
-        start(controller) {
-          controller.enqueue(ENCODED_DOCTYPE);
-        },
-        async pull(controller) {
-          const { value, done } = await reader.read();
-          if (done) {
-            controller.close();
-          } else {
-            controller.enqueue(value);
-          }
+  function escape2(value) {
+    return safe(escape(String(value)));
+  }
+  function docType(type = "html") {
+    const token = new _Token(`<!DOCTYPE ${type}>`);
+    token.tagName = "!DOCTYPE";
+    token.attributes = { type };
+    return token;
+  }
+  function openTag(tagName, attrs) {
+    return _tag(tagName, attrs, "open");
+  }
+  function voidTag(tagName, attrs) {
+    return _tag(tagName, attrs, "void", "/");
+  }
+  function closeTag(tagName) {
+    const token = new _Token(`</${tagName}>`);
+    token.kind = "close";
+    token.tagName = tagName;
+    return token;
+  }
+  function isSafe(value) {
+    return value instanceof _Token;
+  }
+  function _tag(tagName, attributes, kind, close = "") {
+    let attrStr = "";
+    for (const [name, value] of Object.entries(attributes)) {
+      if (isValidAttr(name, value)) {
+        attrStr += ` ${name}`;
+        if (value !== true) {
+          attrStr += `="${escape2(value)}"`;
         }
-      });
-    } else {
-      return new Blob([
-        DOCTYPE,
-        bodyInit
-      ]);
+      }
     }
-  }
-  function isStream(bodyInit) {
-    return !!bodyInit && typeof bodyInit === "object" && "getReader" in bodyInit && typeof bodyInit.getReader === "function";
-  }
-  function isData(bodyInit) {
-    return bodyInit instanceof FormData || bodyInit instanceof URLSearchParams;
+    const token = new _Token(`<${tagName}${attrStr}${close}>`);
+    token.kind = kind;
+    token.tagName = tagName;
+    token.attributes = attributes;
+    return token;
   }
 
-  // https://jsr.io/@http/jsx-stream/0.3.0/_internal/readable_stream_from_iterable.ts
+  // https://jsr.io/@http/html-stream/0.6.0/transform/prepend_doctype.ts
+  function prependDocType(type = "html") {
+    return async function* (tokens) {
+      yield docType(type);
+      yield* tokens;
+    };
+  }
+
+  // https://jsr.io/@http/token-stream/0.6.0/transform/safety_filter.ts
+  function safetyFilter(isSafe2) {
+    return async function* (tokens) {
+      for await (const token of tokens) {
+        if (isSafe2(token)) {
+          yield token;
+        } else if (typeof token === "string") {
+          console.warn("%cWARNING: raw string detected:", "color: red", token);
+        } else {
+          console.warn("%cWARNING: unknown token:", "color: red", token);
+        }
+      }
+    };
+  }
+
+  // https://jsr.io/@http/token-stream/0.6.0/readable_stream_from_iterable.ts
   function readableStreamFromIterable(iterable) {
     if ("from" in ReadableStream && typeof ReadableStream.from === "function") {
       return ReadableStream.from(iterable);
@@ -181,7 +251,7 @@
     });
   }
 
-  // https://jsr.io/@http/jsx-stream/0.3.0/guards.ts
+  // https://jsr.io/@http/token-stream/0.6.0/guards.ts
   function isPrimitiveValue(value) {
     return typeof value === "string" || typeof value === "number" || typeof value === "boolean" || typeof value === "bigint";
   }
@@ -189,207 +259,132 @@
     return typeof value?.then === "function";
   }
   function isIterable(value) {
-    return typeof value !== "string" && typeof value?.[Symbol.iterator] === "function";
+    return typeof value !== "string" && !(value instanceof String) && typeof value?.[Symbol.iterator] === "function";
   }
   function isAsyncIterable(value) {
     return typeof value?.[Symbol.asyncIterator] === "function";
   }
-
-  // https://jsr.io/@std/html/1.0.3/entities.ts
-  var rawToEntityEntries = [
-    ["&", "&amp;"],
-    ["<", "&lt;"],
-    [">", "&gt;"],
-    ['"', "&quot;"],
-    ["'", "&#39;"]
-  ];
-  var defaultEntityList = Object.fromEntries([
-    ...rawToEntityEntries.map(([raw, entity]) => [entity, raw]),
-    ["&apos;", "'"],
-    ["&nbsp;", "\xA0"]
-  ]);
-  var rawToEntity = new Map(rawToEntityEntries);
-  var rawRe = new RegExp(`[${[...rawToEntity.keys()].join("")}]`, "g");
-  function escape(str) {
-    return str.replaceAll(rawRe, (m) => rawToEntity.get(m));
+  function isNodeIteration(node) {
+    return typeof node?.iterator?.next === "function";
   }
 
-  // https://jsr.io/@http/jsx-stream/0.3.0/_internal/util.ts
-  var VOID_ELEMENTS = /* @__PURE__ */ new Set([
-    "area",
-    "base",
-    "br",
-    "col",
-    "embed",
-    "hr",
-    "img",
-    "input",
-    "keygen",
-    "link",
-    "meta",
-    "param",
-    "source",
-    "track",
-    "wbr"
-  ]);
-  function isVoidElement(tag) {
-    return VOID_ELEMENTS.has(tag);
-  }
-  function isValidTag(tag) {
-    return /^[a-zA-Z][a-zA-Z0-9\-]*$/.test(tag);
-  }
-  var SPECIAL_ATTRS = /* @__PURE__ */ new Set([
-    "dangerouslySetInnerHTML"
-  ]);
-  function isValidAttr(name, value) {
-    return value !== false && value !== void 0 && value !== null && !SPECIAL_ATTRS.has(name) && // deno-lint-ignore no-control-regex
-    /^[^\u0000-\u001F\u007F-\u009F\s"'>/=\uFDD0-\uFDEF\p{NChar}]+$/u.test(name);
-  }
-
-  // https://jsr.io/@http/jsx-stream/0.3.0/_internal/token.ts
-  var _Token = class extends String {
-    kind;
-    tagName;
-    attributes;
-  };
-  function safe(value) {
-    return new _Token(value);
-  }
-  function escape2(value) {
-    return safe(escape(String(value)));
-  }
-  function openTag(tagName, attrs) {
-    return _tag(tagName, attrs, "open");
-  }
-  function voidTag(tagName, attrs) {
-    return _tag(tagName, attrs, "void", "/");
-  }
-  function closeTag(tagName) {
-    const token = new _Token(`</${tagName}>`);
-    token.kind = "close";
-    token.tagName = tagName;
-    return token;
-  }
-  function isSafe(value) {
-    return value instanceof _Token;
-  }
-  function isTag(value, kind) {
-    return value instanceof _Token && !!value.kind && !!value.tagName && (kind ? value.kind === kind : true);
-  }
-  function _tag(tagName, attributes, kind, close = "") {
-    let attrStr = "";
-    for (const [name, value] of Object.entries(attributes)) {
-      if (isValidAttr(name, value)) {
-        attrStr += ` ${name}`;
-        if (value !== true) {
-          attrStr += `="${escape2(value)}"`;
-        }
-      }
+  // https://jsr.io/@http/token-stream/0.6.0/flatten_tokens.ts
+  async function* flattenTokens(node, deferrals) {
+    yield* flatten_(node);
+    if (deferrals) {
+      yield* deferrals;
     }
-    const token = new _Token(`<${tagName}${attrStr}${close}>`);
-    token.kind = kind;
-    token.tagName = tagName;
-    token.attributes = attributes;
-    return token;
-  }
-
-  // https://jsr.io/@http/jsx-stream/0.3.0/_internal/stream_node_sw.ts
-  async function* streamNode(node, options) {
-    const tagStack = [];
-    const context = {
-      scripts: /* @__PURE__ */ new Set(),
-      stylesheets: /* @__PURE__ */ new Set()
-    };
-    yield* streamNode_(node);
-    async function* streamNode_(node2) {
-      if (isTag(node2, "open")) {
-        tagStack.unshift([node2, []]);
-        stashTokens(node2);
-        yield* applyTagHooks("beforeStart", node2);
-        yield String(node2);
-        yield* applyTagHooks("afterStart", node2);
-      } else if (isTag(node2, "void")) {
-        stashTokens(node2);
-        yield* applyTagHooks("beforeStart", node2);
-        yield String(node2);
-        yield* applyTagHooks("afterEnd", node2);
-      } else if (isTag(node2, "close")) {
-        stashTokens(node2);
-        if (!tagStack.length) {
-          console.error(
-            `%cTag mismatch, closing tag </${node2.tagName}> has no opening tag.`,
-            "color: red"
-          );
-        } else {
-          const [[tag, tokens]] = tagStack;
-          if (tag.tagName !== node2.tagName) {
-            console.error(
-              `%cTag mismatch, closing tag </${node2.tagName}> does not match expected opening tag <${tag.tagName}>`,
-              "color: red"
-            );
+    async function* flatten_(node2) {
+      if (isPromiseLike(node2)) {
+        if (deferrals) {
+          const awaited = await deferrals.timeout(node2);
+          if (awaited) {
+            yield* flatten_(awaited);
+          } else {
+            yield deferrals.defer(flattenAwaited(node2));
           }
-          yield* applyTagHooks("beforeEnd", tag, tokens);
-          yield String(node2);
-          yield* applyTagHooks("afterEnd", tag, tokens);
-          tagStack.shift();
+        } else {
+          yield* flatten_(await node2);
         }
-      } else if (isSafe(node2)) {
-        stashTokens(node2);
-        yield String(node2);
-      } else if (typeof node2 === "string") {
-        console.warn("%cWARNING: raw string detected:", "color: red", node2);
-      } else if (isPromiseLike(node2)) {
-        yield* streamNode_(await node2);
       } else if (isIterable(node2)) {
         for (const child of node2) {
-          yield* streamNode_(child);
+          yield* flatten_(child);
         }
       } else if (isAsyncIterable(node2)) {
-        for await (const child of node2) {
-          yield* streamNode_(child);
-        }
-      }
-    }
-    async function* applyTagHooks(place, tag, tokens) {
-      const wildcards = tag.tagName.split("-").map(
-        (_v, i, a) => [...a.slice(0, i), "*"].join("-")
-      ).reverse();
-      for (const name of [tag.tagName, ...wildcards]) {
-        if (name) {
-          const fn = asFunction(options?.tagHandlers?.[name]?.[place]);
-          const node2 = fn?.(tag, context, tokens);
-          if (node2) {
-            yield* streamNode_(node2);
+        if (deferrals) {
+          yield* flatten_(firstNodeIteration(node2));
+        } else {
+          for await (const child of node2) {
+            yield* flatten_(child);
           }
         }
+      } else if (isNodeIteration(node2)) {
+        if (!node2.done) {
+          yield* flatten_(node2.value);
+          yield* flatten_(nextNodeIteration(node2.iterator));
+        }
+      } else {
+        yield node2;
       }
     }
-    function stashTokens(token) {
-      for (const [tag, tokens] of tagStack) {
-        const tagHooks = options?.tagHandlers?.[tag.tagName];
-        if (tagHooks?.collectTokens && (tagHooks?.beforeEnd || tagHooks?.afterEnd)) {
-          tokens?.push(token);
+    async function* flattenAwaited(node2) {
+      const awaited = await node2;
+      yield* flatten_(awaited);
+    }
+    function firstNodeIteration(iterable) {
+      return nextNodeIteration(iterable[Symbol.asyncIterator]());
+    }
+    async function nextNodeIteration(iterator) {
+      const result = await iterator.next();
+      return {
+        ...result,
+        iterator
+      };
+    }
+  }
+
+  // https://jsr.io/@http/token-stream/0.6.0/transform_tokens.ts
+  function transformTokens(transformers) {
+    return (tokens) => {
+      if (transformers) {
+        for (const transform of transformers) {
+          tokens = transform(tokens);
         }
       }
-    }
-  }
-  function asFunction(fn) {
-    return typeof fn === "function" ? fn : void 0;
+      return tokens;
+    };
   }
 
-  // https://jsr.io/@http/jsx-stream/0.3.0/serialize_sw.ts
+  // https://jsr.io/@http/token-stream/0.6.0/transform/as_encoded.ts
+  function asEncoded() {
+    const encoder = new TextEncoder();
+    return async function* (tokens) {
+      for await (const token of tokens) {
+        yield encoder.encode(token);
+      }
+    };
+  }
+
+  // https://jsr.io/@http/token-stream/0.6.0/render_body.ts
   function renderBody(node, options) {
-    return readableStreamFromIterable(streamNode(node, options)).pipeThrough(
-      new TextEncoderStream()
-    );
+    let tokens = flattenTokens(node, options?.deferralHandler);
+    tokens = transformTokens(options?.transformers)(tokens);
+    const chunks = asEncoded()(tokens);
+    return readableStreamFromIterable(chunks);
   }
 
-  // https://jsr.io/@http/jsx-stream/0.3.0/_internal/stream_component.ts
+  // https://jsr.io/@http/html-stream/0.6.0/render_html_body.ts
+  function renderHtmlBody(node, options) {
+    const transformers = [
+      prependDocType(),
+      ...options?.transformers ?? [],
+      safetyFilter(isSafe)
+    ];
+    return renderBody(node, {
+      ...options,
+      transformers
+    });
+  }
+
+  // https://jsr.io/@http/html-stream/0.6.0/render_html_response.ts
+  function renderHtmlResponse(node, options) {
+    const headers = new Headers(options?.headers);
+    if (!headers.has("Content-Type")) {
+      headers.set("Content-Type", "text/html");
+    }
+    return new Response(renderHtmlBody(node, options), {
+      status: 200,
+      statusText: "OK",
+      headers
+    });
+  }
+
+  // https://jsr.io/@http/jsx-stream/0.6.0/stream_component.ts
   function streamComponent(component, props) {
     return component(props);
   }
 
-  // https://jsr.io/@http/jsx-stream/0.3.0/_internal/awaited_props.ts
+  // https://jsr.io/@http/jsx-stream/0.6.0/awaited_props.ts
   function awaitedProps(props) {
     const promisedEntries = [];
     for (const [name, value] of Object.entries(props)) {
@@ -407,7 +402,7 @@
     }
   }
 
-  // https://jsr.io/@http/jsx-stream/0.3.0/_internal/stream_fragment.ts
+  // https://jsr.io/@http/jsx-stream/0.6.0/stream_fragment.ts
   function* streamFragment(children) {
     if (isSafe(children)) {
       yield children;
@@ -428,7 +423,7 @@
     }
   }
 
-  // https://jsr.io/@http/jsx-stream/0.3.0/_internal/stream_element.ts
+  // https://jsr.io/@http/jsx-stream/0.6.0/stream_element.ts
   function* streamElement(tagName, props) {
     const { children, ...attrs } = props && typeof props === "object" ? props : {};
     const awaitedAttrs = awaitedProps(attrs);
@@ -452,41 +447,31 @@
     }
   }
 
-  // https://jsr.io/@http/jsx-stream/0.3.0/_internal/stream_unknown.ts
+  // https://jsr.io/@http/jsx-stream/0.6.0/stream_unknown.ts
   async function* streamUnknown(type) {
     console.warn(`Unknown JSX type: ${type}`);
   }
 
-  // https://jsr.io/@http/jsx-stream/0.3.0/jsx-runtime.ts
+  // https://jsr.io/@http/jsx-stream/0.6.0/jsx_runtime.ts
   function jsx(type, props) {
-    try {
-      if (typeof type === "function") {
-        return streamComponent(type, props);
-      } else if (type === null) {
-        return streamFragment(props.children);
-      } else if (isValidTag(type)) {
-        return streamElement(type, props);
-      } else {
-        return streamUnknown(type);
-      }
-    } finally {
+    if (typeof type === "function") {
+      return streamComponent(type, props);
+    } else if (type === null) {
+      return streamFragment(props.children);
+    } else if (isValidTag(type)) {
+      return streamElement(type, props);
+    } else {
+      return streamUnknown(type);
     }
   }
-
-  // app/lib/render_html.tsx
-  function renderHTML(Component, props, headers, options) {
-    return html(
-      prependDocType(
-        renderBody(/* @__PURE__ */ jsx(Component, { ...props }), options)
-      ),
-      headers
-    );
+  function isValidTag(tag) {
+    return /^[a-zA-Z][a-zA-Z0-9\-]*$/.test(tag);
   }
 
-  // app/lib/handle_fragment.ts
+  // app/lib/handle_fragment.tsx
   function handleFragment(Component, headers) {
     return byMethod({
-      GET: (req, match) => renderHTML(Component, { req, match }, headers, FRAGMENT_RENDER_OPTIONS)
+      GET: (req, match) => renderHtmlResponse(/* @__PURE__ */ jsx(Component, { req, match }), { headers })
     });
   }
 
@@ -594,7 +579,7 @@
     return evalRPN(toRPN(tokenize(input)));
   }
 
-  // https://jsr.io/@http/request/0.21.0/search_values.ts
+  // https://jsr.io/@http/request/0.24.0/search_values.ts
   function getSearchValues(input, param, separator) {
     const searchParams = input instanceof Request ? new URL(input.url).searchParams : input instanceof URL ? input.searchParams : input instanceof URLSearchParams ? input : input && "search" in input && "input" in input.search ? new URLSearchParams(input.search.input) : void 0;
     return searchParams ? separator ? searchParams.getAll(param).join(separator).split(separator).filter(
@@ -638,9 +623,7 @@
   );
 
   // service_worker/sw.js
-  console.log("SERVICE WORKER");
   self.addEventListener("fetch", async (event) => {
-    console.log("FETCH");
     const response = await routes_default(event.request);
     if (response) {
       event.respondWith(response);

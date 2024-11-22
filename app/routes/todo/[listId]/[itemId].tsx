@@ -1,12 +1,11 @@
 import { deleteItem, writeItem } from "../_lib/data.ts";
 import type { TodoListItem } from "../_lib/types.ts";
 import { TodoItemView } from "../_components/TodoItemView.tsx";
-import { FRAGMENT_RENDER_OPTIONS } from "../../../config_fragment.ts";
 import { badRequest } from "@http/response/bad-request";
 import { seeOther } from "@http/response/see-other";
 import { ok } from "@http/response/ok";
 import { notFound } from "@http/response/not-found";
-import { renderHTML } from "../../../lib/render_html.tsx";
+import { renderHtmlResponse } from "@http/html-stream/render-html-response";
 
 export async function POST(req: Request, match: URLPatternResult) {
   const { listId, itemId } = match.pathname.groups;
@@ -38,12 +37,7 @@ export async function POST(req: Request, match: URLPatternResult) {
 
   if (item) {
     if (req.headers.has("HX-Request")) {
-      return renderHTML(
-        TodoItemView,
-        { listId, item },
-        undefined,
-        FRAGMENT_RENDER_OPTIONS,
-      );
+      return renderHtmlResponse(<TodoItemView listId={listId} item={item} />);
     } else {
       return seeOther(match.pathname.input);
     }

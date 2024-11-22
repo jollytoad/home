@@ -1,14 +1,13 @@
 import { Page } from "../../../components/Page.tsx";
-import { renderPage } from "../../../lib/handle_page.ts";
+import { renderPage } from "../../../lib/handle_page.tsx";
 import type { TodoListItem } from "../_lib/types.ts";
 import { writeItem } from "../_lib/data.ts";
 import { TodoListView } from "../_components/TodoListView.tsx";
 import { TodoItemAdded } from "../_components/TodoItemView.tsx";
-import { FRAGMENT_RENDER_OPTIONS } from "../../../config_fragment.ts";
 import { badRequest } from "@http/response/bad-request";
 import { seeOther } from "@http/response/see-other";
 import { forbidden } from "@http/response/forbidden";
-import { renderHTML } from "../../../lib/render_html.tsx";
+import { renderHtmlResponse } from "@http/html-stream/render-html-response";
 
 export const GET = renderPage(({ req, match }) => (
   <Page req={req} module={import.meta.url}>
@@ -42,12 +41,7 @@ export async function POST(req: Request, match: URLPatternResult) {
 
   if (item) {
     if (req.headers.has("HX-Request")) {
-      return renderHTML(
-        TodoItemAdded,
-        { listId, item },
-        undefined,
-        FRAGMENT_RENDER_OPTIONS,
-      );
+      return renderHtmlResponse(<TodoItemAdded listId={listId} item={item} />);
     } else {
       return seeOther(match.pathname.input);
     }

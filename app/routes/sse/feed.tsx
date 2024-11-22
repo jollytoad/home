@@ -1,6 +1,6 @@
 import { delay } from "@std/async/delay";
 import { ok } from "@http/response/ok";
-import { renderString } from "@http/jsx-stream";
+import { renderHtmlString } from "@http/html-stream/render-html-string";
 import type { JSX } from "@http/jsx-stream/jsx-runtime";
 
 export default function (_req: Request) {
@@ -31,7 +31,7 @@ function Complete() {
 }
 
 async function htmlEvent(node: JSX.Element) {
-  return renderEvent(await renderString(node));
+  return renderEvent(await renderHtmlString(node));
 }
 
 // TODO: Consider adding SSE event helper functions into http_fns

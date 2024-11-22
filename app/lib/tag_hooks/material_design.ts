@@ -1,15 +1,15 @@
-import type { TagHandlers } from "@http/jsx-stream/types";
-import { inject, recordScript } from "./inject.tsx";
+import type { TagHook } from "@http/html-stream/types";
+import { inject } from "./inject.tsx";
 
 const mdComponents: Record<string, string> = {
   "md-tab": "tabs/tab",
   // TODO: add more mappings as necessary
 };
 
-export function materialDesignElements(): TagHandlers {
-  return {
-    ...recordScript,
-    "md-*": inject((tag) => {
+export function materialDesignElements(): TagHook[] {
+  return [{
+    tag: "md-*",
+    beforeBegin: inject((tag) => {
       const component = tag.tagName.replace(/^md-/, "");
       const componentPath = mdComponents[tag.tagName] ??
         `${component}/${component}`;
@@ -17,5 +17,5 @@ export function materialDesignElements(): TagHandlers {
         module: `https://esm.sh/@material/web/${componentPath}.js`,
       };
     }),
-  };
+  }];
 }

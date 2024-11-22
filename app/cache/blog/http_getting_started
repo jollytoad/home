@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en-GB"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Jollytoad</title><link rel="stylesheet" href="https://unpkg.com/missing.css@1.1.2/dist/missing.min.css" integrity="sha384-fZrde2RUAJaQbjI1/XiJmfPWyrv5awDSR64gM3lJz73T3B1Up8lhRsjemC337rRP" crossorigin="anonymous"/><link rel="stylesheet" href="/prism.css"/><link rel="stylesheet" href="/main.css"/><script src="https://unpkg.com/htmx.org@2.0.0/dist/htmx.min.js" integrity="sha384-wS5l5IKJBvK6sPTKa2WZ1js3d947pvWXbPJ1OmWfEuxLgeHcEbjUUA5i9V5ZkpCw" crossorigin="anonymous"></script><script src="https://unpkg.com/htmx-ext-sse@2.1.0/sse.js" integrity="sha384-CDYsGxdhlGy3oWbMF4VDUFJhjkVnh7gXN/mmG3smuZLFzha5fMAvoACJFQrSF38W" crossorigin="anonymous"></script><script src="/app.js" type="module"></script></head><body><header><h1><a href="/">The home of Jollytoad</a></h1></header><main><h1>Getting Started with <strong>@http functions</strong></h1>
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Jollytoad</title><link rel="stylesheet" href="https://unpkg.com/missing.css@1.1.2/dist/missing.min.css" integrity="sha384-fZrde2RUAJaQbjI1/XiJmfPWyrv5awDSR64gM3lJz73T3B1Up8lhRsjemC337rRP" crossorigin="anonymous"/><link rel="stylesheet" href="/prism.css"/><link rel="stylesheet" href="/main.css"/><script src="https://unpkg.com/htmx.org@2.0.0/dist/htmx.min.js" integrity="sha384-wS5l5IKJBvK6sPTKa2WZ1js3d947pvWXbPJ1OmWfEuxLgeHcEbjUUA5i9V5ZkpCw" crossorigin="anonymous"></script><script src="https://unpkg.com/htmx-ext-sse@2.1.0/sse.js" integrity="sha384-CDYsGxdhlGy3oWbMF4VDUFJhjkVnh7gXN/mmG3smuZLFzha5fMAvoACJFQrSF38W" crossorigin="anonymous"></script><script src="/app.js" type="module"></script></head><body><header><h1><a href="/">The home of Jollytoad</a></h1></header><main><h1>Getting Started with <strong>@http functions</strong></h1>
 <p><a href="https://jsr.io/@http">@http functions</a> is not a framework, it&#39;s a library of
 functions that work well together, but also with other frameworks (that use
 standard web APIs).</p>
@@ -61,9 +60,10 @@ if you prefer.</p>
 <pre><code class="language-sh">deno add jsr:@http/generate
 </code></pre>
 <p>and create a script at <code>scripts/gen.ts</code>:</p>
-<pre><code class="language-ts">#!/usr/bin/env -S deno run --allow-ffi --allow-read --allow-write --allow-net=jsr.io
+<pre><code class="language-ts">#!/usr/bin/env -S deno run --allow-read --allow-write --allow-net --allow-env
 
 import { generateRoutesModule } from &quot;@http/generate/generate-routes-module&quot;;
+import { dprintFormatModule } from &quot;@http/generate/dprint-format-module&quot;;
 
 function generateRoutes() {
   console.debug(&quot;\nGenerating routes&quot;);
@@ -72,6 +72,7 @@ function generateRoutes() {
     fileRootUrl: import.meta.resolve(&quot;../app/routes&quot;),
     moduleOutUrl: import.meta.resolve(&quot;../app/routes.ts&quot;),
     moduleImports: &quot;static&quot;,
+    formatModule: dprintFormatModule(),
     verbose: true,
   });
 }
@@ -173,7 +174,7 @@ module.</p>
 <pre><code class="language-sh">deno add jsr:@http/host-deno-local
 </code></pre>
 <p>Create a <code>app/dev.ts</code>:</p>
-<pre><code class="language-ts">#!/usr/bin/env -S deno run --allow-ffi --allow-read --allow-write --allow-net --watch
+<pre><code class="language-ts">#!/usr/bin/env -S deno run --allow-read --allow-write --allow-net --watch
 
 import generateRoutes from &quot;../scripts/gen.ts&quot;;
 import init from &quot;@http/host-deno-local/init&quot;;
@@ -242,7 +243,7 @@ but I actually like JSX.</p>
 <p>NOTE: This is not React, or Preact, there are no hooks or other React like
 conventions, this is pure JSX to HTML serialization. JSX properties translate
 exactly to HTML attributes.</p>
-<pre><code class="language-sh">deno add jsr:@http/jsx-stream
+<pre><code class="language-sh">deno add jsr:@http/jsx-stream jsr:@http/html-stream
 </code></pre>
 <p>Edit your <code>deno.json</code> to enable JSX compilation...</p>
 <pre><code class="language-json">{
@@ -253,16 +254,10 @@ exactly to HTML attributes.</p>
 }
 </code></pre>
 <p>Create <code>routes/hello-[name].tsx</code> (replacing <code>routes/hello-[name].ts</code>):</p>
-<pre><code class="language-tsx">import { html } from &quot;@http/response/html&quot;;
-import { prependDocType } from &quot;@http/response/prepend-doctype&quot;;
-import { renderBody } from &quot;@http/jsx-stream/serialize&quot;;
+<pre><code class="language-tsx">import { renderHtmlResponse } from &quot;@http/html-stream/render-html-response&quot;;
 
 export function GET(_req: Request, match: URLPatternResult) {
-  return html(
-    prependDocType(
-      renderBody(&lt;Hello name={match.pathname.groups.name!} /&gt;),
-    ),
-  );
+  return renderHtmlResponse(&lt;Hello name={match.pathname.groups.name!} /&gt;);
 }
 
 function Hello({ name }: { name: string }) {
@@ -275,9 +270,6 @@ function Hello({ name }: { name: string }) {
   );
 }
 </code></pre>
-<p>NOTE: The <code>renderBody</code> will serialize your JSX verbatim as a <code>ReadableStream</code> of
-HTML. So the <code>prependDocType</code> function is required to tag <code>&lt;!DOCTYPE html&gt;</code> to
-the start of your Response body.</p>
 <h3>Now what?</h3>
 <p>Go and start tinkering.</p>
 <p>And/or take a look at my <a href="https://github.com/jollytoad/home">personal homepage</a>,

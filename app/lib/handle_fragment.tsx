@@ -1,8 +1,7 @@
 import { byMethod } from "@http/route/by-method";
-import { FRAGMENT_RENDER_OPTIONS } from "../config_fragment.ts";
 import type { ComponentType } from "@http/jsx-stream/types";
 import type { RouteProps } from "./types.ts";
-import { renderHTML } from "./render_html.tsx";
+import { renderHtmlResponse } from "@http/html-stream/render-html-response";
 
 /**
  * Basic GET request handler that renders a HTML fragment component,
@@ -14,6 +13,6 @@ export function handleFragment(
 ) {
   return byMethod({
     GET: (req: Request, match: URLPatternResult) =>
-      renderHTML(Component, { req, match }, headers, FRAGMENT_RENDER_OPTIONS),
+      renderHtmlResponse(<Component req={req} match={match} />, { headers }),
   });
 }

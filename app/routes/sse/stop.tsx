@@ -1,4 +1,4 @@
-import { handleFragment } from "../../lib/handle_fragment.ts";
+import { handleFragment } from "../../lib/handle_fragment.tsx";
 
 export default handleFragment(() => {
   return (

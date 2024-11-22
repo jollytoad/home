@@ -93,9 +93,10 @@ deno add jsr:@http/generate
 and create a script at `scripts/gen.ts`:
 
 ```ts
-#!/usr/bin/env -S deno run --allow-ffi --allow-read --allow-write --allow-net=jsr.io
+#!/usr/bin/env -S deno run --allow-read --allow-write --allow-net --allow-env
 
 import { generateRoutesModule } from "@http/generate/generate-routes-module";
+import { dprintFormatModule } from "@http/generate/dprint-format-module";
 
 function generateRoutes() {
   console.debug("\nGenerating routes");
@@ -104,6 +105,7 @@ function generateRoutes() {
     fileRootUrl: import.meta.resolve("../app/routes"),
     moduleOutUrl: import.meta.resolve("../app/routes.ts"),
     moduleImports: "static",
+    formatModule: dprintFormatModule(),
     verbose: true,
   });
 }
@@ -253,7 +255,7 @@ deno add jsr:@http/host-deno-local
 Create a `app/dev.ts`:
 
 ```ts
-#!/usr/bin/env -S deno run --allow-ffi --allow-read --allow-write --allow-net --watch
+#!/usr/bin/env -S deno run --allow-read --allow-write --allow-net --watch
 
 import generateRoutes from "../scripts/gen.ts";
 import init from "@http/host-deno-local/init";
@@ -354,7 +356,7 @@ conventions, this is pure JSX to HTML serialization. JSX properties translate
 exactly to HTML attributes.
 
 ```sh
-deno add jsr:@http/jsx-stream
+deno add jsr:@http/jsx-stream jsr:@http/html-stream
 ```
 
 Edit your `deno.json` to enable JSX compilation...
@@ -371,16 +373,10 @@ Edit your `deno.json` to enable JSX compilation...
 Create `routes/hello-[name].tsx` (replacing `routes/hello-[name].ts`):
 
 ```tsx
-import { html } from "@http/response/html";
-import { prependDocType } from "@http/response/prepend-doctype";
-import { renderBody } from "@http/jsx-stream/serialize";
+import { renderHtmlResponse } from "@http/html-stream/render-html-response";
 
 export function GET(_req: Request, match: URLPatternResult) {
-  return html(
-    prependDocType(
-      renderBody(<Hello name={match.pathname.groups.name!} />),
-    ),
-  );
+  return renderHtmlResponse(<Hello name={match.pathname.groups.name!} />);
 }
 
 function Hello({ name }: { name: string }) {
@@ -393,10 +389,6 @@ function Hello({ name }: { name: string }) {
   );
 }
 ```
-
-NOTE: The `renderBody` will serialize your JSX verbatim as a `ReadableStream` of
-HTML. So the `prependDocType` function is required to tag `<!DOCTYPE html>` to
-the start of your Response body.
 
 ### Now what?
 

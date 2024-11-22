@@ -1,5 +1,5 @@
 import type { Children } from "@http/jsx-stream/types";
-import { isAsyncIterable, isIterable } from "@http/jsx-stream/guards";
+import { isAsyncIterable, isIterable } from "@http/token-stream/guards";
 import { delay } from "@std/async/delay";
 
 export interface TrickledProps {

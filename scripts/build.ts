@@ -16,7 +16,6 @@ export async function buildServiceWorker() {
   await esbuild.build({
     plugins: denoPlugins({
       configPath: fromFileUrl(import.meta.resolve("../deno.json")),
-      importMapURL: import.meta.resolve("../import_map_sw.json"),
     }),
     entryPoints: [
       fromFileUrl(import.meta.resolve("../service_worker/sw.js")),

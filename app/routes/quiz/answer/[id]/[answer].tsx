@@ -1,4 +1,4 @@
-import { handleFragment } from "../../../../lib/handle_fragment.ts";
+import { handleFragment } from "../../../../lib/handle_fragment.tsx";
 import { QuizAnswer } from "../../_components/QuizAnswer.tsx";
 import { notFound } from "@http/response/not-found";
 import { getQuizSession, updateQuizScore } from "../../_lib/session.ts";

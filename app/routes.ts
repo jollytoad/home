@@ -66,7 +66,7 @@ export default cascade(
   ),
   byPattern(
     "/quote/tv",
-    lazy(async () => (await import("./routes/quote/tv.ts")).default),
+    lazy(async () => (await import("./routes/quote/tv.tsx")).default),
   ),
   byPattern(
     "/quote/:path+",

@@ -1,6 +1,6 @@
 import { Page } from "../../components/Page.tsx";
 import { Quiz } from "./_components/Quiz.tsx";
-import { renderPage } from "../../lib/handle_page.ts";
+import { renderPage } from "../../lib/handle_page.tsx";
 import { byMethod } from "@http/route/by-method";
 import { getQuizSession } from "../../routes/quiz/_lib/session.ts";
 

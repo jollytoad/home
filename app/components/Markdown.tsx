@@ -6,11 +6,11 @@ import { type Options, toJsxRuntime } from "hast-util-to-jsx-runtime";
 import { raw } from "hast-util-raw";
 import * as jsxRuntime from "@http/jsx-stream/jsx-runtime";
 import { fetchContent } from "../lib/content.ts";
-import type { Promisable } from "@http/jsx-stream/types";
+import type { Awaitable } from "@http/token-stream/types";
 
 interface Props {
   url?: string;
-  children?: Promisable<string>;
+  children?: Awaitable<string>;
   req?: Request;
 }
 

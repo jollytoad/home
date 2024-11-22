@@ -1,22 +1,14 @@
-import { html } from "@http/response/html";
-import { prependDocType } from "@http/response/prepend-doctype";
-import {
-  type ComponentType,
-  renderBody,
-  type RenderOptions,
-} from "@http/jsx-stream";
+import { renderHtmlResponse } from "@http/html-stream/render-html-response";
+import type { ComponentType } from "@http/jsx-stream/types";
+import type { RenderOptions } from "@http/token-stream/types";
+import type { HtmlToken } from "@http/html-stream/types";
 
 // deno-lint-ignore ban-types
 export function renderHTML<P extends {}>(
   Component: ComponentType<P>,
   props: P,
   headers?: HeadersInit,
-  options?: RenderOptions,
+  options?: RenderOptions<HtmlToken>,
 ) {
-  return html(
-    prependDocType(
-      renderBody(<Component {...props} />, options),
-    ),
-    headers,
-  );
+  return renderHtmlResponse(<Component {...props} />, { ...options, headers });
 }

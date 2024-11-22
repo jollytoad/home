@@ -1,12 +1,12 @@
-import type { TagHandlers } from "@http/jsx-stream/types";
-import { inject, recordScript } from "./inject.tsx";
+import type { TagHook } from "@http/html-stream/types";
+import { inject } from "./inject.tsx";
 
 const ignored = ["vaadin-tab"];
 
-export function vaadinElements(): TagHandlers {
-  return {
-    ...recordScript,
-    "vaadin-*": inject((tag) => {
+export function vaadinElements(): TagHook[] {
+  return [{
+    tag: "vaadin-*",
+    beforeBegin: inject((tag) => {
       if (ignored.includes(tag.tagName)) {
         return;
       }
@@ -15,5 +15,5 @@ export function vaadinElements(): TagHandlers {
         module: `https://cdn.jsdelivr.net/esm/@vaadin/${component}`,
       };
     }),
-  };
+  }];
 }

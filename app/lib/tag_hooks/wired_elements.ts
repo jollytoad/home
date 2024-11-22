@@ -1,13 +1,13 @@
-import type { TagHandlers } from "@http/jsx-stream/types";
-import { inject, recordScript } from "./inject.tsx";
+import type { TagHook } from "@http/html-stream/types";
+import { inject } from "./inject.tsx";
 
-export function wiredElements(): TagHandlers {
-  return {
-    ...recordScript,
-    "wired-*": inject((tag) => {
+export function wiredElements(): TagHook[] {
+  return [{
+    tag: "wired-*",
+    beforeBegin: inject((tag) => {
       return {
         module: `https://unpkg.com/wired-elements/lib/${tag.tagName}.js?module`,
       };
     }),
-  };
+  }];
 }
