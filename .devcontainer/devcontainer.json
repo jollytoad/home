@@ -8,7 +8,7 @@
     "ghcr.io/devcontainers-community/features/deno:1": {
       "version": "2.1.1"
     },
-    "ghcr.io/devcontainers/features/node:1": {
+    "ghcr.io/devcontainers/features/node:2": {
       "version": "23.3.0",
       "nodeGypDependencies": false
     },
